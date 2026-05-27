@@ -98,6 +98,7 @@ public class TelaInicial extends javax.swing.JDialog {
 
         jLabel2.setText("SALDO CONSOLIDADO");
 
+        campoSaldoConsolidado.setEditable(false);
         campoSaldoConsolidado.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         campoSaldoConsolidado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         campoSaldoConsolidado.setText("R$0,00");
