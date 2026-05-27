@@ -15,7 +15,7 @@ public class Configuracao
     private String arquivoLancamento;
     private String arquivoCartao;
 
-    private Configuracao()
+    public Configuracao()
     {
         this.arquivoConta = "./armazenamento/arquivoConta.dat";
         this.arquivoLancamento = "./armazenamento/arquivoLancamento.dat";

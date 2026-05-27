@@ -5,6 +5,11 @@
 package Controller;
 
 import java.util.ArrayList;
+import Classes.Configuracao;
+import Classes.Inicializar;
+import Classes.Fechar;
+import Classes.Conta;
+
 
 /**
  *
@@ -12,13 +17,13 @@ import java.util.ArrayList;
  */
 public class ControladorConta
 {
-    private Configuracao caminhosArquivo = Configuracao_EduardoGiovanniLuan.getInstancia();
+    private Configuracao caminhosArquivo = Configuracao.getInstancia();
     private ArrayList<Conta> contas = Inicializar.carregarObjetos(caminhosArquivo.getArquivoConta());
 
     public void criarConta(Conta conta)
     {
         contas.add(conta);
-        Fechar.salvarObjetos(contas, caminhosArquivo.getArquivoClientes());
+        Fechar.salvarObjetos(contas, caminhosArquivo.getArquivoConta());
     }
 
     public boolean removerConta(int id) 
@@ -27,7 +32,7 @@ public class ControladorConta
         if (contaParaRemover != null) {
 
             contas.remove(contaParaRemover);
-            Fechar.salvarObjetos(contas, caminhosArquivo.getArquivoClientes());
+            Fechar.salvarObjetos(contas, caminhosArquivo.getArquivoConta());
             
             return true; // Sucesso na remoção
         }
