@@ -34,7 +34,7 @@ public class TelaContasGeral extends javax.swing.JDialog {
         jComboBoxContas = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        labelTitulo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         buttonContas = new javax.swing.JToggleButton();
         buttonCategorias = new javax.swing.JToggleButton();
@@ -101,11 +101,11 @@ public class TelaContasGeral extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(30, 30, 150));
         jPanel1.setToolTipText("");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(242, 242, 242));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Contas");
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
+        labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelTitulo.setText("Contas");
+        labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -113,12 +113,12 @@ public class TelaContasGeral extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
         );
 
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
@@ -249,10 +249,10 @@ public class TelaContasGeral extends javax.swing.JDialog {
     private javax.swing.JToggleButton buttonRelatorios;
     private javax.swing.JToggleButton buttonVisualizarConta;
     private javax.swing.JComboBox<String> jComboBoxContas;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel labelTitulo;
     // End of variables declaration//GEN-END:variables
 }

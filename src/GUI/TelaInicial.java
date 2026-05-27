@@ -33,7 +33,7 @@ public class TelaInicial extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        labelTitulo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         campoSaldoConsolidado = new javax.swing.JTextField();
@@ -75,10 +75,10 @@ public class TelaInicial extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(30, 30, 150));
         jPanel1.setToolTipText("");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(242, 242, 242));
-        jLabel1.setText("Finanças Pessoais");
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
+        labelTitulo.setText("Finanças Pessoais");
+        labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -86,12 +86,12 @@ public class TelaInicial extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(197, 197, 197)
-                .addComponent(jLabel1)
+                .addComponent(labelTitulo)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
         );
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
@@ -270,7 +270,6 @@ public class TelaInicial extends javax.swing.JDialog {
     private javax.swing.JToggleButton buttonExtratoConsolidado;
     private javax.swing.JToggleButton buttonRelatorios;
     private javax.swing.JTextField campoSaldoConsolidado;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
@@ -279,5 +278,6 @@ public class TelaInicial extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel labelTitulo;
     // End of variables declaration//GEN-END:variables
 }
