@@ -16,8 +16,7 @@ import java.util.ArrayList;
 
 public class Inicializar {
     
-    private Imobiliaria_EduardoGiovanniLuan nossaImobiliaria = Imobiliaria_EduardoGiovanniLuan.getInstancia();
-    private Configuracao_EduardoGiovanniLuan config = nossaImobiliaria.getConfiguracoes();
+    private static Configuracao config = new Configuracao();
 
     // Método genérico para carregar uma lista de objetos de um arquivo
     @SuppressWarnings("unchecked")
