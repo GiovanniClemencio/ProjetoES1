@@ -59,4 +59,10 @@ public class ControladorConta
         }
     }
 
+    public void extrato(){
+        for (Conta conta : contas) {
+            conta.extrato();
+        }
+    }
+
 }
