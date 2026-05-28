@@ -65,4 +65,11 @@ public class ControladorConta
         }
     }
 
+    public Configuracao getCaminhosArquivo() {
+        return caminhosArquivo;
+    }
+
+    public ArrayList<Conta> getContas() {
+        return contas;
+    }
 }

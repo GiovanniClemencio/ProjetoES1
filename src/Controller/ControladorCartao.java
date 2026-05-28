@@ -5,10 +5,9 @@
 package Controller;
 
 import Classes.Cartao;
-import Classes.Configuracao;
+import Classes.Conta;
 import Classes.Fatura;
 import Classes.Fechar;
-import Classes.Inicializar;
 import java.util.ArrayList;
 
 /**
@@ -17,30 +16,34 @@ import java.util.ArrayList;
  */
 public class ControladorCartao {
 
-    private Configuracao caminhosArquivo = Configuracao.getInstancia();
-    private ArrayList<Cartao> cartoes = Inicializar.carregarObjetos(caminhosArquivo.getArquivoCartao());
+    ControladorConta controladorConta = new ControladorConta();
 
-    public void criarCartao(Cartao cartao) {
-        cartoes.add(cartao);
-        Fechar.salvarObjetos(cartoes, caminhosArquivo.getArquivoCartao());
+
+    public void criarCartao(int idConta, Cartao cartao) {
+        controladorConta.buscarConta(idConta).getCartoes().add(cartao);
+        Fechar.salvarObjetos(controladorConta.getContas(), controladorConta.getCaminhosArquivo().getArquivoConta());
     }
 
     public boolean removerCartao(int id) {
         Cartao cartaoParaRemover = buscarCartao(id);
-        if (cartaoParaRemover != null) {
+        if(cartaoParaRemover != null) {
+            if(cartaoParaRemover.getFaturaAtual() != null){
+                return false; // Falha na remoção, cartão com fatura atual não paga
+            }
+            controladorConta.buscarConta(cartaoParaRemover.getCodConta()).removerCartao(cartaoParaRemover);
 
-            cartoes.remove(cartaoParaRemover);
-            Fechar.salvarObjetos(cartoes, caminhosArquivo.getArquivoCartao());
-
+            Fechar.salvarObjetos(controladorConta.getContas(), controladorConta.getCaminhosArquivo().getArquivoConta());
             return true; // Sucesso na remoção
         }
         return false; // Falha na remoção, cartão não encontrado
     }
 
     public Cartao buscarCartao(int idCartao) {
-        for (Cartao cartao : cartoes) {
-            if (cartao.getIdCartao() == idCartao) {
-                return cartao;
+        for(Conta conta : controladorConta.getContas()){
+            for(Cartao cartao : conta.getCartoes()){
+                if(cartao.getIdCartao() == idCartao){
+                    return cartao;
+                }
             }
         }
         return null; // Não encontrou o cartão
@@ -50,7 +53,7 @@ public class ControladorCartao {
         Cartao cartao = buscarCartao(idCartao);
         if (cartao != null) {
             cartao.editarCartao(nome, limite, faturasAntigas, faturaAtual);
-            Fechar.salvarObjetos(cartoes, caminhosArquivo.getArquivoCartao());
+            Fechar.salvarObjetos(controladorConta.getContas(), controladorConta.getCaminhosArquivo().getArquivoConta());
         }
 
     }
