@@ -8,13 +8,12 @@ package GUI;
  *
  * @author Portu
  */
-public class cadastroConta extends javax.swing.JDialog {
+public class cadastroConta extends javax.swing.JFrame {
 
     /**
      * Creates new form cadastroConta
      */
     public cadastroConta(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
         initComponents();
     }
 
