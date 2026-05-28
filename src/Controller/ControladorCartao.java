@@ -16,7 +16,11 @@ import java.util.ArrayList;
  */
 public class ControladorCartao {
 
-    ControladorConta controladorConta = new ControladorConta();
+    ControladorConta controladorConta;
+
+    public ControladorCartao() {
+        this.controladorConta = new ControladorConta();
+    }
 
 
     public void criarCartao(int idConta, Cartao cartao) {
