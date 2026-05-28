@@ -76,6 +76,13 @@ public class Cartao implements Serializable {
         this.faturaAtual = faturaAtual;
     }
     
+    public void editarCartao(String nome, double limite, ArrayList<Fatura> faturasAntigas, Fatura faturaAtual) {
+        this.nome = nome;
+        this.limite = limite;
+        this.faturasAntigas = faturasAntigas;
+        this.faturaAtual = faturaAtual;
+    }
+
     @Override
     public String toString() {
         return new StringBuffer("Cartao {")
