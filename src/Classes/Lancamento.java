@@ -116,6 +116,18 @@ public class Lancamento implements Serializable {
     public void setCategorias(ArrayList<Categoria> categorias) {
         this.categorias = categorias;
     }
+
+    public void editarLancamento(String tipo, int contaOrigem, int contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente) {
+        this.tipo = tipo;
+        this.contaOrigem = contaOrigem;
+        this.contaDestino = contaDestino;
+        this.dataMax = dataMax;
+        this.valor = valor;
+        this.dataLancamento = dataLancamento;
+        this.descricao = descricao;
+        this.pendente = pendente;
+    }
+
     
     @Override
     public String toString() {
