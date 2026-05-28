@@ -66,6 +66,27 @@ public class Conta implements Serializable {
         this.lancamentos = lancamentos;
     }
 
+    public void adicionarCartao(Cartao cartao) {
+        this.cartoes.add(cartao);
+    }
+
+    public void adicionarLancamento(Lancamento lancamento) {
+        this.lancamentos.add(lancamento);
+    }
+
+    public void removerCartao(Cartao cartao) {
+        this.cartoes.remove(cartao);
+    }
+
+    public void removerLancamento(Lancamento lancamento) {
+        this.lancamentos.remove(lancamento);
+    }
+
+    public void editarConta(String nome, double saldo) {
+        this.nome = nome;
+        this.saldo = saldo;
+    }
+
     @Override
     public String toString() {
         return new StringBuffer("Conta {")

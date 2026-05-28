@@ -4,11 +4,27 @@
  */
 package Controller;
 
+import Classes.Configuracao;
+import Classes.Fechar;
+import Classes.Inicializar;
+import Classes.Lancamento;
+import java.util.ArrayList;
+
 /**
- *
  * @author Luan
  */
 public class ControladorLancamento
 {
+    private Configuracao caminhosArquivo = Configuracao.getInstancia();
+    private ArrayList<Lancamento> lancamentos = Inicializar.carregarObjetos(caminhosArquivo.getArquivoLancamento());
+
+    public void criarLancamento(Lancamento lancamento)
+    {
+        lancamentos.add(lancamento);
+        Fechar.salvarObjetos(lancamentos, caminhosArquivo.getArquivoLancamento());
+    }
+
+
     
+
 }

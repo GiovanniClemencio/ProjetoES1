@@ -4,11 +4,11 @@
  */
 package Controller;
 
-import java.util.ArrayList;
 import Classes.Configuracao;
-import Classes.Inicializar;
-import Classes.Fechar;
 import Classes.Conta;
+import Classes.Fechar;
+import Classes.Inicializar;
+import java.util.ArrayList;
 
 
 /**
@@ -50,4 +50,13 @@ public class ControladorConta
         }
         return null; // Não encontrou a conta
     }
+
+    public void editarConta(int codConta, String nome, double saldo) {
+        Conta conta = buscarConta(codConta);
+        if (conta != null) {
+            conta.editarConta(nome, saldo);
+            Fechar.salvarObjetos(contas, caminhosArquivo.getArquivoConta());
+        }
+    }
+
 }
