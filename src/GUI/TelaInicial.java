@@ -9,13 +9,12 @@ package GUI;
  *
  * @author Portu
  */
-public class TelaInicial extends javax.swing.JDialog {
+public class TelaInicial extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaInicial
      */
-    public TelaInicial(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public TelaInicial() {
         initComponents();
     }
 
@@ -148,6 +147,11 @@ public class TelaInicial extends javax.swing.JDialog {
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
 
         buttonContas.setText("Contas");
+        buttonContas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonContasActionPerformed(evt);
+            }
+        });
 
         buttonCategorias.setText("Categorias");
         buttonCategorias.addActionListener(new java.awt.event.ActionListener() {
@@ -222,6 +226,12 @@ public class TelaInicial extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
+    private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
+        TelaContasGeral dialog = new TelaContasGeral(this, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_buttonContasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -252,14 +262,7 @@ public class TelaInicial extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TelaInicial dialog = new TelaInicial(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new TelaInicial().setVisible(true);
             }
         });
     }

@@ -9,13 +9,12 @@ package GUI;
  *
  * @author Portu
  */
-public class TelaContasGeral extends javax.swing.JDialog {
+public class TelaContasGeral extends javax.swing.JFrame{
 
     /**
      * Creates new form TelaContas
      */
     public TelaContasGeral(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
         initComponents();
     }
 
@@ -187,7 +186,9 @@ public class TelaContasGeral extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCriarContaActionPerformed
-        // TODO add your handling code here:
+        cadastroConta dialog = new cadastroConta(this, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_buttonCriarContaActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
