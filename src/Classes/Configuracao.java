@@ -12,8 +12,6 @@ public class Configuracao
 {
     private static Configuracao instancia = new Configuracao();
     private String arquivoConta;
-    private String arquivoLancamento;
-    private String arquivoCartao;
 
     public Configuracao()
     {
@@ -23,11 +21,6 @@ public class Configuracao
     public String getArquivoConta() { return arquivoConta; }
     public void setArquivoConta(String arquivoConta) { this.arquivoConta = arquivoConta; }
 
-    public String getArquivoLancamento() { return arquivoLancamento; }
-    public void setArquivoLancamento(String arquivoLancamento) { this.arquivoLancamento = arquivoLancamento; }
-
-    public String getArquivoCartao() { return arquivoCartao; }
-    public void setArquivoCartao(String arquivoCartao) { this.arquivoCartao = arquivoCartao; }
 
 
     public static Configuracao getInstancia() {
@@ -40,10 +33,6 @@ public class Configuracao
         return new StringBuffer("\nConfiguração")
                 .append("\nContas")
                 .append(this.arquivoConta)
-                .append("\nLançamentos")
-                .append(this.arquivoLancamento)
-                .append("\nCartões")
-                .append(this.arquivoCartao)
                 .toString();
     }
 }
