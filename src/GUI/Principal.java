@@ -4,6 +4,10 @@
  */
 package GUI;
 
+import Controller.ControladorCartao;
+import Controller.ControladorConta;
+import Controller.ControladorLancamento;
+
 /**
  *
  * @author Portu
@@ -14,6 +18,10 @@ public class Principal {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        ControladorConta ctrlConta = new ControladorConta();
+        ControladorCartao ctrlCartao = new ControladorCartao();
+        ControladorLancamento ctrlLancamento = new ControladorLancamento();
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 TelaInicial janela = new TelaInicial();
@@ -21,6 +29,7 @@ public class Principal {
                 janela.setVisible(true);            // Torna a janela visível
             }
         });
+        
     }
     
 }

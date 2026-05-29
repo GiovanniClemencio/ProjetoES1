@@ -67,6 +67,11 @@ public class cadastroConta extends javax.swing.JFrame {
         buttonCadastrarCartao.setText("Cadastrar");
 
         buttonLimparCampos.setText("Limpar");
+        buttonLimparCampos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLimparCamposActionPerformed(evt);
+            }
+        });
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Nome (apelido) da conta:");
@@ -159,6 +164,24 @@ public class cadastroConta extends javax.swing.JFrame {
     private void campoLimiteCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLimiteCartaoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoLimiteCartaoActionPerformed
+
+    private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
+        for (java.awt.Component c : this.getContentPane().getComponents()) {
+    if (c instanceof javax.swing.JTextField) {
+        if (c != campoCodConta) {
+            ((javax.swing.JTextField) c).setText("");
+        }
+    } else if (c instanceof javax.swing.JPanel) {
+        for (java.awt.Component sub : ((javax.swing.JPanel) c).getComponents()) {
+            if (sub instanceof javax.swing.JTextField) {
+                if (sub != campoCodConta) {
+                    ((javax.swing.JTextField) sub).setText("");
+                }
+            }
+        }
+    }
+}
+    }//GEN-LAST:event_buttonLimparCamposActionPerformed
 
     /**
      * @param args the command line arguments
