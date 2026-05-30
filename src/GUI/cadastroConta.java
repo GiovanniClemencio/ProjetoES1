@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Classes.Util;
+
 /**
  *
  * @author Portu
@@ -15,6 +17,7 @@ public class cadastroConta extends javax.swing.JFrame {
      */
     public cadastroConta(java.awt.Frame parent, boolean modal) {
         initComponents();
+        campoCodConta.setText(String.valueOf(Util.getProxCodConta()));
     }
 
     /**
@@ -77,6 +80,11 @@ public class cadastroConta extends javax.swing.JFrame {
         jLabel3.setText("Nome (apelido) da conta:");
 
         campoCodConta.setEditable(false);
+        campoCodConta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoCodContaActionPerformed(evt);
+            }
+        });
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Número da conta:");
@@ -182,6 +190,10 @@ public class cadastroConta extends javax.swing.JFrame {
     }
 }
     }//GEN-LAST:event_buttonLimparCamposActionPerformed
+
+    private void campoCodContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCodContaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoCodContaActionPerformed
 
     /**
      * @param args the command line arguments

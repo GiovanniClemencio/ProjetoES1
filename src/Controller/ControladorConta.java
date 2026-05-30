@@ -8,6 +8,7 @@ import Classes.Configuracao;
 import Classes.Conta;
 import Classes.Fechar;
 import Classes.Inicializar;
+import Classes.Util;
 import java.util.ArrayList;
 
 
@@ -19,7 +20,11 @@ public class ControladorConta
 {
     private Configuracao caminhosArquivo = Configuracao.getInstancia();
     private ArrayList<Conta> contas = Inicializar.carregarObjetos(caminhosArquivo.getArquivoConta());
-
+    
+    public ControladorConta() {
+        Util.atualizarProxCodConta(contas);
+    }
+    
     public void criarConta(Conta conta)
     {
         contas.add(conta);

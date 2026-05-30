@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Classes.Util;
+
 /**
  *
  * @author Portu
@@ -16,6 +18,7 @@ public class cadastroCartao extends javax.swing.JDialog {
     public cadastroCartao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        campoCodConta.setText(String.valueOf(Util.getProxCodConta()));
     }
 
     /**
@@ -53,6 +56,11 @@ public class cadastroCartao extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
         campoCodConta.setEditable(false);
+        campoCodConta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoCodContaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Conta referente:");
@@ -186,6 +194,10 @@ public class cadastroCartao extends javax.swing.JDialog {
     private void campoLimiteCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLimiteCartaoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoLimiteCartaoActionPerformed
+
+    private void campoCodContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCodContaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoCodContaActionPerformed
 
     /**
      * @param args the command line arguments

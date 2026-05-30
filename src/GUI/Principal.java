@@ -18,9 +18,7 @@ public class Principal {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ControladorConta ctrlConta = new ControladorConta();
-        ControladorCartao ctrlCartao = new ControladorCartao();
-        ControladorLancamento ctrlLancamento = new ControladorLancamento();
+            ControladorLancamento ctrlLancamento = new ControladorLancamento();
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
