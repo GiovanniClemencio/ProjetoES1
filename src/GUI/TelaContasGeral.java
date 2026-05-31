@@ -189,7 +189,7 @@ public class TelaContasGeral extends javax.swing.JFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCriarContaActionPerformed
-        cadastroConta dialog = new cadastroConta(this, true);
+        cadastroConta dialog = new cadastroConta(this, true, ctrlConta);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }//GEN-LAST:event_buttonCriarContaActionPerformed

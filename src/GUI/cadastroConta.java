@@ -4,7 +4,12 @@
  */
 package GUI;
 
+import Classes.Conta;
 import Classes.Util;
+import Controller.ControladorConta;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -12,12 +17,15 @@ import Classes.Util;
  */
 public class cadastroConta extends javax.swing.JFrame {
 
-    /**
-     * Creates new form cadastroConta
-     */
-    public cadastroConta(java.awt.Frame parent, boolean modal) {
+    private final ControladorConta ctrlConta;
+
+    public cadastroConta(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta) {
+        this.ctrlConta = ctrlConta;
         initComponents();
+
         campoCodConta.setText(String.valueOf(Util.getProxCodConta()));
+
+        buttonCadastrarConta.setEnabled(false);
     }
 
     /**
@@ -32,7 +40,7 @@ public class cadastroConta extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        buttonCadastrarCartao = new javax.swing.JToggleButton();
+        buttonCadastrarConta = new javax.swing.JToggleButton();
         buttonLimparCampos = new javax.swing.JToggleButton();
         campoNomeConta = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -67,10 +75,10 @@ public class cadastroConta extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
-        buttonCadastrarCartao.setText("Cadastrar");
-        buttonCadastrarCartao.addActionListener(new java.awt.event.ActionListener() {
+        buttonCadastrarConta.setText("Cadastrar");
+        buttonCadastrarConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonCadastrarCartaoActionPerformed(evt);
+                buttonCadastrarContaActionPerformed(evt);
             }
         });
 
@@ -111,7 +119,7 @@ public class cadastroConta extends javax.swing.JFrame {
                 .addGap(106, 106, 106)
                 .addComponent(buttonLimparCampos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
-                .addComponent(buttonCadastrarCartao)
+                .addComponent(buttonCadastrarConta)
                 .addGap(101, 101, 101))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(65, 65, 65)
@@ -151,7 +159,7 @@ public class cadastroConta extends javax.swing.JFrame {
                 .addComponent(campoSaldoConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonCadastrarCartao)
+                    .addComponent(buttonCadastrarConta)
                     .addComponent(buttonLimparCampos))
                 .addGap(23, 23, 23))
         );
@@ -180,84 +188,86 @@ public class cadastroConta extends javax.swing.JFrame {
 
     private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
         for (java.awt.Component c : this.getContentPane().getComponents()) {
-    if (c instanceof javax.swing.JTextField) {
-        if (c != campoCodConta) {
-            ((javax.swing.JTextField) c).setText("");
-        }
-    } else if (c instanceof javax.swing.JPanel) {
-        for (java.awt.Component sub : ((javax.swing.JPanel) c).getComponents()) {
-            if (sub instanceof javax.swing.JTextField) {
-                if (sub != campoCodConta) {
-                    ((javax.swing.JTextField) sub).setText("");
+            if (c instanceof javax.swing.JTextField) {
+                if (c != campoCodConta) {
+                    ((javax.swing.JTextField) c).setText("");
+                }
+            } else if (c instanceof javax.swing.JPanel) {
+                for (java.awt.Component sub : ((javax.swing.JPanel) c).getComponents()) {
+                    if (sub instanceof javax.swing.JTextField) {
+                        if (sub != campoCodConta) {
+                            ((javax.swing.JTextField) sub).setText("");
+                        }
+                    }
                 }
             }
         }
-    }
-}
     }//GEN-LAST:event_buttonLimparCamposActionPerformed
 
     private void campoCodContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCodContaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoCodContaActionPerformed
 
-    private void buttonCadastrarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCartaoActionPerformed
-        int codConta = Integer.parseInt(campoCodConta.getText());
-        String nomeConta = campoNomeConta.getText();
-        try{
-            double saldoConta = Double.parseDouble(campoSaldoConta.getText());
-        } catch(NumberFormatException e){
-            System.out.println("Valor inválido para o campo saldo!");
-            this.dispose();
-        }
-        
-        
-        
-    }//GEN-LAST:event_buttonCadastrarCartaoActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void buttonCadastrarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarContaActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(cadastroConta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(cadastroConta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(cadastroConta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(cadastroConta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+            int codConta = Integer.parseInt(campoCodConta.getText().trim());
+            String nomeConta = campoNomeConta.getText().trim();
+            String textoSaldo = campoSaldoConta.getText().trim().replace(',', '.');
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                cadastroConta dialog = new cadastroConta(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+            double saldoConta = Double.parseDouble(textoSaldo);
+
+            Conta nova = new Conta(codConta, nomeConta, saldoConta);
+            ctrlConta.criarConta(nova);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Conta cadastrada com sucesso!"
+            );
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Verifique se o campo 'Saldo' não se encontra com uma entrada inválida.",
+                    "Erro de conversão",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_buttonCadastrarContaActionPerformed
+
+    private void atualizarEstadoBotao() {
+        boolean preenchidos
+                = !campoCodConta.getText().trim().isEmpty()
+                && !campoNomeConta.getText().trim().isEmpty()
+                && !campoSaldoConta.getText().trim().isEmpty();
+
+        buttonCadastrarConta.setEnabled(preenchidos);
     }
 
+    private void configurarValidacaoCampos() {
+        DocumentListener listener = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                atualizarEstadoBotao();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                atualizarEstadoBotao();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                atualizarEstadoBotao();
+            }
+        };
+
+        campoCodConta.getDocument().addDocumentListener(listener);
+        campoNomeConta.getDocument().addDocumentListener(listener);
+        campoSaldoConta.getDocument().addDocumentListener(listener);
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton buttonCadastrarCartao;
+    private javax.swing.JToggleButton buttonCadastrarConta;
     private javax.swing.JToggleButton buttonLimparCampos;
     private javax.swing.JTextField campoCodConta;
     private javax.swing.JTextField campoNomeConta;

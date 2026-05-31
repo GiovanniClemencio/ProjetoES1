@@ -91,7 +91,7 @@
                   <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                   <Component id="buttonLimparCampos" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="217" max="32767" attributes="0"/>
-                  <Component id="buttonCadastrarCartao" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonCadastrarConta" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
@@ -143,7 +143,7 @@
                   <Component id="campoSaldoConta" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="91" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="buttonCadastrarCartao" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonCadastrarConta" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="buttonLimparCampos" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
@@ -152,12 +152,12 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JToggleButton" name="buttonCadastrarCartao">
+        <Component class="javax.swing.JToggleButton" name="buttonCadastrarConta">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cadastrar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCadastrarCartaoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCadastrarContaActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="buttonLimparCampos">
