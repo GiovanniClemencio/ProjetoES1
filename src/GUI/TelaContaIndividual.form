@@ -114,7 +114,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="campoSaldoConsolidado" max="32767" attributes="0"/>
+                              <Component id="campoSaldo" max="32767" attributes="0"/>
                               <Component id="jLabel2" min="-2" pref="244" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -129,7 +129,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="campoSaldoConsolidado" min="-2" pref="41" max="-2" attributes="0"/>
+                  <Component id="campoSaldo" min="-2" pref="41" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Component id="buttonExtratoConta" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -159,7 +159,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonExtratoContaActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="campoSaldoConsolidado">
+        <Component class="javax.swing.JTextField" name="campoSaldo">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -169,7 +169,7 @@
             <Property name="text" type="java.lang.String" value="R$0,00"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoSaldoConsolidadoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoSaldoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">

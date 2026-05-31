@@ -1,5 +1,6 @@
 package GUI;
 
+import Classes.Conta;
 import Controller.ControladorConta;
 
 /*
@@ -19,6 +20,8 @@ public class TelaContasGeral extends javax.swing.JFrame{
     public TelaContasGeral(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta) {
         this.ctrlConta = ctrlConta;
         initComponents();
+        
+        carregarContasComboBox();
     }
 
     /**
@@ -33,7 +36,7 @@ public class TelaContasGeral extends javax.swing.JFrame{
         jPanel2 = new javax.swing.JPanel();
         buttonCriarConta = new javax.swing.JToggleButton();
         buttonVisualizarConta = new javax.swing.JToggleButton();
-        jComboBoxContas = new javax.swing.JComboBox<>();
+        comboContas = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
@@ -63,7 +66,7 @@ public class TelaContasGeral extends javax.swing.JFrame{
             }
         });
 
-        jComboBoxContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "----", "-----" }));
+        comboContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "----", "-----" }));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Selecione uma conta cadastrada:");
@@ -80,7 +83,7 @@ public class TelaContasGeral extends javax.swing.JFrame{
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(94, 94, 94)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBoxContas, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboContas, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(buttonVisualizarConta, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(buttonCriarConta, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -92,7 +95,7 @@ public class TelaContasGeral extends javax.swing.JFrame{
                 .addGap(42, 42, 42)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBoxContas, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboContas, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonVisualizarConta)
                 .addGap(18, 18, 18)
@@ -199,10 +202,29 @@ public class TelaContasGeral extends javax.swing.JFrame{
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonVisualizarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarContaActionPerformed
-        // TODO add your handling code here:
+        String itemSelecionado = (String) comboContas.getSelectedItem();
+    
+        String codContaTxt = itemSelecionado.split(" - ")[0];
+        codContaTxt = codContaTxt.replace("'","");
+    
+        int codConta = Integer.parseInt(codContaTxt);
+    
+        Conta contaSelecionada = ctrlConta.buscarConta(codConta);
+    
+        TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlConta, contaSelecionada);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_buttonVisualizarContaActionPerformed
 
-   
+    private void carregarContasComboBox(){
+        comboContas.removeAllItems();
+        
+        for(Conta conta : ctrlConta.getContas()){
+            String item = "'" + conta.getCodConta() + "' - '" + conta.getNome() + "'";
+            
+            comboContas.addItem(item);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonAnalises;
@@ -211,7 +233,7 @@ public class TelaContasGeral extends javax.swing.JFrame{
     private javax.swing.JToggleButton buttonCriarConta;
     private javax.swing.JToggleButton buttonRelatorios;
     private javax.swing.JToggleButton buttonVisualizarConta;
-    private javax.swing.JComboBox<String> jComboBoxContas;
+    private javax.swing.JComboBox<String> comboContas;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

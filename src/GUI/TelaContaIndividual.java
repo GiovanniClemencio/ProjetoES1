@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import Classes.Conta;
+import Controller.ControladorConta;
+
 /**
  *
  * @author Portu
@@ -13,9 +16,11 @@ public class TelaContaIndividual extends javax.swing.JDialog {
     /**
      * Creates new form TelaContaIndividual
      */
-    public TelaContaIndividual(java.awt.Frame parent, boolean modal) {
+    public TelaContaIndividual(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta, Conta aberta) {
         super(parent, modal);
         initComponents();
+        
+        campoSaldo.setText(Double.toString(aberta.getSaldo()));
     }
 
     /**
@@ -31,7 +36,7 @@ public class TelaContaIndividual extends javax.swing.JDialog {
         labelTitulo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         buttonExtratoConta = new javax.swing.JToggleButton();
-        campoSaldoConsolidado = new javax.swing.JTextField();
+        campoSaldo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         buttonVisualizarCartao = new javax.swing.JToggleButton();
         jComboBoxCartoes = new javax.swing.JComboBox<>();
@@ -80,13 +85,13 @@ public class TelaContaIndividual extends javax.swing.JDialog {
             }
         });
 
-        campoSaldoConsolidado.setEditable(false);
-        campoSaldoConsolidado.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        campoSaldoConsolidado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoSaldoConsolidado.setText("R$0,00");
-        campoSaldoConsolidado.addActionListener(new java.awt.event.ActionListener() {
+        campoSaldo.setEditable(false);
+        campoSaldo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        campoSaldo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoSaldo.setText("R$0,00");
+        campoSaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoSaldoConsolidadoActionPerformed(evt);
+                campoSaldoActionPerformed(evt);
             }
         });
 
@@ -145,7 +150,7 @@ public class TelaContaIndividual extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(77, 77, 77)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoSaldoConsolidado)
+                            .addComponent(campoSaldo)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -155,7 +160,7 @@ public class TelaContaIndividual extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoSaldoConsolidado, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(buttonExtratoConta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -246,9 +251,9 @@ public class TelaContaIndividual extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
-    private void campoSaldoConsolidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSaldoConsolidadoActionPerformed
+    private void campoSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSaldoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_campoSaldoConsolidadoActionPerformed
+    }//GEN-LAST:event_campoSaldoActionPerformed
 
     private void buttonVisualizarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarCartaoActionPerformed
         // TODO add your handling code here:
@@ -266,47 +271,7 @@ public class TelaContaIndividual extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonExcluirContaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaContaIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaContaIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaContaIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaContaIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                TelaContaIndividual dialog = new TelaContaIndividual(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonAnalises;
@@ -318,7 +283,7 @@ public class TelaContaIndividual extends javax.swing.JDialog {
     private javax.swing.JToggleButton buttonExtratoConta;
     private javax.swing.JToggleButton buttonRelatorios;
     private javax.swing.JToggleButton buttonVisualizarCartao;
-    private javax.swing.JTextField campoSaldoConsolidado;
+    private javax.swing.JTextField campoSaldo;
     private javax.swing.JComboBox<String> jComboBoxCartoes;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
