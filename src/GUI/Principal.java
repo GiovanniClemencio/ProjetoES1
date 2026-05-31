@@ -18,11 +18,13 @@ public class Principal {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-            ControladorLancamento ctrlLancamento = new ControladorLancamento();
+            ControladorConta ctrlConta = new ControladorConta();
+            ControladorCartao ctrlCartao = new ControladorCartao(ctrlConta);
+            ControladorLancamento ctrlLancamento = new ControladorLancamento(ctrlCartao);
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TelaInicial janela = new TelaInicial();
+                TelaInicial janela = new TelaInicial(ctrlConta);
                 janela.setLocationRelativeTo(null); // Centraliza na tela
                 janela.setVisible(true);            // Torna a janela visível
             }

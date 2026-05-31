@@ -100,7 +100,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="campoLimiteCartao" alignment="0" max="32767" attributes="0"/>
+                              <Component id="campoSaldoConta" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel6" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="202" max="32767" attributes="0"/>
@@ -140,7 +140,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="campoLimiteCartao" min="-2" max="-2" attributes="0"/>
+                  <Component id="campoSaldoConta" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="91" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="buttonCadastrarCartao" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -156,6 +156,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Cadastrar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCadastrarCartaoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="buttonLimparCampos">
           <Properties>
@@ -187,9 +190,9 @@
             <Property name="text" type="java.lang.String" value="N&#xfa;mero da conta:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campoLimiteCartao">
+        <Component class="javax.swing.JTextField" name="campoSaldoConta">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoLimiteCartaoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoSaldoContaActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">

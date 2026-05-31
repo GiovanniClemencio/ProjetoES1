@@ -14,17 +14,17 @@ import java.util.Date;
  */
 public class ControladorLancamento {
 
-    ControladorCartao controladorCartao;
+    protected final ControladorCartao ctrlCartao;
     
-    public ControladorLancamento() {
-        this.controladorCartao = new ControladorCartao();
+    public ControladorLancamento(ControladorCartao controladorCartao) {
+        this.ctrlCartao = controladorCartao;
     }
 
     public void criarLancamento(Lancamento lancamento) {
-        Conta conta =controladorCartao.controladorConta.buscarConta(lancamento.getContaOrigem());
+        Conta conta = ctrlCartao.ctrlConta.buscarConta(lancamento.getContaOrigem());
         if (conta != null) {
             conta.getLancamentos().add(lancamento);
-            Fechar.salvarObjetos(controladorCartao.controladorConta.getContas(), controladorCartao.controladorConta.getCaminhosArquivo().getArquivoConta());
+            Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
         }
     }
 
@@ -32,8 +32,8 @@ public class ControladorLancamento {
         Lancamento lancamentoParaRemover = buscarLancamento(id);
         if (lancamentoParaRemover != null) {
 
-            controladorCartao.controladorConta.buscarConta(lancamentoParaRemover.getContaOrigem()).removerLancamento(lancamentoParaRemover);
-            Fechar.salvarObjetos(controladorCartao.controladorConta.getContas(), controladorCartao.controladorConta.getCaminhosArquivo().getArquivoConta());
+            ctrlCartao.ctrlConta.buscarConta(lancamentoParaRemover.getContaOrigem()).removerLancamento(lancamentoParaRemover);
+            Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
 
             return true; // Sucesso na remoção
         }
@@ -41,7 +41,7 @@ public class ControladorLancamento {
     }
 
     public Lancamento buscarLancamento(int idLancamento) {
-        for (Conta conta : controladorCartao.controladorConta.getContas()) {
+        for (Conta conta : ctrlCartao.ctrlConta.getContas()) {
             for (Lancamento lancamento : conta.getLancamentos()) {
                 if (lancamento.getIdLancamento() == idLancamento) {
                     return lancamento;
@@ -55,7 +55,7 @@ public class ControladorLancamento {
         Lancamento lancamento = buscarLancamento(idLancamento);
         if (lancamento != null) {
             lancamento.editarLancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente);
-            Fechar.salvarObjetos(controladorCartao.controladorConta.getContas(), controladorCartao.controladorConta.getCaminhosArquivo().getArquivoConta());
+            Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
         }
     }
 

@@ -38,7 +38,7 @@ public class cadastroConta extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         campoCodConta = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        campoLimiteCartao = new javax.swing.JTextField();
+        campoSaldoConta = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -68,6 +68,11 @@ public class cadastroConta extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
         buttonCadastrarCartao.setText("Cadastrar");
+        buttonCadastrarCartao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCadastrarCartaoActionPerformed(evt);
+            }
+        });
 
         buttonLimparCampos.setText("Limpar");
         buttonLimparCampos.addActionListener(new java.awt.event.ActionListener() {
@@ -89,9 +94,9 @@ public class cadastroConta extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Número da conta:");
 
-        campoLimiteCartao.addActionListener(new java.awt.event.ActionListener() {
+        campoSaldoConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoLimiteCartaoActionPerformed(evt);
+                campoSaldoContaActionPerformed(evt);
             }
         });
 
@@ -114,7 +119,7 @@ public class cadastroConta extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(124, 124, 124)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoLimiteCartao)
+                            .addComponent(campoSaldoConta)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(202, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -143,7 +148,7 @@ public class cadastroConta extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoLimiteCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoSaldoConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonCadastrarCartao)
@@ -169,9 +174,9 @@ public class cadastroConta extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void campoLimiteCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLimiteCartaoActionPerformed
+    private void campoSaldoContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSaldoContaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_campoLimiteCartaoActionPerformed
+    }//GEN-LAST:event_campoSaldoContaActionPerformed
 
     private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
         for (java.awt.Component c : this.getContentPane().getComponents()) {
@@ -194,6 +199,20 @@ public class cadastroConta extends javax.swing.JFrame {
     private void campoCodContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCodContaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoCodContaActionPerformed
+
+    private void buttonCadastrarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCartaoActionPerformed
+        int codConta = Integer.parseInt(campoCodConta.getText());
+        String nomeConta = campoNomeConta.getText();
+        try{
+            double saldoConta = Double.parseDouble(campoSaldoConta.getText());
+        } catch(NumberFormatException e){
+            System.out.println("Valor inválido para o campo saldo!");
+            this.dispose();
+        }
+        
+        
+        
+    }//GEN-LAST:event_buttonCadastrarCartaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,8 +260,8 @@ public class cadastroConta extends javax.swing.JFrame {
     private javax.swing.JToggleButton buttonCadastrarCartao;
     private javax.swing.JToggleButton buttonLimparCampos;
     private javax.swing.JTextField campoCodConta;
-    private javax.swing.JTextField campoLimiteCartao;
     private javax.swing.JTextField campoNomeConta;
+    private javax.swing.JTextField campoSaldoConta;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
