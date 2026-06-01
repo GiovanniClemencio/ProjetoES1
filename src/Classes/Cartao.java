@@ -13,13 +13,13 @@ import java.util.ArrayList;
  */
 public class Cartao implements Serializable {
     private int codConta;
-    private int idCartao;
+    private String idCartao;
     private String nome;
     private double limite;
     private ArrayList<Fatura> faturasAntigas;
     private Fatura faturaAtual;
 
-    public Cartao(int codConta, int idCartao, String nome, double limite) {
+    public Cartao(int codConta, String idCartao, String nome, double limite) {
         this.codConta = codConta;
         this.idCartao = idCartao;
         this.nome = nome;
@@ -32,7 +32,7 @@ public class Cartao implements Serializable {
         return codConta;
     }
 
-    public int getIdCartao() {
+    public String getIdCartao() {
         return idCartao;
     }
 
@@ -56,7 +56,7 @@ public class Cartao implements Serializable {
         this.codConta = codConta;
     }
 
-    public void setIdCartao(int idCartao) {
+    public void setIdCartao(String idCartao) {
         this.idCartao = idCartao;
     }
 

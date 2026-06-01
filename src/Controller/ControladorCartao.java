@@ -23,12 +23,12 @@ public class ControladorCartao {
     }
 
 
-    public void criarCartao(int idConta, Cartao cartao) {
-        ctrlConta.buscarConta(idConta).getCartoes().add(cartao);
+    public void criarCartao(int codConta, Cartao cartao) {
+        ctrlConta.buscarConta(codConta).getCartoes().add(cartao);
         Fechar.salvarObjetos(ctrlConta.getContas(), ctrlConta.getCaminhosArquivo().getArquivoConta());
     }
 
-    public boolean removerCartao(int id) {
+    public boolean removerCartao(String id) {
         Cartao cartaoParaRemover = buscarCartao(id);
         if(cartaoParaRemover != null) {
             if(cartaoParaRemover.getFaturaAtual() != null){
@@ -42,10 +42,10 @@ public class ControladorCartao {
         return false; // Falha na remoção, cartão não encontrado
     }
 
-    public Cartao buscarCartao(int idCartao) {
+    public Cartao buscarCartao(String idCartao) {
         for(Conta conta : ctrlConta.getContas()){
             for(Cartao cartao : conta.getCartoes()){
-                if(cartao.getIdCartao() == idCartao){
+                if(cartao.getIdCartao() == null ? idCartao == null : cartao.getIdCartao().equals(idCartao)){
                     return cartao;
                 }
             }
@@ -53,7 +53,7 @@ public class ControladorCartao {
         return null; // Não encontrou o cartão
     }
 
-    public void editarCartao(int idCartao, String nome, double limite, ArrayList<Fatura> faturasAntigas, Fatura faturaAtual) {
+    public void editarCartao(String idCartao, String nome, double limite, ArrayList<Fatura> faturasAntigas, Fatura faturaAtual) {
         Cartao cartao = buscarCartao(idCartao);
         if (cartao != null) {
             cartao.editarCartao(nome, limite, faturasAntigas, faturaAtual);
@@ -61,4 +61,9 @@ public class ControladorCartao {
         }
 
     }
+
+    public ControladorConta getCtrlConta() {
+        return ctrlConta;
+    }
+    
 }

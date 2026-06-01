@@ -1,6 +1,6 @@
 package GUI;
 
-import Controller.ControladorConta;
+import Controller.ControladorLancamento;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -12,12 +12,12 @@ import Controller.ControladorConta;
  * @author Portu
  */
 public class TelaInicial extends javax.swing.JFrame {
-    private final ControladorConta ctrlConta;
+    private final ControladorLancamento ctrlLancamento;
     /**
      * Creates new form TelaInicial
      */
-    public TelaInicial(ControladorConta ctrlConta) {
-        this.ctrlConta = ctrlConta;
+    public TelaInicial(ControladorLancamento ctrlLancamento) {
+        this.ctrlLancamento = ctrlLancamento;
         initComponents();
     }
 
@@ -230,7 +230,7 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlConta);
+        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento.getCtrlCartao().getCtrlConta());
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }//GEN-LAST:event_buttonContasActionPerformed

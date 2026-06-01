@@ -59,4 +59,8 @@ public class ControladorLancamento {
         }
     }
 
+    public ControladorCartao getCtrlCartao() {
+        return ctrlCartao;
+    }
+    
 }

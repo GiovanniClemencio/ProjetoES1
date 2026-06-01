@@ -15,13 +15,16 @@ import javax.swing.event.DocumentListener;
  *
  * @author Portu
  */
-public class cadastroConta extends javax.swing.JFrame {
+public class cadastroConta extends javax.swing.JDialog {
 
     private final ControladorConta ctrlConta;
 
     public cadastroConta(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta) {
+        super(parent, modal);
+        
         this.ctrlConta = ctrlConta;
         initComponents();
+        configurarValidacaoCampos();
 
         campoCodConta.setText(String.valueOf(Util.getProxCodConta()));
 
@@ -223,6 +226,7 @@ public class cadastroConta extends javax.swing.JFrame {
                     this,
                     "Conta cadastrada com sucesso!"
             );
+            dispose();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(
                     this,

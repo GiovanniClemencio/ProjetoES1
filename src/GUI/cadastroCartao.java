@@ -4,7 +4,12 @@
  */
 package GUI;
 
-import Classes.Util;
+import Classes.Cartao;
+import Classes.Conta;
+import Controller.ControladorCartao;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -12,13 +17,17 @@ import Classes.Util;
  */
 public class cadastroCartao extends javax.swing.JDialog {
 
-    /**
-     * Creates new form cadastroConta
-     */
-    public cadastroCartao(java.awt.Frame parent, boolean modal) {
+    private final ControladorCartao ctrlCartao;
+
+    public cadastroCartao(java.awt.Frame parent, boolean modal, ControladorCartao ctrlCartao, Conta atual) {
         super(parent, modal);
+        this.ctrlCartao = ctrlCartao;
+
         initComponents();
-        campoCodConta.setText(String.valueOf(Util.getProxCodConta()));
+        configurarValidacaoCampos();
+        
+        campoCodConta.setText(Integer.toString(atual.getCodConta()));
+        buttonCadastrarCartao.setEnabled(false);
     }
 
     /**
@@ -81,8 +90,18 @@ public class cadastroCartao extends javax.swing.JDialog {
         jLabel6.setText("Limite do cartão:");
 
         buttonCadastrarCartao.setText("Cadastrar");
+        buttonCadastrarCartao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCadastrarCartaoActionPerformed(evt);
+            }
+        });
 
         buttonLimparCampos.setText("Limpar");
+        buttonLimparCampos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLimparCamposActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -199,7 +218,84 @@ public class cadastroCartao extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoCodContaActionPerformed
 
-    
+    private void buttonCadastrarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCartaoActionPerformed
+        try {
+            int codConta = Integer.parseInt(campoCodConta.getText().trim());
+            String nomeCartao = campoNomeCartao.getText().trim();
+            String textoLimite = campoLimiteCartao.getText().trim().replace(',', '.');
+            String idCartao = campoIdCartao.getText().trim();
+
+            double limiteCartao = Double.parseDouble(textoLimite);
+
+            Cartao novo = new Cartao(codConta, idCartao, nomeCartao, limiteCartao);
+            ctrlCartao.criarCartao(codConta, novo);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Cartao cadastrado com sucesso!"
+            );
+            dispose();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Verifique se o campo 'Limite do cartao' não se encontra com uma entrada inválida.",
+                    "Erro de conversão",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_buttonCadastrarCartaoActionPerformed
+
+    private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
+        for (java.awt.Component c : this.getContentPane().getComponents()) {
+            if (c instanceof javax.swing.JTextField) {
+                if (c != campoCodConta) {
+                    ((javax.swing.JTextField) c).setText("");
+                }
+            } else if (c instanceof javax.swing.JPanel) {
+                for (java.awt.Component sub : ((javax.swing.JPanel) c).getComponents()) {
+                    if (sub instanceof javax.swing.JTextField) {
+                        if (sub != campoCodConta) {
+                            ((javax.swing.JTextField) sub).setText("");
+                        }
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_buttonLimparCamposActionPerformed
+
+    private void atualizarEstadoBotao() {
+        boolean preenchidos
+                = !campoCodConta.getText().trim().isEmpty()
+                && !campoNomeCartao.getText().trim().isEmpty()
+                && !campoIdCartao.getText().trim().isEmpty()
+                && !campoLimiteCartao.getText().trim().isEmpty();
+
+        buttonCadastrarCartao.setEnabled(preenchidos);
+    }
+
+    private void configurarValidacaoCampos() {
+        DocumentListener listener = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                atualizarEstadoBotao();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                atualizarEstadoBotao();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                atualizarEstadoBotao();
+            }
+        };
+
+        campoCodConta.getDocument().addDocumentListener(listener);
+        campoNomeCartao.getDocument().addDocumentListener(listener);
+        campoLimiteCartao.getDocument().addDocumentListener(listener);
+        campoIdCartao.getDocument().addDocumentListener(listener);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonCadastrarCartao;
