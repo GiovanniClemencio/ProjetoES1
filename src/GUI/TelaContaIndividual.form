@@ -103,7 +103,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="buttonExcluirConta" min="-2" pref="208" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="jComboBoxCartoes" alignment="0" pref="208" max="32767" attributes="0"/>
+                                  <Component id="comboCartoes" alignment="0" pref="208" max="32767" attributes="0"/>
                                   <Component id="buttonVisualizarCartao" alignment="0" pref="208" max="32767" attributes="0"/>
                                   <Component id="buttonExtratoConta" alignment="0" pref="208" max="32767" attributes="0"/>
                                   <Component id="buttonCriarCartao" alignment="0" max="32767" attributes="0"/>
@@ -141,7 +141,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="buttonCriarCartao" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jComboBoxCartoes" min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="comboCartoes" min="-2" pref="31" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="buttonVisualizarCartao" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -188,7 +188,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonVisualizarCartaoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBoxCartoes">
+        <Component class="javax.swing.JComboBox" name="comboCartoes">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="3">
@@ -198,6 +198,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboCartoesActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

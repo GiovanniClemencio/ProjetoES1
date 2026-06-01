@@ -4,8 +4,10 @@
  */
 package GUI;
 
+import Classes.Cartao;
 import Classes.Conta;
 import Controller.ControladorConta;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,14 +15,19 @@ import Controller.ControladorConta;
  */
 public class TelaContaIndividual extends javax.swing.JDialog {
 
-    /**
-     * Creates new form TelaContaIndividual
-     */
+    private final Conta atual;
+    private final ControladorConta ctrlConta;
+    
     public TelaContaIndividual(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta, Conta aberta) {
         super(parent, modal);
+        this.atual = aberta;
+        this.ctrlConta = ctrlConta;
         initComponents();
         
         campoSaldo.setText(Double.toString(aberta.getSaldo()));
+        labelTitulo.setText(aberta.getNome());
+        
+        carregarCartoesComboBox(aberta);
     }
 
     /**
@@ -39,7 +46,7 @@ public class TelaContaIndividual extends javax.swing.JDialog {
         campoSaldo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         buttonVisualizarCartao = new javax.swing.JToggleButton();
-        jComboBoxCartoes = new javax.swing.JComboBox<>();
+        comboCartoes = new javax.swing.JComboBox<>();
         buttonCriarCartao = new javax.swing.JToggleButton();
         buttonEditarConta = new javax.swing.JToggleButton();
         buttonExcluirConta = new javax.swing.JToggleButton();
@@ -107,7 +114,12 @@ public class TelaContaIndividual extends javax.swing.JDialog {
             }
         });
 
-        jComboBoxCartoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "----", "-----" }));
+        comboCartoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "----", "-----" }));
+        comboCartoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboCartoesActionPerformed(evt);
+            }
+        });
 
         buttonCriarCartao.setText("Criar novo cartão para conta");
         buttonCriarCartao.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +154,7 @@ public class TelaContaIndividual extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(buttonExcluirConta, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jComboBoxCartoes, javax.swing.GroupLayout.Alignment.LEADING, 0, 208, Short.MAX_VALUE)
+                                .addComponent(comboCartoes, javax.swing.GroupLayout.Alignment.LEADING, 0, 208, Short.MAX_VALUE)
                                 .addComponent(buttonVisualizarCartao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                                 .addComponent(buttonExtratoConta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                                 .addComponent(buttonCriarCartao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -172,7 +184,7 @@ public class TelaContaIndividual extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonCriarCartao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBoxCartoes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboCartoes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonVisualizarCartao)
                 .addContainerGap())
@@ -268,10 +280,39 @@ public class TelaContaIndividual extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonEditarContaActionPerformed
 
     private void buttonExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirContaActionPerformed
-        // TODO add your handling code here:
+        String confirmacao = "Confirme a exclusao da conta com os seguintes dados: \n\n"
+                    + "Codigo da conta: " + Integer.toString(atual.getCodConta()) + "\n"
+                    + "Nome da conta: " + atual.getNome() + "\n"
+                    + "Saldo: " + Double.toString(atual.getSaldo());
+            
+            int opcao = JOptionPane.showConfirmDialog(this, confirmacao, "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            
+            if (opcao == JOptionPane.YES_OPTION){
+                ctrlConta.removerConta(atual.getCodConta());
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Conta excluida com sucesso!"
+                );
+                dispose();
+            }else{
+                dispose();
+            }
     }//GEN-LAST:event_buttonExcluirContaActionPerformed
 
-    
+    private void comboCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCartoesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboCartoesActionPerformed
+
+    private void carregarCartoesComboBox(Conta aberta){
+        comboCartoes.removeAllItems();
+        
+        for(Cartao cartao : aberta.getCartoes()){
+            String item = "'" + cartao.getNome() + "'";
+            
+            comboCartoes.addItem(item);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonAnalises;
@@ -284,7 +325,7 @@ public class TelaContaIndividual extends javax.swing.JDialog {
     private javax.swing.JToggleButton buttonRelatorios;
     private javax.swing.JToggleButton buttonVisualizarCartao;
     private javax.swing.JTextField campoSaldo;
-    private javax.swing.JComboBox<String> jComboBoxCartoes;
+    private javax.swing.JComboBox<String> comboCartoes;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
