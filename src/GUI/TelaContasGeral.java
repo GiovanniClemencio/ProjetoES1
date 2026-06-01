@@ -8,23 +8,34 @@ import Controller.ControladorLancamento;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-
 /**
  *
  * @author Portu
  */
-public class TelaContasGeral extends javax.swing.JFrame{
+public class TelaContasGeral extends javax.swing.JFrame {
+
     private final ControladorConta ctrlConta;
     private final ControladorLancamento ctrlLancamento;
+    private final TelaInicial inicio;
+
     /**
      * Creates new form TelaContas
      */
     public TelaContasGeral(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento) {
+        this.inicio = (TelaInicial) parent;
         this.ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
         this.ctrlLancamento = ctrlLancamento;
         initComponents();
-        
+
         carregarContasComboBox();
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                inicio.setVisible(true);
+                inicio.atualizarSaldoConsolidado();
+            }
+        });
     }
 
     /**
@@ -211,32 +222,33 @@ public class TelaContasGeral extends javax.swing.JFrame{
 
     private void buttonVisualizarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarContaActionPerformed
         String itemSelecionado = (String) comboContas.getSelectedItem();
-    
+
         String codContaTxt = itemSelecionado.split(" - ")[0];
-        codContaTxt = codContaTxt.replace("'","");
-    
+        codContaTxt = codContaTxt.replace("'", "");
+
         int codConta = Integer.parseInt(codContaTxt);
-    
+
         Conta contaSelecionada = ctrlConta.buscarConta(codConta);
-    
-        TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada);
+
+        TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada, inicio);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonVisualizarContaActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento);
+        TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonContasActionPerformed
 
-    private void carregarContasComboBox(){
+    public void carregarContasComboBox() {
         comboContas.removeAllItems();
-        
-        for(Conta conta : ctrlConta.getContas()){
+
+        for (Conta conta : ctrlConta.getContas()) {
             String item = "'" + conta.getCodConta() + "' - '" + conta.getNome() + "'";
-            
+
             comboContas.addItem(item);
         }
     }

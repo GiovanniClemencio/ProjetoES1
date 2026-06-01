@@ -18,11 +18,13 @@ import javax.swing.event.DocumentListener;
 public class cadastroConta extends javax.swing.JDialog {
 
     private final ControladorConta ctrlConta;
+    private final TelaContasGeral parent;
 
     public cadastroConta(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta) {
         super(parent, modal);
         
         this.ctrlConta = ctrlConta;
+        this.parent = (TelaContasGeral) parent;
         initComponents();
         configurarValidacaoCampos();
 
@@ -226,6 +228,7 @@ public class cadastroConta extends javax.swing.JDialog {
                     this,
                     "Conta cadastrada com sucesso!"
             );
+            parent.carregarContasComboBox();
             dispose();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(

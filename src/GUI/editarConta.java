@@ -17,10 +17,12 @@ import javax.swing.event.DocumentListener;
 public class editarConta extends javax.swing.JDialog {
 
     private final ControladorConta ctrlConta;
+    private final TelaContaIndividual parent;
 
     public editarConta(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta, Conta aberta) {
         super(parent, modal);
         this.ctrlConta = ctrlConta;
+        this.parent = (TelaContaIndividual) parent;
         initComponents();
 
         carregarCampos(aberta);
@@ -203,6 +205,7 @@ public class editarConta extends javax.swing.JDialog {
                         this,
                         "Conta editada com sucesso!"
                 );
+                parent.atualizarVisualizacao();
                 dispose();
             }else{
                 dispose();

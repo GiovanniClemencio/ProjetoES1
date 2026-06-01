@@ -19,17 +19,27 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     private final Conta atual;
     private final ControladorConta ctrlConta;
     private final ControladorLancamento ctrlLancamento;
-    
-    public TelaContaIndividual(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, Conta aberta) {
+    private final TelaInicial inicio;
+
+    public TelaContaIndividual(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, Conta aberta, TelaInicial inicio) {
         this.atual = aberta;
         this.ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
         this.ctrlLancamento = ctrlLancamento;
+        this.inicio = inicio;
         initComponents();
-        
-        campoSaldo.setText(Double.toString(aberta.getSaldo()));
-        labelTitulo.setText(aberta.getNome());
-        
+
+        atualizarVisualizacao();
+
         carregarCartoesComboBox(aberta);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento);
+                dialog.setLocationRelativeTo(TelaContaIndividual.this);
+                dialog.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -279,7 +289,9 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonVisualizarCartaoActionPerformed
 
     private void buttonCriarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCriarCartaoActionPerformed
-        // TODO add your handling code here:
+        cadastroCartao dialog = new cadastroCartao(this, true, ctrlLancamento.getCtrlCartao(), atual);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_buttonCriarCartaoActionPerformed
 
     private void buttonEditarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarContaActionPerformed
@@ -290,23 +302,29 @@ public class TelaContaIndividual extends javax.swing.JFrame {
 
     private void buttonExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirContaActionPerformed
         String confirmacao = "Confirme a exclusao da conta com os seguintes dados: \n\n"
-                    + "Codigo da conta: " + Integer.toString(atual.getCodConta()) + "\n"
-                    + "Nome da conta: " + atual.getNome() + "\n"
-                    + "Saldo: " + Double.toString(atual.getSaldo());
-            
-            int opcao = JOptionPane.showConfirmDialog(this, confirmacao, "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            
-            if (opcao == JOptionPane.YES_OPTION){
-                ctrlConta.removerConta(atual.getCodConta());
+                + "Codigo da conta: " + Integer.toString(atual.getCodConta()) + "\n"
+                + "Nome da conta: " + atual.getNome() + "\n"
+                + "Saldo: " + Double.toString(atual.getSaldo());
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Conta excluida com sucesso!"
-                );
-                dispose();
-            }else{
-                dispose();
-            }
+        int opcao = JOptionPane.showConfirmDialog(this, confirmacao, "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+        if (opcao == JOptionPane.YES_OPTION) {
+            ctrlConta.removerConta(atual.getCodConta());
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Conta excluida com sucesso!"
+            );
+            inicio.setVisible(true);
+            inicio.atualizarSaldoConsolidado();
+            dispose();
+        } else {
+            TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, atual, inicio);
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+            dispose();
+            dispose();
+        }
     }//GEN-LAST:event_buttonExcluirContaActionPerformed
 
     private void comboCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCartoesActionPerformed
@@ -314,20 +332,25 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_comboCartoesActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento);
+        TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonContasActionPerformed
 
-    private void carregarCartoesComboBox(Conta aberta){
+    private void carregarCartoesComboBox(Conta aberta) {
         comboCartoes.removeAllItems();
-        
-        for(Cartao cartao : aberta.getCartoes()){
+
+        for (Cartao cartao : aberta.getCartoes()) {
             String item = "'" + cartao.getNome() + "'";
-            
+
             comboCartoes.addItem(item);
         }
+    }
+    
+    public void atualizarVisualizacao(){
+        campoSaldo.setText(Double.toString(atual.getSaldo()));
+        labelTitulo.setText(atual.getNome());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

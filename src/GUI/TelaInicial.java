@@ -236,6 +236,7 @@ public class TelaInicial extends javax.swing.JFrame {
         TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_buttonContasActionPerformed
 
     public void atualizarSaldoConsolidado(){

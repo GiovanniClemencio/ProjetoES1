@@ -18,10 +18,12 @@ import javax.swing.event.DocumentListener;
 public class cadastroCartao extends javax.swing.JDialog {
 
     private final ControladorCartao ctrlCartao;
+    private final TelaContaIndividual parent;
 
     public cadastroCartao(java.awt.Frame parent, boolean modal, ControladorCartao ctrlCartao, Conta atual) {
         super(parent, modal);
         this.ctrlCartao = ctrlCartao;
+        this.parent = (TelaContaIndividual) parent;
 
         initComponents();
         configurarValidacaoCampos();
