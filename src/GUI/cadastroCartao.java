@@ -25,7 +25,7 @@ public class cadastroCartao extends javax.swing.JDialog {
 
         initComponents();
         configurarValidacaoCampos();
-        
+
         campoCodConta.setText(Integer.toString(atual.getCodConta()));
         buttonCadastrarCartao.setEnabled(false);
     }
@@ -48,11 +48,11 @@ public class cadastroCartao extends javax.swing.JDialog {
         campoNomeCartao = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        campoIdCartao = new javax.swing.JTextField();
         campoLimiteCartao = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         buttonCadastrarCartao = new javax.swing.JToggleButton();
         buttonLimparCampos = new javax.swing.JToggleButton();
+        campoIdCartao = new javax.swing.JFormattedTextField();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
 
@@ -103,6 +103,13 @@ public class cadastroCartao extends javax.swing.JDialog {
             }
         });
 
+        try {
+            campoIdCartao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####.####.####.####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        campoIdCartao.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -113,10 +120,10 @@ public class cadastroCartao extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(campoNomeCartao)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(campoIdCartao)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(campoIdCartao))
                 .addGap(68, 68, 68))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(106, 106, 106)
@@ -223,7 +230,19 @@ public class cadastroCartao extends javax.swing.JDialog {
             int codConta = Integer.parseInt(campoCodConta.getText().trim());
             String nomeCartao = campoNomeCartao.getText().trim();
             String textoLimite = campoLimiteCartao.getText().trim().replace(',', '.');
+
             String idCartao = campoIdCartao.getText().trim();
+            if (idCartao.matches("\\d{4}\\.\\d{4}\\.\\d{4}\\.\\d{4}")) {
+                // válido
+            } else {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Verifique se o campo 'Número do cartão' se encontra com uma entrada inválida.",
+                    "Erro de formatação",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
 
             double limiteCartao = Double.parseDouble(textoLimite);
 
@@ -301,7 +320,7 @@ public class cadastroCartao extends javax.swing.JDialog {
     private javax.swing.JToggleButton buttonCadastrarCartao;
     private javax.swing.JToggleButton buttonLimparCampos;
     private javax.swing.JTextField campoCodConta;
-    private javax.swing.JTextField campoIdCartao;
+    private javax.swing.JFormattedTextField campoIdCartao;
     private javax.swing.JTextField campoLimiteCartao;
     private javax.swing.JTextField campoNomeCartao;
     private javax.swing.JLabel jLabel1;
