@@ -147,7 +147,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Component id="labelTitulo" min="-2" pref="541" max="-2" attributes="0"/>
-                  <EmptySpace pref="16" max="32767" attributes="0"/>
+                  <EmptySpace pref="25" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -216,6 +216,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Contas"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonContasActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="buttonCategorias">
           <Properties>

@@ -2,6 +2,7 @@ package GUI;
 
 import Classes.Conta;
 import Controller.ControladorConta;
+import Controller.ControladorLancamento;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -14,11 +15,13 @@ import Controller.ControladorConta;
  */
 public class TelaContasGeral extends javax.swing.JFrame{
     private final ControladorConta ctrlConta;
+    private final ControladorLancamento ctrlLancamento;
     /**
      * Creates new form TelaContas
      */
-    public TelaContasGeral(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta) {
-        this.ctrlConta = ctrlConta;
+    public TelaContasGeral(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento) {
+        this.ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
+        this.ctrlLancamento = ctrlLancamento;
         initComponents();
         
         carregarContasComboBox();
@@ -119,7 +122,7 @@ public class TelaContasGeral extends javax.swing.JFrame{
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,6 +132,11 @@ public class TelaContasGeral extends javax.swing.JFrame{
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
 
         buttonContas.setText("Contas");
+        buttonContas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonContasActionPerformed(evt);
+            }
+        });
 
         buttonCategorias.setText("Categorias");
         buttonCategorias.addActionListener(new java.awt.event.ActionListener() {
@@ -211,10 +219,17 @@ public class TelaContasGeral extends javax.swing.JFrame{
     
         Conta contaSelecionada = ctrlConta.buscarConta(codConta);
     
-        TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlConta, contaSelecionada);
+        TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }//GEN-LAST:event_buttonVisualizarContaActionPerformed
+
+    private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
+        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonContasActionPerformed
 
     private void carregarContasComboBox(){
         comboContas.removeAllItems();

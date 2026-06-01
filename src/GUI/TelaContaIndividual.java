@@ -7,21 +7,23 @@ package GUI;
 import Classes.Cartao;
 import Classes.Conta;
 import Controller.ControladorConta;
+import Controller.ControladorLancamento;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Portu
  */
-public class TelaContaIndividual extends javax.swing.JDialog {
+public class TelaContaIndividual extends javax.swing.JFrame {
 
     private final Conta atual;
     private final ControladorConta ctrlConta;
+    private final ControladorLancamento ctrlLancamento;
     
-    public TelaContaIndividual(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta, Conta aberta) {
-        super(parent, modal);
+    public TelaContaIndividual(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, Conta aberta) {
         this.atual = aberta;
-        this.ctrlConta = ctrlConta;
+        this.ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
+        this.ctrlLancamento = ctrlLancamento;
         initComponents();
         
         campoSaldo.setText(Double.toString(aberta.getSaldo()));
@@ -75,7 +77,7 @@ public class TelaContaIndividual extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,6 +195,11 @@ public class TelaContaIndividual extends javax.swing.JDialog {
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
 
         buttonContas.setText("Contas");
+        buttonContas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonContasActionPerformed(evt);
+            }
+        });
 
         buttonCategorias.setText("Categorias");
         buttonCategorias.addActionListener(new java.awt.event.ActionListener() {
@@ -276,7 +283,9 @@ public class TelaContaIndividual extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonCriarCartaoActionPerformed
 
     private void buttonEditarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarContaActionPerformed
-        // TODO add your handling code here:
+        editarConta dialog = new editarConta(this, true, ctrlConta, atual);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_buttonEditarContaActionPerformed
 
     private void buttonExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirContaActionPerformed
@@ -303,6 +312,13 @@ public class TelaContaIndividual extends javax.swing.JDialog {
     private void comboCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCartoesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboCartoesActionPerformed
+
+    private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
+        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonContasActionPerformed
 
     private void carregarCartoesComboBox(Conta aberta){
         comboCartoes.removeAllItems();

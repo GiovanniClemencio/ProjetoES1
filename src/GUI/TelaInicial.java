@@ -1,5 +1,7 @@
 package GUI;
 
+import Classes.Conta;
+import Controller.ControladorConta;
 import Controller.ControladorLancamento;
 
 /*
@@ -19,6 +21,7 @@ public class TelaInicial extends javax.swing.JFrame {
     public TelaInicial(ControladorLancamento ctrlLancamento) {
         this.ctrlLancamento = ctrlLancamento;
         initComponents();
+        atualizarSaldoConsolidado();
     }
 
     /**
@@ -133,7 +136,7 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(112, 112, 112)
                         .addComponent(buttonExtratoConsolidado, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(125, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,7 +221,7 @@ public class TelaInicial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void campoSaldoConsolidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSaldoConsolidadoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_campoSaldoConsolidadoActionPerformed
 
     private void buttonExtratoConsolidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExtratoConsolidadoActionPerformed
@@ -230,12 +233,22 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento.getCtrlCartao().getCtrlConta());
+        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }//GEN-LAST:event_buttonContasActionPerformed
 
-
+    public void atualizarSaldoConsolidado(){
+        ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
+        
+        double saldoConsolidado = 0;
+        for(Conta conta : ctrlConta.getContas()){
+            saldoConsolidado += conta.getSaldo();
+        }
+        
+        campoSaldoConsolidado.setText(Double.toString(saldoConsolidado));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonAnalises;
     private javax.swing.JToggleButton buttonCategorias;
