@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import GUI.telas.TelaInicial;
 import Controller.ControladorCartao;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
