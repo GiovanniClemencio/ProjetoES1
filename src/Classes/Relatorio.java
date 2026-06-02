@@ -25,13 +25,14 @@ public class Relatorio {
 
     public ArrayList<Lancamento> gerarRelatorio(ArrayList<Lancamento> lancamentosBrutos) {
 
+        // Se ainda não tiver nenhum lançamento, retorna uma lista vazia
         if (lancamentosBrutos == null) {
-            return new ArrayList<>();
+            return new ArrayList<>(); // Não retorno null para evitar NullPointerException
         }
 
-        ArrayList<Lancamento> resultado = new ArrayList<>(lancamentosBrutos); // Copia
+        ArrayList<Lancamento> resultado = new ArrayList<>(lancamentosBrutos); // Cria uma cópia da lista original
 
-        // 1. Filtro de data
+        // 1. Filtro de Conta
         if (conta != null) {
             resultado.removeIf(lancamento
                     -> conta.stream().noneMatch(c -> java.util.Objects.equals(c.getCodConta(), lancamento.getContaOrigem()))
@@ -39,6 +40,7 @@ public class Relatorio {
             );
         }
 
+        // 2. Filtro de data
         if (inicio != null && fim != null) {
             if (inicio.before(fim)) {
                 resultado.removeIf(lancamento -> lancamento.getDataLancamento().before(inicio) || lancamento.getDataLancamento().after(fim));
@@ -47,14 +49,17 @@ public class Relatorio {
             }
         }
 
+        // 3. Filtro de tipo
         if (tipo != null) {
             resultado.removeIf(lancamento -> !tipo.equalsIgnoreCase(lancamento.getTipo()));
         }
 
+        // 4. Filtro de categoria
         if (categoria != null) {
             resultado.removeIf(lancamento -> lancamento.getCategorias() == null || !lancamento.getCategorias().containsAll(categoria));
         }
 
+        // 5. Filtro de cartão
         if (cartao != null) {
             resultado.removeIf(lancamento
                     -> lancamento.getIdCartao() == null
@@ -62,7 +67,7 @@ public class Relatorio {
             );
         }
 
-        return resultado;
+        return resultado; // Retorna lista filtrada
     }
 
     public Date getInicio() {

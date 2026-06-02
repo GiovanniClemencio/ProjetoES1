@@ -22,9 +22,9 @@ public class ControladorRelatorio {
 
     public ArrayList<Lancamento> gerarRelatorio(Relatorio relatorio) {
 
-        ArrayList<Lancamento> todosLancamentos = ctrlConta.extrato();
+        ArrayList<Lancamento> todosLancamentos = ctrlConta.extrato(); // Puxa todos os lançamentos
 
-        return relatorio.gerarRelatorio(todosLancamentos);
+        return relatorio.gerarRelatorio(todosLancamentos); // Aplica os filtros e retorna um arraylist filtrado
     }
 
     public ControladorConta getCtrlConta() {
