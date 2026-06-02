@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package GUI;
+package GUI.formularios;
 
 import Classes.Conta;
+import Classes.Util;
 import Controller.ControladorConta;
+import GUI.telas.TelaContasGeral;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -14,19 +16,22 @@ import javax.swing.event.DocumentListener;
  *
  * @author Portu
  */
-public class editarConta extends javax.swing.JDialog {
+public class cadastroConta extends javax.swing.JDialog {
 
     private final ControladorConta ctrlConta;
-    private final TelaContaIndividual parent;
+    private final TelaContasGeral parent;
 
-    public editarConta(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta, Conta aberta) {
+    public cadastroConta(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta) {
         super(parent, modal);
+        
         this.ctrlConta = ctrlConta;
-        this.parent = (TelaContaIndividual) parent;
+        this.parent = (TelaContasGeral) parent;
         initComponents();
-
-        carregarCampos(aberta);
         configurarValidacaoCampos();
+
+        campoCodConta.setText(String.valueOf(Util.getProxCodConta()));
+
+        buttonCadastrarConta.setEnabled(false);
     }
 
     /**
@@ -41,7 +46,7 @@ public class editarConta extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        buttonEditarConta = new javax.swing.JToggleButton();
+        buttonCadastrarConta = new javax.swing.JToggleButton();
         buttonLimparCampos = new javax.swing.JToggleButton();
         campoNomeConta = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -57,7 +62,7 @@ public class editarConta extends javax.swing.JDialog {
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
         labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelTitulo.setText("Edição de Conta");
+        labelTitulo.setText("Cadastro de Conta");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -76,10 +81,10 @@ public class editarConta extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
-        buttonEditarConta.setText("Editar");
-        buttonEditarConta.addActionListener(new java.awt.event.ActionListener() {
+        buttonCadastrarConta.setText("Cadastrar");
+        buttonCadastrarConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonEditarContaActionPerformed(evt);
+                buttonCadastrarContaActionPerformed(evt);
             }
         });
 
@@ -119,8 +124,8 @@ public class editarConta extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(106, 106, 106)
                 .addComponent(buttonLimparCampos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 236, Short.MAX_VALUE)
-                .addComponent(buttonEditarConta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
+                .addComponent(buttonCadastrarConta)
                 .addGap(101, 101, 101))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(65, 65, 65)
@@ -158,9 +163,9 @@ public class editarConta extends javax.swing.JDialog {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(campoSaldoConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonEditarConta)
+                    .addComponent(buttonCadastrarConta)
                     .addComponent(buttonLimparCampos))
                 .addGap(23, 23, 23))
         );
@@ -182,47 +187,6 @@ public class editarConta extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void buttonEditarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarContaActionPerformed
-        try {
-            int codConta = Integer.parseInt(campoCodConta.getText().trim());
-            String nomeConta = campoNomeConta.getText().trim();
-            String textoSaldo = campoSaldoConta.getText().trim().replace(',', '.');
-
-            double saldoConta = Double.parseDouble(textoSaldo);
-            
-            String confirmacao = "Confirme a edicao da conta com os seguintes dados: \n\n"
-                    + "Codigo da conta: " + codConta + "\n"
-                    + "Nome da conta: " + nomeConta + "\n"
-                    + "Saldo: " + saldoConta;
-            
-            int opcao = JOptionPane.showConfirmDialog(this, confirmacao, "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            
-            if (opcao == JOptionPane.YES_OPTION){
-                ctrlConta.editarConta(codConta, nomeConta, saldoConta);
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Conta editada com sucesso!"
-                );
-                parent.atualizarVisualizacao();
-                dispose();
-            }else{
-                dispose();
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Verifique se o campo 'Saldo' não se encontra com uma entrada inválida.",
-                    "Erro de conversão",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
-    }//GEN-LAST:event_buttonEditarContaActionPerformed
-
-    private void campoCodContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCodContaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoCodContaActionPerformed
 
     private void campoSaldoContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSaldoContaActionPerformed
         // TODO add your handling code here:
@@ -246,11 +210,36 @@ public class editarConta extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_buttonLimparCamposActionPerformed
 
-    private void carregarCampos(Conta atual) {
-        campoCodConta.setText(Integer.toString(atual.getCodConta()));
-        campoNomeConta.setText(atual.getNome());
-        campoSaldoConta.setText(Double.toString(atual.getSaldo()));
-    }
+    private void campoCodContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCodContaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoCodContaActionPerformed
+
+    private void buttonCadastrarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarContaActionPerformed
+        try {
+            int codConta = Integer.parseInt(campoCodConta.getText().trim());
+            String nomeConta = campoNomeConta.getText().trim();
+            String textoSaldo = campoSaldoConta.getText().trim().replace(',', '.');
+
+            double saldoConta = Double.parseDouble(textoSaldo);
+
+            Conta nova = new Conta(codConta, nomeConta, saldoConta);
+            ctrlConta.criarConta(nova);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Conta cadastrada com sucesso!"
+            );
+            parent.carregarContasComboBox();
+            dispose();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Verifique se o campo 'Saldo' não se encontra com uma entrada inválida.",
+                    "Erro de conversão",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_buttonCadastrarContaActionPerformed
 
     private void atualizarEstadoBotao() {
         boolean preenchidos
@@ -258,7 +247,7 @@ public class editarConta extends javax.swing.JDialog {
                 && !campoNomeConta.getText().trim().isEmpty()
                 && !campoSaldoConta.getText().trim().isEmpty();
 
-        buttonEditarConta.setEnabled(preenchidos);
+        buttonCadastrarConta.setEnabled(preenchidos);
     }
 
     private void configurarValidacaoCampos() {
@@ -284,8 +273,9 @@ public class editarConta extends javax.swing.JDialog {
         campoSaldoConta.getDocument().addDocumentListener(listener);
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton buttonEditarConta;
+    private javax.swing.JToggleButton buttonCadastrarConta;
     private javax.swing.JToggleButton buttonLimparCampos;
     private javax.swing.JTextField campoCodConta;
     private javax.swing.JTextField campoNomeConta;

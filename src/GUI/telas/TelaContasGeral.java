@@ -1,5 +1,6 @@
-package GUI;
+package GUI.telas;
 
+import GUI.formularios.cadastroConta;
 import Classes.Conta;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
@@ -8,20 +9,34 @@ import Controller.ControladorLancamento;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-
 /**
  *
  * @author Portu
  */
-public class TelaInicial extends javax.swing.JFrame {
+public class TelaContasGeral extends javax.swing.JFrame {
+
+    private final ControladorConta ctrlConta;
     private final ControladorLancamento ctrlLancamento;
+    private final TelaInicial inicio;
+
     /**
-     * Creates new form TelaInicial
+     * Creates new form TelaContas
      */
-    public TelaInicial(ControladorLancamento ctrlLancamento) {
+    public TelaContasGeral(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento) {
+        this.inicio = (TelaInicial) parent;
+        this.ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
         this.ctrlLancamento = ctrlLancamento;
         initComponents();
-        atualizarSaldoConsolidado();
+
+        carregarContasComboBox();
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                inicio.setVisible(true);
+                inicio.atualizarSaldoConsolidado();
+            }
+        });
     }
 
     /**
@@ -33,56 +48,83 @@ public class TelaInicial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        buttonCriarConta = new javax.swing.JToggleButton();
+        buttonVisualizarConta = new javax.swing.JToggleButton();
+        comboContas = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        campoSaldoConsolidado = new javax.swing.JTextField();
-        buttonExtratoConsolidado = new javax.swing.JToggleButton();
         jPanel4 = new javax.swing.JPanel();
         buttonContas = new javax.swing.JToggleButton();
         buttonCategorias = new javax.swing.JToggleButton();
         buttonAnalises = new javax.swing.JToggleButton();
         buttonRelatorios = new javax.swing.JToggleButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        jLabel3.setText("jLabel3");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel2.setBackground(new java.awt.Color(200, 200, 242));
+
+        buttonCriarConta.setText("Criar nova conta");
+        buttonCriarConta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonCriarConta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCriarContaActionPerformed(evt);
+            }
+        });
+
+        buttonVisualizarConta.setText("Visualizar conta");
+        buttonVisualizarConta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonVisualizarConta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonVisualizarContaActionPerformed(evt);
+            }
+        });
+
+        comboContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "----", "-----" }));
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Selecione uma conta cadastrada:");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(comboContas, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(buttonVisualizarConta, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(buttonCriarConta, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(165, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(comboContas, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buttonVisualizarConta)
+                .addGap(18, 18, 18)
+                .addComponent(buttonCriarConta)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         jPanel1.setBackground(new java.awt.Color(30, 30, 150));
         jPanel1.setToolTipText("");
 
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
-        labelTitulo.setText("Finanças Pessoais");
+        labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelTitulo.setText("Contas");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -90,64 +132,13 @@ public class TelaInicial extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(197, 197, 197)
-                .addComponent(labelTitulo)
+                .addGap(14, 14, 14)
+                .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-        );
-
-        jPanel2.setBackground(new java.awt.Color(200, 200, 242));
-
-        jLabel2.setText("SALDO CONSOLIDADO");
-
-        campoSaldoConsolidado.setEditable(false);
-        campoSaldoConsolidado.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        campoSaldoConsolidado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoSaldoConsolidado.setText("R$0,00");
-        campoSaldoConsolidado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoSaldoConsolidadoActionPerformed(evt);
-            }
-        });
-
-        buttonExtratoConsolidado.setText("Extrato Consolidado");
-        buttonExtratoConsolidado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonExtratoConsolidadoActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(67, 67, 67)
-                                .addComponent(jLabel2))
-                            .addComponent(campoSaldoConsolidado, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(buttonExtratoConsolidado, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(128, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoSaldoConsolidado, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(buttonExtratoConsolidado)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
@@ -178,9 +169,9 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(buttonAnalises, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonRelatorios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonCategorias, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                    .addComponent(buttonContas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(buttonRelatorios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonCategorias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -221,51 +212,61 @@ public class TelaInicial extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void campoSaldoConsolidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSaldoConsolidadoActionPerformed
-        
-    }//GEN-LAST:event_campoSaldoConsolidadoActionPerformed
-
-    private void buttonExtratoConsolidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExtratoConsolidadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonExtratoConsolidadoActionPerformed
+    private void buttonCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCriarContaActionPerformed
+        cadastroConta dialog = new cadastroConta(this, true, ctrlConta);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_buttonCriarContaActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
-    private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento);
+    private void buttonVisualizarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarContaActionPerformed
+        String itemSelecionado = (String) comboContas.getSelectedItem();
+
+        String codContaTxt = itemSelecionado.split(" - ")[0];
+        codContaTxt = codContaTxt.replace("'", "");
+
+        int codConta = Integer.parseInt(codContaTxt);
+
+        Conta contaSelecionada = ctrlConta.buscarConta(codConta);
+
+        TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada, inicio);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        this.setVisible(false);
+        dispose();
+    }//GEN-LAST:event_buttonVisualizarContaActionPerformed
+
+    private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
+        TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonContasActionPerformed
 
-    public void atualizarSaldoConsolidado(){
-        ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
-        
-        double saldoConsolidado = 0;
-        for(Conta conta : ctrlConta.getContas()){
-            saldoConsolidado += conta.getSaldo();
+    public void carregarContasComboBox() {
+        comboContas.removeAllItems();
+
+        for (Conta conta : ctrlConta.getContas()) {
+            String item = "'" + conta.getCodConta() + "' - '" + conta.getNome() + "'";
+
+            comboContas.addItem(item);
         }
-        
-        campoSaldoConsolidado.setText(Double.toString(saldoConsolidado));
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonAnalises;
     private javax.swing.JToggleButton buttonCategorias;
     private javax.swing.JToggleButton buttonContas;
-    private javax.swing.JToggleButton buttonExtratoConsolidado;
+    private javax.swing.JToggleButton buttonCriarConta;
     private javax.swing.JToggleButton buttonRelatorios;
-    private javax.swing.JTextField campoSaldoConsolidado;
+    private javax.swing.JToggleButton buttonVisualizarConta;
+    private javax.swing.JComboBox<String> comboContas;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelTitulo;
     // End of variables declaration//GEN-END:variables
 }
