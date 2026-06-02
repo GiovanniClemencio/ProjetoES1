@@ -23,6 +23,7 @@ public class Relatorio {
     public Relatorio() {
     }
 
+    // Filtro em cascata, cada filtro é aplicado sobre o resultado anterior
     public ArrayList<Lancamento> gerarRelatorio(ArrayList<Lancamento> lancamentosBrutos) {
 
         // Se ainda não tiver nenhum lançamento, retorna uma lista vazia
@@ -35,8 +36,8 @@ public class Relatorio {
         // 1. Filtro de Conta
         if (conta != null) {
             resultado.removeIf(lancamento
-                    -> conta.stream().noneMatch(c -> java.util.Objects.equals(c.getCodConta(), lancamento.getContaOrigem()))
-                    && conta.stream().noneMatch(c -> java.util.Objects.equals(c.getCodConta(), lancamento.getContaDestino()))
+                    -> conta.stream().noneMatch(c -> java.util.Objects.equals(c, lancamento.getContaOrigem()))
+                    && conta.stream().noneMatch(c -> java.util.Objects.equals(c, lancamento.getContaDestino()))
             );
         }
 
@@ -68,6 +69,15 @@ public class Relatorio {
         }
 
         return resultado; // Retorna lista filtrada
+    }
+
+    public Relatorio(Date inicio, Date fim, String tipo, ArrayList<Categoria> categoria, ArrayList<Cartao> cartao, ArrayList<Conta> conta) {
+        this.inicio = inicio;
+        this.fim = fim;
+        this.tipo = tipo;
+        this.categoria = categoria;
+        this.cartao = cartao;
+        this.conta = conta;
     }
 
     public Date getInicio() {

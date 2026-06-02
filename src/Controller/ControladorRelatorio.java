@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import Classes.Exportar;
 import Classes.Lancamento;
 import Classes.Relatorio;
 import java.util.ArrayList;
@@ -25,6 +26,28 @@ public class ControladorRelatorio {
         ArrayList<Lancamento> todosLancamentos = ctrlConta.extrato(); // Puxa todos os lançamentos
 
         return relatorio.gerarRelatorio(todosLancamentos); // Aplica os filtros e retorna um arraylist filtrado
+    }
+
+    public boolean exportarRelatorio(String caminhoArquivo, ArrayList<Lancamento> lancamentos, String formato) {
+        if (formato == null || !formato.equalsIgnoreCase("csv") || !formato.equalsIgnoreCase("pdf")) {
+            return false; // Formato inválido
+        }
+
+        if (formato.equalsIgnoreCase("csv")) {
+            String conteudoCSV = Exportar.exportarCSV(lancamentos);
+            try {
+                java.nio.file.Files.write(java.nio.file.Paths.get(caminhoArquivo), conteudoCSV.getBytes());
+                return true; // Exportação bem-sucedida
+            } catch (java.io.IOException e) {
+                return false; // Exportação falhou
+            }
+        }
+        
+        // TODO: Implementar exportação para PDF
+        // if(formato.equalsIgnoreCase("pdf")) {
+        //     return false;
+        // }
+        return false; // Formato não suportado
     }
 
     public ControladorConta getCtrlConta() {

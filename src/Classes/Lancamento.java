@@ -15,8 +15,8 @@ import java.util.Date;
 public class Lancamento implements Serializable {
     private int idLancamento;
     private String tipo;
-    private int contaOrigem;
-    private int contaDestino;
+    private Conta contaOrigem;
+    private Conta contaDestino;
     private Date dataMax;
     private double valor;
     private Date dataLancamento;
@@ -25,7 +25,7 @@ public class Lancamento implements Serializable {
     private ArrayList<Categoria> categorias;
     private String idCartao;
 
-    public Lancamento(int idLancamento, String tipo, int contaOrigem, int contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente, String idCartao) {
+    public Lancamento(int idLancamento, String tipo, Conta contaOrigem, Conta contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente, String idCartao) {
         this.idLancamento = idLancamento;
         this.tipo = tipo;
         this.contaOrigem = contaOrigem;
@@ -47,11 +47,11 @@ public class Lancamento implements Serializable {
         return tipo;
     }
 
-    public int getContaOrigem() {
+    public Conta getContaOrigem() {
         return contaOrigem;
     }
 
-    public int getContaDestino() {
+    public Conta getContaDestino() {
         return contaDestino;
     }
 
@@ -83,6 +83,14 @@ public class Lancamento implements Serializable {
         return idCartao;
     }
 
+    public String getNomeContaOrigem() {
+        return (contaOrigem != null) ? contaOrigem.getNome() : "";
+    }
+
+    public String getNomeContaDestino() {
+        return (contaDestino != null) ? contaDestino.getNome() : "";
+    }
+
     public void setIdLancamento(int idLancamento) {
         this.idLancamento = idLancamento;
     }
@@ -91,11 +99,11 @@ public class Lancamento implements Serializable {
         this.tipo = tipo;
     }
 
-    public void setContaOrigem(int contaOrigem) {
+    public void setContaOrigem(Conta contaOrigem) {
         this.contaOrigem = contaOrigem;
     }
 
-    public void setContaDestino(int contaDestino) {
+    public void setContaDestino(Conta contaDestino) {
         this.contaDestino = contaDestino;
     }
 
@@ -127,7 +135,7 @@ public class Lancamento implements Serializable {
         this.idCartao = idCartao;
     }
 
-    public void editarLancamento(String tipo, int contaOrigem, int contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente) {
+    public void editarLancamento(String tipo, Conta contaOrigem, Conta contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente) {
         this.tipo = tipo;
         this.contaOrigem = contaOrigem;
         this.contaDestino = contaDestino;

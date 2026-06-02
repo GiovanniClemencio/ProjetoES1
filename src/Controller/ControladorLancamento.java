@@ -21,7 +21,7 @@ public class ControladorLancamento {
     }
 
     public void criarLancamento(Lancamento lancamento) {
-        Conta conta = ctrlCartao.ctrlConta.buscarConta(lancamento.getContaOrigem());
+        Conta conta = lancamento.getContaOrigem();
         if (conta != null) {
             conta.getLancamentos().add(lancamento);
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
@@ -32,7 +32,7 @@ public class ControladorLancamento {
         Lancamento lancamentoParaRemover = buscarLancamento(id);
         if (lancamentoParaRemover != null) {
 
-            ctrlCartao.ctrlConta.buscarConta(lancamentoParaRemover.getContaOrigem()).removerLancamento(lancamentoParaRemover);
+            lancamentoParaRemover.getContaOrigem().removerLancamento(lancamentoParaRemover);
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
 
             return true; // Sucesso na remoção
@@ -51,7 +51,7 @@ public class ControladorLancamento {
         return null; // Não encontrou o lançamento
     }
 
-    public void editarLancamento(int idLancamento, String tipo, int contaOrigem, int contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente) {
+    public void editarLancamento(int idLancamento, String tipo, Conta contaOrigem, Conta contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente) {
         Lancamento lancamento = buscarLancamento(idLancamento);
         if (lancamento != null) {
             lancamento.editarLancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente);
