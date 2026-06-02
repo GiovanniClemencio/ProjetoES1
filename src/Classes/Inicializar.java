@@ -15,8 +15,6 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class Inicializar {
-    
-    private static Configuracao config = new Configuracao();
 
     // Método genérico para carregar uma lista de objetos de um arquivo
     @SuppressWarnings("unchecked")

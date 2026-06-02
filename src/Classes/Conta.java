@@ -87,17 +87,11 @@ public class Conta implements Serializable {
         this.saldo = saldo;
     }
 
-    public void extrato(){
+    public ArrayList<Lancamento> extrato(){
         if (lancamentos.isEmpty()) {
-            System.out.println("Não há lançamentos para esta conta.");
-            return;
+            return null;
         }
-        System.out.println("Conta: " + nome);
-        System.out.println("Saldo: " + saldo);
-        System.out.println("Lançamentos:");
-        for (int i = 0; i < lancamentos.size(); i++) {
-            System.out.println(lancamentos.get(i).toString());
-        }
+        return lancamentos;
     }
 
     @Override

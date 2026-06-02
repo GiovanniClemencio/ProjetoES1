@@ -26,6 +26,10 @@ public class Configuracao
     public static Configuracao getInstancia() {
         return instancia;
     }
+
+    public static void setInstancia(Configuracao instancia) {
+        Configuracao.instancia = instancia;
+    }
     
     @Override
     public String toString()

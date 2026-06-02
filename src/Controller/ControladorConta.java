@@ -8,6 +8,7 @@ import Classes.Configuracao;
 import Classes.Conta;
 import Classes.Fechar;
 import Classes.Inicializar;
+import Classes.Lancamento;
 import Classes.Util;
 import java.util.ArrayList;
 
@@ -64,10 +65,12 @@ public class ControladorConta
         }
     }
 
-    public void extrato(){
+    public ArrayList<Lancamento> extrato(){
+        ArrayList<Lancamento> todosLancamentos = new ArrayList<>();
         for (Conta conta : contas) {
-            conta.extrato();
+            todosLancamentos.addAll(conta.extrato());
         }
+        return todosLancamentos;
     }
 
     public Configuracao getCaminhosArquivo() {
@@ -78,4 +81,12 @@ public class ControladorConta
         return contas;
     }
     
+    public void setCaminhosArquivo(Configuracao caminhosArquivo) {
+        this.caminhosArquivo = caminhosArquivo;
+    }
+
+    public void setContas(ArrayList<Conta> contas) {
+        this.contas = contas;
+    }
+
 }

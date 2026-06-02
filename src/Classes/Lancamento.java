@@ -23,8 +23,9 @@ public class Lancamento implements Serializable {
     private String descricao;
     private Boolean pendente;
     private ArrayList<Categoria> categorias;
+    private String idCartao;
 
-    public Lancamento(int idLancamento, String tipo, int contaOrigem, int contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente) {
+    public Lancamento(int idLancamento, String tipo, int contaOrigem, int contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente, String idCartao) {
         this.idLancamento = idLancamento;
         this.tipo = tipo;
         this.contaOrigem = contaOrigem;
@@ -35,6 +36,7 @@ public class Lancamento implements Serializable {
         this.descricao = descricao;
         this.pendente = pendente;
         this.categorias = new ArrayList<>();
+        this.idCartao = idCartao;
     }
 
     public int getIdLancamento() {
@@ -77,6 +79,10 @@ public class Lancamento implements Serializable {
         return categorias;
     }
 
+    public String getIdCartao() {
+        return idCartao;
+    }
+
     public void setIdLancamento(int idLancamento) {
         this.idLancamento = idLancamento;
     }
@@ -115,6 +121,10 @@ public class Lancamento implements Serializable {
 
     public void setCategorias(ArrayList<Categoria> categorias) {
         this.categorias = categorias;
+    }
+
+    public void setIdCartao(String idCartao) {
+        this.idCartao = idCartao;
     }
 
     public void editarLancamento(String tipo, int contaOrigem, int contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente) {
