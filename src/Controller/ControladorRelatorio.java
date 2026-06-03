@@ -4,10 +4,14 @@
  */
 package Controller;
 
+import Classes.Cartao;
+import Classes.Categoria;
+import Classes.Conta;
 import Classes.Exportar;
 import Classes.Lancamento;
 import Classes.Relatorio;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -21,7 +25,9 @@ public class ControladorRelatorio {
         this.ctrlConta = ctrlConta;
     }
 
-    public ArrayList<Lancamento> gerarRelatorio(Relatorio relatorio) {
+    public ArrayList<Lancamento> gerarRelatorio(Date inicio, Date fim, String tipo, ArrayList<Categoria> categoria, ArrayList<Cartao> cartao, ArrayList<Conta> conta) {
+
+        Relatorio relatorio = new Relatorio(inicio, fim, tipo, categoria, cartao, conta);
 
         ArrayList<Lancamento> todosLancamentos = ctrlConta.extrato(); // Puxa todos os lançamentos
 

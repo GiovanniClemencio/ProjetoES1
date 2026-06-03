@@ -8,6 +8,7 @@ import Classes.Categoria;
 import Classes.Configuracao;
 import Classes.Fechar;
 import Classes.Inicializar;
+import Classes.Lancamento;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +17,15 @@ import java.util.ArrayList;
  */
 public class ControladorCategoria {
 
+    protected final ControladorLancamento ctrlLancamento;
+    protected final ControladorRelatorio ctrlRelatorio;
+
+
+    public ControladorCategoria(ControladorLancamento controladorLancamento, ControladorRelatorio controladorRelatorio) {
+        this.ctrlLancamento = controladorLancamento;
+        this.ctrlRelatorio = controladorRelatorio;
+    }
+
     private final Configuracao caminhosArquivo = Configuracao.getInstancia();
     private ArrayList<Categoria> categorias = Inicializar.carregarObjetos(caminhosArquivo.getArquivoCategoria());
 
@@ -23,6 +33,10 @@ public class ControladorCategoria {
 
         if (categoriaExistente(nome)) {
             return; // Categoria com o mesmo nome já existe, não cria uma nova
+        }
+
+        if(nome.isBlank()) {
+            return; // Não permite criar categorias com nome em branco
         }
 
         if (categorias.isEmpty() && !padrao) {
@@ -40,12 +54,24 @@ public class ControladorCategoria {
     }
 
     public boolean removerCategoria(int id) {
-        // Lançamentos associados a essa categoria devem ser tratados no controlador de lançamentos, para evitar inconsistências
-
         Categoria categoriaParaRemover = buscarCategoria(id);
+
         if (categoriaParaRemover != null) {
             if (categoriaParaRemover.getPadrao()) {
                 return false; // Não permite remover a categoria padrão
+            }
+
+            ArrayList<Categoria> categoriasParaRemover = new ArrayList<>();
+            categoriasParaRemover.add(categoriaParaRemover);
+            ArrayList<Lancamento> lancamentos = ctrlRelatorio.gerarRelatorio(null, null, null, categoriasParaRemover, null, null); 
+
+            if(lancamentos != null) {
+                for (Lancamento lancamento : lancamentos) {
+                    ctrlLancamento.removeCategoriaLancamento(lancamento, categoriaParaRemover); // Remove a categoria da lista de categorias do lançamento
+                    if(lancamento.getCategorias().isEmpty()) {
+                        ctrlLancamento.addCategoriaLancamento(lancamento, getCategoriaPadrao()); // Se o lançamento ficar sem categorias, atribui a padrão
+                    }
+                }
             }
 
             categorias.remove(categoriaParaRemover);
@@ -74,6 +100,11 @@ public class ControladorCategoria {
     }
 
     public boolean editarCategoria(int idCategoria, String novoNome) {
+
+        if(novoNome.isBlank()) {
+            return false; // Não permite nome em branco
+        }
+
         Categoria categoria = buscarCategoria(idCategoria);
         if (categoria != null) {
             categoria.setNome(novoNome);
@@ -85,6 +116,10 @@ public class ControladorCategoria {
 
     private boolean categoriaExistente(String nome) {
         return categorias.stream().anyMatch(c -> c.getNome().equalsIgnoreCase(nome));
+    }
+
+    public Categoria getCategoriaPadrao() {
+        return categorias.stream().filter(Categoria::getPadrao).findFirst().orElse(null);
     }
 
     public ArrayList<Categoria> getCategorias() {
