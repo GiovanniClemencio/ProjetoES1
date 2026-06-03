@@ -4,18 +4,16 @@
  */
 package GUI.formularios;
 
-import Controller.ControladorLancamento;
-
 /**
  *
  * @author Portu
  */
-public class cadastroLancamento extends javax.swing.JDialog {
+public class editarLancamento extends javax.swing.JDialog {
 
     /**
-     * Creates new form cadastroLancamento
+     * Creates new form editarLancamento
      */
-    public cadastroLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento) {
+    public editarLancamento(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -29,8 +27,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        labelTitulo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         buttonCadastrarLancamento = new javax.swing.JToggleButton();
         buttonLimparCampos = new javax.swing.JToggleButton();
@@ -63,30 +59,10 @@ public class cadastroLancamento extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         comboCodConta = new javax.swing.JComboBox<>();
         comboIdCartao = new javax.swing.JComboBox<>();
+        jPanel1 = new javax.swing.JPanel();
+        labelTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(30, 30, 150));
-
-        labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
-        labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelTitulo.setText("Cadastro de lançamento");
-        labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-        );
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
@@ -351,6 +327,28 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 .addGap(23, 23, 23))
         );
 
+        jPanel1.setBackground(new java.awt.Color(30, 30, 150));
+
+        labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
+        labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelTitulo.setText("Edição de lançamento");
+        labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -367,7 +365,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonCadastrarLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarLancamentoActionPerformed
@@ -408,7 +405,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonCadastrarLancamentoActionPerformed
 
     private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
-    /*    for (java.awt.Component c : this.getContentPane().getComponents()) {
+        /*    for (java.awt.Component c : this.getContentPane().getComponents()) {
             if (c instanceof javax.swing.JTextField) {
                 if (c != campoCodConta) {
                     ((javax.swing.JTextField) c).setText("");
@@ -445,7 +442,47 @@ public class cadastroLancamento extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoDataMaxActionPerformed
 
-    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(editarLancamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(editarLancamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(editarLancamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(editarLancamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                editarLancamento dialog = new editarLancamento(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonCadastrarLancamento;

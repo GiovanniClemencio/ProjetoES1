@@ -16,12 +16,14 @@ public class Categoria implements Serializable {
     private Boolean padrao;
     private int qtdUsos;
     private ArrayList<Lancamento> usos;
+    private int idCategoria;
 
-    public Categoria(String nome, Boolean padrao, int qtdUsos) {
+    public Categoria(String nome, Boolean padrao, int qtdUsos, int idCategoria) {
         this.nome = nome;
         this.padrao = padrao;
         this.qtdUsos = qtdUsos;
         this.usos = new ArrayList<>();
+        this.idCategoria = idCategoria;
     }
 
     public String getNome() {
@@ -54,6 +56,14 @@ public class Categoria implements Serializable {
 
     public void setUsos(ArrayList<Lancamento> usos) {
         this.usos = usos;
+    }
+
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
     }
     
     @Override

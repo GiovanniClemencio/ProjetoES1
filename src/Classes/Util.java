@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Util implements Serializable {
     protected static int proxCodConta = 0;
+    protected static int proxIdCategoria = 0;
     
     public void setProxCodConta(int proxCodConta) {
         this.proxCodConta = proxCodConta;
@@ -35,6 +36,31 @@ public class Util implements Serializable {
             proxCodConta = 0;
         }else{
             proxCodConta = maior + 1;
+        }
+        
+    }
+    
+    public void setProxIdCategoria(int proxIdCategoria) {
+        this.proxIdCategoria = proxIdCategoria;
+    }
+
+    public static int getProxIdCategoria() {
+        int idAtual = proxIdCategoria;
+        proxIdCategoria++;
+        return idAtual;
+    }
+    
+    public static void atualizarProxIdCategoria(ArrayList<Categoria> categorias) {
+        int maior = -1;
+        for (Categoria categoria : categorias) {
+            if (categoria.getIdCategoria() > maior) {
+                maior = categoria.getIdCategoria();
+            }
+        }
+        if(maior <= -1){
+            proxIdCategoria = 0;
+        }else{
+            proxIdCategoria = maior + 1;
         }
         
     }
