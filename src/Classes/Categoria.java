@@ -5,7 +5,6 @@
 package Classes;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  *
@@ -14,15 +13,11 @@ import java.util.ArrayList;
 public class Categoria implements Serializable {
     private String nome;
     private Boolean padrao;
-    private int qtdUsos;
-    private ArrayList<Lancamento> usos;
     private int idCategoria;
 
-    public Categoria(String nome, Boolean padrao, int qtdUsos, int idCategoria) {
+    public Categoria(String nome, Boolean padrao,int idCategoria) {
         this.nome = nome;
         this.padrao = padrao;
-        this.qtdUsos = qtdUsos;
-        this.usos = new ArrayList<>();
         this.idCategoria = idCategoria;
     }
 
@@ -34,28 +29,12 @@ public class Categoria implements Serializable {
         return padrao;
     }
 
-    public int getQtdUsos() {
-        return qtdUsos;
-    }
-
-    public ArrayList<Lancamento> getUsos() {
-        return usos;
-    }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
 
     public void setPadrao(Boolean padrao) {
         this.padrao = padrao;
-    }
-
-    public void setQtdUsos(int qtdUsos) {
-        this.qtdUsos = qtdUsos;
-    }
-
-    public void setUsos(ArrayList<Lancamento> usos) {
-        this.usos = usos;
     }
 
     public int getIdCategoria() {
@@ -71,8 +50,6 @@ public class Categoria implements Serializable {
         return new StringBuffer("Categoria {")
                 .append("Nome: ").append(nome)
                 .append(", Padrao: ").append(padrao)
-                .append(", Quantidade de usos: ").append(qtdUsos)
-                .append(", Usos: ").append(usos)
                 .append("}").toString();
     }
 }
