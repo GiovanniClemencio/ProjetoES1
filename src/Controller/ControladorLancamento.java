@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import Classes.Categoria;
 import Classes.Conta;
 import Classes.Fechar;
 import Classes.Lancamento;
@@ -55,6 +56,20 @@ public class ControladorLancamento {
         Lancamento lancamento = buscarLancamento(idLancamento);
         if (lancamento != null) {
             lancamento.editarLancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente);
+            Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
+        }
+    }
+
+    public void addCategoriaLancamento(Lancamento lancamento, Categoria categoria) {
+        if (lancamento != null) {
+            lancamento.getCategorias().add(categoria);
+            Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
+        }
+    }
+
+    public void removeCategoriaLancamento(Lancamento lancamento, Categoria categoria) {
+        if (lancamento != null) {
+            lancamento.getCategorias().remove(categoria);
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
         }
     }
