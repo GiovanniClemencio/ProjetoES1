@@ -4,7 +4,13 @@
  */
 package GUI.formularios;
 
+import Classes.Util;
+import Controller.ControladorCategoria;
+import Controller.ControladorConta;
 import Controller.ControladorLancamento;
+import GUI.telas.TelaContasGeral;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -12,12 +18,18 @@ import Controller.ControladorLancamento;
  */
 public class cadastroLancamento extends javax.swing.JDialog {
 
-    /**
-     * Creates new form cadastroLancamento
-     */
-    public cadastroLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento) {
+    private final ControladorLancamento ctrlLancamento;
+
+    /*private final TelaContasGeral parent;*/
+
+    public cadastroLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria) {
         super(parent, modal);
+        this.ctrlLancamento = ctrlLancamento;
         initComponents();
+
+        configurarValidacaoCampos();
+        campoIdLancamento.setText(String.valueOf(Util.getProxIdLancamento()));
+        buttonCadastrarLancamento.setEnabled(false);
     }
 
     /**
@@ -29,6 +41,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -118,6 +131,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         jLabel1.setText("Tipo de lançamento:");
 
+        buttonGroup1.add(radioReceita);
         radioReceita.setText("Receita");
         radioReceita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,8 +139,10 @@ public class cadastroLancamento extends javax.swing.JDialog {
             }
         });
 
+        buttonGroup1.add(radioDespesa);
         radioDespesa.setText("Despesa");
 
+        buttonGroup1.add(radioTransferencia);
         radioTransferencia.setText("Transferência");
 
         checkboxRecorrente.setText("Recorrente");
@@ -408,21 +424,21 @@ public class cadastroLancamento extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonCadastrarLancamentoActionPerformed
 
     private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
-    /*    for (java.awt.Component c : this.getContentPane().getComponents()) {
+        for (java.awt.Component c : this.getContentPane().getComponents()) {
             if (c instanceof javax.swing.JTextField) {
-                if (c != campoCodConta) {
+                if (c != campoIdLancamento) {
                     ((javax.swing.JTextField) c).setText("");
                 }
             } else if (c instanceof javax.swing.JPanel) {
                 for (java.awt.Component sub : ((javax.swing.JPanel) c).getComponents()) {
                     if (sub instanceof javax.swing.JTextField) {
-                        if (sub != campoCodConta) {
+                        if (sub != campoIdLancamento) {
                             ((javax.swing.JTextField) sub).setText("");
                         }
                     }
                 }
             }
-        }*/
+        }
     }//GEN-LAST:event_buttonLimparCamposActionPerformed
 
     private void campoValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoValorActionPerformed
@@ -445,10 +461,93 @@ public class cadastroLancamento extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoDataMaxActionPerformed
 
-    
+    private void atualizarEstadoBotao() {
+        boolean tipoSelecionado = radioDespesa.isSelected()
+                || radioReceita.isSelected()
+                || radioTransferencia.isSelected();
+
+        boolean camposBasePreenchidos
+                = !campoIdLancamento.getText().trim().isEmpty()
+                && !campoDataLancamento.getText().trim().isEmpty()
+                && !campoValor.getText().trim().isEmpty()
+                && !textareaDescricao.getText().trim().isEmpty()
+                && listCategorias.getSelectedIndices().length > 0
+                && comboValido(comboCodConta)
+                && comboValido(comboIdCartao);
+
+        boolean transferenciaPreenchida = true;
+        if (radioTransferencia.isSelected()) {
+            transferenciaPreenchida
+                    = comboValido(comboContaOrigem)
+                    && comboValido(comboContaDestino);
+        }
+
+        boolean dataMaxPreenchida = true;
+        if (checkboxRecorrente.isSelected()) {
+            dataMaxPreenchida = !campoDataMax.getText().trim().isEmpty();
+        }
+
+        boolean habilitarBotao = tipoSelecionado
+                && camposBasePreenchidos
+                && transferenciaPreenchida
+                && dataMaxPreenchida;
+
+        buttonCadastrarLancamento.setEnabled(habilitarBotao);
+    }
+
+    private boolean comboValido(javax.swing.JComboBox<String> combo) {
+        Object selecionado = combo.getSelectedItem();
+        return selecionado != null && !selecionado.toString().trim().isEmpty();
+    }
+
+    private void configurarValidacaoCampos() {
+        DocumentListener listener = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                atualizarEstadoBotao();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                atualizarEstadoBotao();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                atualizarEstadoBotao();
+            }
+        };
+
+        campoIdLancamento.getDocument().addDocumentListener(listener);
+        campoDataLancamento.getDocument().addDocumentListener(listener);
+        campoDataMax.getDocument().addDocumentListener(listener);
+        campoValor.getDocument().addDocumentListener(listener);
+        textareaDescricao.getDocument().addDocumentListener(listener);
+
+        comboCodConta.addActionListener(e -> atualizarEstadoBotao());
+        comboContaDestino.addActionListener(e -> atualizarEstadoBotao());
+        comboContaOrigem.addActionListener(e -> atualizarEstadoBotao());
+        comboIdCartao.addActionListener(e -> atualizarEstadoBotao());
+
+        listCategorias.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                atualizarEstadoBotao();
+            }
+        });
+
+        radioDespesa.addActionListener(e -> atualizarEstadoBotao());
+        radioReceita.addActionListener(e -> atualizarEstadoBotao());
+        radioTransferencia.addActionListener(e -> atualizarEstadoBotao());
+
+        checkboxRecorrente.addActionListener(e -> atualizarEstadoBotao());
+
+        atualizarEstadoBotao();
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonCadastrarLancamento;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JToggleButton buttonLimparCampos;
     private javax.swing.JFormattedTextField campoDataLancamento;
     private javax.swing.JFormattedTextField campoDataMax;

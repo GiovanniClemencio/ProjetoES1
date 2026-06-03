@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Util implements Serializable {
     protected static int proxCodConta = 0;
     protected static int proxIdCategoria = 0;
+    protected static int proxIdLancamento = 0;
     
     public void setProxCodConta(int proxCodConta) {
         this.proxCodConta = proxCodConta;
@@ -65,10 +66,37 @@ public class Util implements Serializable {
         
     }
     
+    public void setProxIdLancamento(int proxIdLancamento) {
+        this.proxIdLancamento = proxIdLancamento;
+    }
+
+    public static int getProxIdLancamento() {
+        int idAtual = proxIdLancamento;
+        proxIdLancamento++;
+        return idAtual;
+    }
+    
+    public static void atualizarProxIdLancamento(ArrayList<Lancamento> lancamentos) {
+        int maior = -1;
+        for (Lancamento lancamento : lancamentos) {
+            if (lancamento.getIdLancamento() > maior) {
+                maior = lancamento.getIdLancamento();
+            }
+        }
+        if(maior <= -1){
+            proxIdLancamento = 0;
+        }else{
+            proxIdLancamento = maior + 1;
+        }
+        
+    }
+    
     @Override
     public String toString() {
         return new StringBuffer("Constantes {")
                 .append("Proximo codConta: ").append(proxCodConta)
+                .append("Proximo idCategoria: ").append(proxIdCategoria)
+                .append("Proximo idLancamento: ").append(proxIdLancamento)
                 .append("}").toString();
     }
 }

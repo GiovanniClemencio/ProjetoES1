@@ -9,6 +9,7 @@ import Classes.Configuracao;
 import Classes.Fechar;
 import Classes.Inicializar;
 import Classes.Lancamento;
+import Classes.Util;
 import java.util.ArrayList;
 
 /**
@@ -19,15 +20,14 @@ public class ControladorCategoria {
 
     protected final ControladorLancamento ctrlLancamento;
     protected final ControladorRelatorio ctrlRelatorio;
-
+    private final Configuracao caminhosArquivo = Configuracao.getInstancia();
+    private ArrayList<Categoria> categorias = Inicializar.carregarObjetos(caminhosArquivo.getArquivoCategoria());
 
     public ControladorCategoria(ControladorLancamento controladorLancamento, ControladorRelatorio controladorRelatorio) {
+        Util.atualizarProxIdCategoria(categorias);
         this.ctrlLancamento = controladorLancamento;
         this.ctrlRelatorio = controladorRelatorio;
     }
-
-    private final Configuracao caminhosArquivo = Configuracao.getInstancia();
-    private ArrayList<Categoria> categorias = Inicializar.carregarObjetos(caminhosArquivo.getArquivoCategoria());
 
     public void criarCategoria(String nome, Boolean padrao, int idCategoria) {
 

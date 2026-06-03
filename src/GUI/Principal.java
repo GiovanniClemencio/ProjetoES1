@@ -6,8 +6,10 @@ package GUI;
 
 import GUI.telas.TelaInicial;
 import Controller.ControladorCartao;
+import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
+import Controller.ControladorRelatorio;
 
 /**
  *
@@ -22,6 +24,8 @@ public class Principal {
             ControladorConta ctrlConta = new ControladorConta();
             ControladorCartao ctrlCartao = new ControladorCartao(ctrlConta);
             ControladorLancamento ctrlLancamento = new ControladorLancamento(ctrlCartao);
+            ControladorRelatorio ctrlRelatorio = new ControladorRelatorio(ctrlConta);
+            ControladorCategoria ctrlCategoria = new ControladorCategoria(ctrlLancamento, ctrlRelatorio);
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
