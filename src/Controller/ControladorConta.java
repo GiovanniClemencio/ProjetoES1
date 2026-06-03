@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class ControladorConta
 {
-    private Configuracao caminhosArquivo = Configuracao.getInstancia();
+    private final Configuracao caminhosArquivo = Configuracao.getInstancia();
     private ArrayList<Conta> contas = Inicializar.carregarObjetos(caminhosArquivo.getArquivoConta());
     
     public ControladorConta() {
@@ -78,15 +78,7 @@ public class ControladorConta
     }
 
     public ArrayList<Conta> getContas() {
-        return contas;
-    }
-    
-    public void setCaminhosArquivo(Configuracao caminhosArquivo) {
-        this.caminhosArquivo = caminhosArquivo;
-    }
-
-    public void setContas(ArrayList<Conta> contas) {
-        this.contas = contas;
+        return new ArrayList<>(this.contas); // Retorna uma cópia da lista para evitar modificações sem passar pelo controlador
     }
 
 }

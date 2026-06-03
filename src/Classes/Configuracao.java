@@ -12,16 +12,19 @@ public class Configuracao
 {
     private static Configuracao instancia = new Configuracao();
     private String arquivoConta;
+    private String arquivoCategoria;
 
     public Configuracao()
     {
         this.arquivoConta = "./armazenamento/arquivoConta.dat";
+        this.arquivoCategoria = "./armazenamento/arquivoCategoria.dat";
     }
 
     public String getArquivoConta() { return arquivoConta; }
     public void setArquivoConta(String arquivoConta) { this.arquivoConta = arquivoConta; }
 
-
+    public String getArquivoCategoria() { return arquivoCategoria; }
+    public void setArquivoCategoria(String arquivoCategoria) { this.arquivoCategoria = arquivoCategoria; }
 
     public static Configuracao getInstancia() {
         return instancia;
@@ -37,6 +40,8 @@ public class Configuracao
         return new StringBuffer("\nConfiguração")
                 .append("\nContas")
                 .append(this.arquivoConta)
+                .append("\nCategorias")
+                .append(this.arquivoCategoria)
                 .toString();
     }
 }
