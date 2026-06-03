@@ -19,14 +19,35 @@ public class ControladorCategoria {
     private final Configuracao caminhosArquivo = Configuracao.getInstancia();
     private ArrayList<Categoria> categorias = Inicializar.carregarObjetos(caminhosArquivo.getArquivoCategoria());
 
-    public void criarCategoria(Categoria categoria) {
+    public void criarCategoria(String nome, Boolean padrao, int idCategoria) {
+
+        if (categoriaExistente(nome)) {
+            return; // Categoria com o mesmo nome já existe, não cria uma nova
+        }
+
+        if (categorias.isEmpty() && !padrao) {
+            padrao = true; // Se for a primeira categoria criada, ela deve ser a padrão
+        } else if (padrao) {
+            // Se a nova categoria for marcada como padrão, desmarca a categoria que atualmente é padrão
+            for (Categoria c : categorias) {
+                c.setPadrao(false);
+            }
+        }
+
+        Categoria categoria = new Categoria(nome, padrao, idCategoria);
         categorias.add(categoria);
         Fechar.salvarObjetos(categorias, caminhosArquivo.getArquivoCategoria());
     }
 
     public boolean removerCategoria(int id) {
+        // Lançamentos associados a essa categoria devem ser tratados no controlador de lançamentos, para evitar inconsistências
+
         Categoria categoriaParaRemover = buscarCategoria(id);
         if (categoriaParaRemover != null) {
+            if (categoriaParaRemover.getPadrao()) {
+                return false; // Não permite remover a categoria padrão
+            }
+
             categorias.remove(categoriaParaRemover);
             Fechar.salvarObjetos(categorias, caminhosArquivo.getArquivoCategoria());
             return true; // Sucesso na remoção
@@ -60,6 +81,10 @@ public class ControladorCategoria {
             return true; // Sucesso na edição
         }
         return false; // Falha na edição
+    }
+
+    private boolean categoriaExistente(String nome) {
+        return categorias.stream().anyMatch(c -> c.getNome().equalsIgnoreCase(nome));
     }
 
     public ArrayList<Categoria> getCategorias() {
