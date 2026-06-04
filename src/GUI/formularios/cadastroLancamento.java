@@ -8,7 +8,6 @@ import Classes.Cartao;
 import Classes.Categoria;
 import Classes.Conta;
 import Classes.Lancamento;
-import Classes.Util;
 import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
@@ -35,7 +34,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
         initComponents();
 
         configurarValidacaoCampos();
-        campoIdLancamento.setText(String.valueOf(Util.getProxIdLancamento()));
+
         carregarContasComboBox(ctrlLancamento.getCtrlCartao().getCtrlConta());
         carregarCartoesComboBox(ctrlLancamento.getCtrlCartao());
         carregarCategoriasNaLista(ctrlCategoria);
@@ -65,8 +64,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
         radioDespesa = new javax.swing.JRadioButton();
         radioTransferencia = new javax.swing.JRadioButton();
         checkboxRecorrente = new javax.swing.JCheckBox();
-        campoIdLancamento = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         comboContaOrigem = new javax.swing.JComboBox<>();
@@ -153,16 +150,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         checkboxRecorrente.setText("Recorrente");
 
-        campoIdLancamento.setEditable(false);
-        campoIdLancamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoIdLancamentoActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Identificador do lançamento:");
-
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Conta origem:");
 
@@ -232,9 +219,9 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 .addComponent(buttonCadastrarLancamento)
                 .addGap(109, 109, 109))
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(radioReceita, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,32 +232,25 @@ public class cadastroLancamento extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(checkboxRecorrente))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoIdLancamento)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                            .addComponent(comboContaOrigem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addComponent(comboContaDestino, 0, 180, Short.MAX_VALUE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboContaOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(90, 90, 90)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(campoDataLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(campoDataMax))
-                        .addGap(18, 18, 18)
-                        .addComponent(checkboxPermanente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboContaDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(17, 17, 17))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoDataLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoDataMax))
+                .addGap(18, 18, 18)
+                .addComponent(checkboxPermanente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(jSeparator1)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -309,18 +289,22 @@ public class cadastroLancamento extends javax.swing.JDialog {
                     .addComponent(radioDespesa)
                     .addComponent(radioTransferencia)
                     .addComponent(checkboxRecorrente))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(campoIdLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboContaOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboContaDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboContaDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(34, 34, 34))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(comboContaOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel9)
@@ -399,9 +383,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 dataMax = (Date) campoDataMax.getValue();
             }
 
-            String idLancamento = campoIdLancamento.getText().trim();
-            int idLancamentoInt = Integer.parseInt(idLancamento);
-
             double valor = parseValorBR(campoValor.getText().trim());
             String descricao = textareaDescricao.getText().trim();
 
@@ -417,15 +398,13 @@ public class cadastroLancamento extends javax.swing.JDialog {
             String codConta = extrairCodigo(comboContaOrigem.getSelectedItem().toString());
             String idCartao = extrairCodigo(comboIdCartao.getSelectedItem().toString());
 
-            int codContaOInt = Integer.parseInt(codConta);
-            Conta contaOrigem = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(codContaOInt);
+            Conta contaOrigem = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(codConta);
 
             Conta contaDestino = null;
             if (radioTransferencia.isSelected()) {
                 String contaD = extrairCodigo(comboContaDestino.getSelectedItem().toString());
 
-                int codContaDInt = Integer.parseInt(contaD);
-                contaDestino = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(codContaDInt);
+                contaDestino = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(contaD);
             }
 
             java.util.List<String> categoriasSelecionadas = listCategorias.getSelectedValuesList();
@@ -438,9 +417,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 return;
             }
 
-            Lancamento lancamento = new Lancamento(idLancamentoInt, tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
-
-            ctrlLancamento.criarLancamento(lancamento);
+            ctrlLancamento.criarLancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
 
             JOptionPane.showMessageDialog(this,
                     "Lançamento cadastrado com sucesso!",
@@ -465,15 +442,15 @@ public class cadastroLancamento extends javax.swing.JDialog {
     private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
         for (java.awt.Component c : this.getContentPane().getComponents()) {
             if (c instanceof javax.swing.JTextField) {
-                if (c != campoIdLancamento) {
-                    ((javax.swing.JTextField) c).setText("");
-                }
+
+                ((javax.swing.JTextField) c).setText("");
+
             } else if (c instanceof javax.swing.JPanel) {
                 for (java.awt.Component sub : ((javax.swing.JPanel) c).getComponents()) {
                     if (sub instanceof javax.swing.JTextField) {
-                        if (sub != campoIdLancamento) {
-                            ((javax.swing.JTextField) sub).setText("");
-                        }
+
+                        ((javax.swing.JTextField) sub).setText("");
+
                     }
                 }
             }
@@ -487,10 +464,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
     private void radioReceitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioReceitaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_radioReceitaActionPerformed
-
-    private void campoIdLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoIdLancamentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoIdLancamentoActionPerformed
 
     private void campoDataLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDataLancamentoActionPerformed
         // TODO add your handling code here:
@@ -551,8 +524,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 || radioTransferencia.isSelected();
 
         boolean camposBasePreenchidos
-                = !campoIdLancamento.getText().trim().isEmpty()
-                && !campoDataLancamento.getText().trim().isEmpty()
+                = !campoDataLancamento.getText().trim().isEmpty()
                 && !campoValor.getText().trim().isEmpty()
                 && !textareaDescricao.getText().trim().isEmpty()
                 && !listCategorias.isSelectionEmpty()
@@ -573,7 +545,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         buttonCadastrarLancamento.setEnabled(
                 tipoSelecionado
-                && camposBasePreenchidos
                 && transferenciaPreenchida
                 && recorrenciaValida
         );
@@ -585,8 +556,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 || radioTransferencia.isSelected();
 
         boolean basePreenchida
-                = !campoIdLancamento.getText().trim().isEmpty()
-                && !campoDataLancamento.getText().trim().isEmpty()
+                =  !campoDataLancamento.getText().trim().isEmpty()
                 && !campoValor.getText().trim().isEmpty()
                 && !textareaDescricao.getText().trim().isEmpty()
                 && !listCategorias.isSelectionEmpty()
@@ -652,7 +622,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
             }
         };
 
-        campoIdLancamento.getDocument().addDocumentListener(listener);
         campoDataLancamento.getDocument().addDocumentListener(listener);
         campoDataMax.getDocument().addDocumentListener(listener);
         campoValor.getDocument().addDocumentListener(listener);
@@ -697,7 +666,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
     private javax.swing.JToggleButton buttonLimparCampos;
     private javax.swing.JFormattedTextField campoDataLancamento;
     private javax.swing.JFormattedTextField campoDataMax;
-    private javax.swing.JTextField campoIdLancamento;
     private javax.swing.JTextField campoValor;
     private javax.swing.JCheckBox checkboxPermanente;
     private javax.swing.JCheckBox checkboxRecorrente;
@@ -709,7 +677,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

@@ -23,7 +23,11 @@ public class ControladorCartao {
     }
 
 
-    public void criarCartao(int codConta, Cartao cartao) {
+    public void criarCartao(String codConta, String idCartao, String nome, double limite) {
+        if(buscarCartao(idCartao) != null) {
+            return; // Cartão com o mesmo ID já existe, não criar
+        }
+        Cartao cartao = new Cartao(codConta, idCartao, nome, limite);
         ctrlConta.buscarConta(codConta).getCartoes().add(cartao);
         Fechar.salvarObjetos(ctrlConta.getContas(), ctrlConta.getCaminhosArquivo().getArquivoConta());
     }

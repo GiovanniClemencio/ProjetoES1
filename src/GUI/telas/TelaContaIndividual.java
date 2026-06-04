@@ -316,7 +316,7 @@ public class TelaContaIndividual extends javax.swing.JFrame {
 
     private void buttonExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirContaActionPerformed
         String confirmacao = "Confirme a exclusao da conta com os seguintes dados: \n\n"
-                + "Codigo da conta: " + Integer.toString(atual.getCodConta()) + "\n"
+                + "Codigo da conta: " + atual.getCodConta() + "\n"
                 + "Nome da conta: " + atual.getNome() + "\n"
                 + "Saldo: " + Double.toString(atual.getSaldo());
 

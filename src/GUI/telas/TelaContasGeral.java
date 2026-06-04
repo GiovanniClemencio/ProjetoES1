@@ -228,9 +228,7 @@ public class TelaContasGeral extends javax.swing.JFrame {
         String codContaTxt = itemSelecionado.split(" - ")[0];
         codContaTxt = codContaTxt.replace("'", "");
 
-        int codConta = Integer.parseInt(codContaTxt);
-
-        Conta contaSelecionada = ctrlConta.buscarConta(codConta);
+        Conta contaSelecionada = ctrlConta.buscarConta(codContaTxt);
 
         TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada, inicio);
         dialog.setLocationRelativeTo(this);

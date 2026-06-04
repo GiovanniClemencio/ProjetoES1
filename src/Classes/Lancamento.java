@@ -7,13 +7,14 @@ package Classes;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
  * @author Portu
  */
 public class Lancamento implements Serializable {
-    private int idLancamento;
+    private String idLancamento;
     private String tipo;
     private Conta contaOrigem;
     private Conta contaDestino;
@@ -25,8 +26,8 @@ public class Lancamento implements Serializable {
     private ArrayList<Categoria> categorias;
     private String idCartao;
 
-    public Lancamento(int idLancamento, String tipo, Conta contaOrigem, Conta contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente, String idCartao) {
-        this.idLancamento = idLancamento;
+    public Lancamento(String tipo, Conta contaOrigem, Conta contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente, String idCartao) {
+        this.idLancamento = UUID.randomUUID().toString();
         this.tipo = tipo;
         this.contaOrigem = contaOrigem;
         this.contaDestino = contaDestino;
@@ -39,7 +40,7 @@ public class Lancamento implements Serializable {
         this.idCartao = idCartao;
     }
 
-    public int getIdLancamento() {
+    public String getIdLancamento() {
         return idLancamento;
     }
 
@@ -91,7 +92,7 @@ public class Lancamento implements Serializable {
         return (contaDestino != null) ? contaDestino.getNome() : "";
     }
 
-    public void setIdLancamento(int idLancamento) {
+    public void setIdLancamento(String idLancamento) {
         this.idLancamento = idLancamento;
     }
 

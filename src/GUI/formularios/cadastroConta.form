@@ -95,29 +95,16 @@
                   <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="189" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="campoSaldoConta" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jLabel6" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="202" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="campoNomeConta" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jLabel3" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="campoCodConta" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jLabel4" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+                      <Component id="jLabel3" min="-2" pref="180" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="campoSaldoConta" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel6" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
+                          <Component id="campoNomeConta" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -125,19 +112,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="campoNomeConta" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="campoCodConta" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                  <Component id="campoNomeConta" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="campoSaldoConta" min="-2" max="-2" attributes="0"/>
@@ -174,20 +152,6 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="Nome (apelido) da conta:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="campoCodConta">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoCodContaActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="N&#xfa;mero da conta:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="campoSaldoConta">

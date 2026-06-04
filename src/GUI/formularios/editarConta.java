@@ -186,7 +186,7 @@ public class editarConta extends javax.swing.JDialog {
 
     private void buttonEditarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarContaActionPerformed
         try {
-            int codConta = Integer.parseInt(campoCodConta.getText().trim());
+            String codConta = campoCodConta.getText().trim();
             String nomeConta = campoNomeConta.getText().trim();
             String textoSaldo = campoSaldoConta.getText().trim().replace(',', '.');
 
@@ -248,7 +248,7 @@ public class editarConta extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonLimparCamposActionPerformed
 
     private void carregarCampos(Conta atual) {
-        campoCodConta.setText(Integer.toString(atual.getCodConta()));
+        campoCodConta.setText(atual.getCodConta());
         campoNomeConta.setText(atual.getNome());
         campoSaldoConta.setText(Double.toString(atual.getSaldo()));
     }

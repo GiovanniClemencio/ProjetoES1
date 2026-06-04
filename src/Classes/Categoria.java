@@ -5,6 +5,7 @@
 package Classes;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  *
@@ -13,12 +14,12 @@ import java.io.Serializable;
 public class Categoria implements Serializable {
     private String nome;
     private Boolean padrao;
-    private int idCategoria;
+    private String idCategoria;
 
-    public Categoria(String nome, Boolean padrao,int idCategoria) {
+    public Categoria(String nome, Boolean padrao) {
         this.nome = nome;
         this.padrao = padrao;
-        this.idCategoria = idCategoria;
+        this.idCategoria = UUID.randomUUID().toString(); // Gera um ID único para cada categoria
     }
 
     public String getNome() {
@@ -37,11 +38,11 @@ public class Categoria implements Serializable {
         this.padrao = padrao;
     }
 
-    public int getIdCategoria() {
+    public String getIdCategoria() {
         return idCategoria;
     }
 
-    public void setIdCategoria(int idCategoria) {
+    public void setIdCategoria(String idCategoria) {
         this.idCategoria = idCategoria;
     }
     
