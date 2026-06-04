@@ -21,7 +21,8 @@ public class ControladorLancamento {
         this.ctrlCartao = controladorCartao;
     }
 
-    public void criarLancamento(Lancamento lancamento) {
+    public void criarLancamento(String tipo, Conta contaOrigem, Conta contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente, String idCartao) {
+        Lancamento lancamento = new Lancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
         Conta conta = lancamento.getContaOrigem();
         if (conta != null) {
             conta.getLancamentos().add(lancamento);
@@ -29,7 +30,7 @@ public class ControladorLancamento {
         }
     }
 
-    public boolean removerLancamento(int id) {
+    public boolean removerLancamento(String id) {
         Lancamento lancamentoParaRemover = buscarLancamento(id);
         if (lancamentoParaRemover != null) {
 
@@ -41,10 +42,10 @@ public class ControladorLancamento {
         return false; // Falha na remoção, lançamento não encontrado
     }
 
-    public Lancamento buscarLancamento(int idLancamento) {
+    public Lancamento buscarLancamento(String idLancamento) {
         for (Conta conta : ctrlCartao.ctrlConta.getContas()) {
             for (Lancamento lancamento : conta.getLancamentos()) {
-                if (lancamento.getIdLancamento() == idLancamento) {
+                if (lancamento.getIdLancamento().equals(idLancamento)) {
                     return lancamento;
                 }
             }
@@ -52,7 +53,7 @@ public class ControladorLancamento {
         return null; // Não encontrou o lançamento
     }
 
-    public void editarLancamento(int idLancamento, String tipo, Conta contaOrigem, Conta contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente) {
+    public void editarLancamento(String idLancamento, String tipo, Conta contaOrigem, Conta contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente) {
         Lancamento lancamento = buscarLancamento(idLancamento);
         if (lancamento != null) {
             lancamento.editarLancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente);
