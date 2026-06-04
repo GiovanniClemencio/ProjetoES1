@@ -19,17 +19,15 @@ public class ControladorCategoria {
 
     protected final ControladorLancamento ctrlLancamento;
     protected final ControladorRelatorio ctrlRelatorio;
-
+    private final Configuracao caminhosArquivo = Configuracao.getInstancia();
+    private ArrayList<Categoria> categorias = Inicializar.carregarObjetos(caminhosArquivo.getArquivoCategoria());
 
     public ControladorCategoria(ControladorLancamento controladorLancamento, ControladorRelatorio controladorRelatorio) {
         this.ctrlLancamento = controladorLancamento;
         this.ctrlRelatorio = controladorRelatorio;
     }
 
-    private final Configuracao caminhosArquivo = Configuracao.getInstancia();
-    private ArrayList<Categoria> categorias = Inicializar.carregarObjetos(caminhosArquivo.getArquivoCategoria());
-
-    public void criarCategoria(String nome, Boolean padrao, String idCategoria) {
+    public void criarCategoria(String nome, Boolean padrao) {
 
         if (categoriaExistente(nome)) {
             return; // Categoria com o mesmo nome já existe, não cria uma nova
