@@ -12,6 +12,7 @@ import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -26,16 +27,19 @@ import javax.swing.event.DocumentListener;
 public class editarLancamento extends javax.swing.JDialog {
 
     private final ControladorLancamento ctrlLancamento;
+    private final Lancamento lancamento;
 
-    public editarLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria) {
+    public editarLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Lancamento lancamento) {
         super(parent, modal);
         initComponents();
         this.ctrlLancamento = ctrlLancamento;
+        this.lancamento = lancamento;
 
         configurarValidacaoCampos();
         carregarContasComboBox(ctrlLancamento.getCtrlCartao().getCtrlConta());
         carregarCartoesComboBox(ctrlLancamento.getCtrlCartao());
         carregarCategoriasNaLista(ctrlCategoria);
+        carregarCampos(lancamento);
 
         buttonCadastrarLancamento.setEnabled(false);
     }
@@ -359,9 +363,9 @@ public class editarLancamento extends javax.swing.JDialog {
         try {
             if (!validarFormularioLancamento()) {
                 JOptionPane.showMessageDialog(this,
-                    "Preencha os campos obrigatórios antes de cadastrar.",
-                    "Validação",
-                    JOptionPane.WARNING_MESSAGE);
+                        "Preencha os campos obrigatórios antes de cadastrar.",
+                        "Validação",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -404,31 +408,31 @@ public class editarLancamento extends javax.swing.JDialog {
 
             if (categoriasSelecionadas.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
-                    "Selecione ao menos uma categoria.",
-                    "Validação",
-                    JOptionPane.WARNING_MESSAGE);
+                        "Selecione ao menos uma categoria.",
+                        "Validação",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             ctrlLancamento.criarLancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
 
             JOptionPane.showMessageDialog(this,
-                "Lançamento cadastrado com sucesso!",
-                "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE);
+                    "Lançamento cadastrado com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE);
 
             dispose();
 
         } catch (java.text.ParseException ex) {
             JOptionPane.showMessageDialog(this,
-                "Data ou valor inválido.",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE);
+                    "Data ou valor inválido.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,
-                "Erro ao cadastrar lançamento: " + ex.getMessage(),
-                "Erro",
-                JOptionPane.ERROR_MESSAGE);
+                    "Erro ao cadastrar lançamento: " + ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_buttonCadastrarLancamentoActionPerformed
 
@@ -511,6 +515,91 @@ public class editarLancamento extends javax.swing.JDialog {
         }
     }
 
+    private void selecionarComboPorCodigo(javax.swing.JComboBox<String> combo, String codigo) {
+        if (codigo == null) {
+            return;
+        }
+
+        for (int i = 0; i < combo.getItemCount(); i++) {
+            String item = combo.getItemAt(i);
+            if (item != null && item.contains("'" + codigo + "'")) {
+                combo.setSelectedIndex(i);
+                return;
+            }
+        }
+    }
+
+    private void selecionarCategoriasNaLista(ArrayList<Categoria> categorias) {
+        listCategorias.clearSelection();
+
+        java.util.List<Integer> indices = new java.util.ArrayList<>();
+
+        for (Categoria categoria : categorias) {
+            String nomeCategoria = categoria.getNome();
+
+            for (int i = 0; i < listCategorias.getModel().getSize(); i++) {
+                if (listCategorias.getModel().getElementAt(i).equals(nomeCategoria)) {
+                    indices.add(i);
+                    break;
+                }
+            }
+        }
+
+        int[] selecionados = indices.stream().mapToInt(Integer::intValue).toArray();
+        listCategorias.setSelectedIndices(selecionados);
+    }
+
+    private void carregarCampos(Lancamento lancamento) {
+        if (lancamento == null) {
+            return;
+        }
+
+        campoDataLancamento.setValue(lancamento.getDataLancamento());
+
+        if (lancamento.getDataMax() != null) {
+            campoDataMax.setValue(lancamento.getDataMax());
+            checkboxRecorrente.setSelected(true);
+            checkboxPermanente.setSelected(false);
+            campoDataMax.setEnabled(true);
+            checkboxPermanente.setEnabled(true);
+        } else {
+            campoDataMax.setValue(null);
+            checkboxRecorrente.setSelected(false);
+            checkboxPermanente.setSelected(true);
+            campoDataMax.setEnabled(false);
+            checkboxPermanente.setEnabled(false);
+        }
+
+        campoValor.setText(String.valueOf(lancamento.getValor()));
+        textareaDescricao.setText(lancamento.getDescricao());
+
+        if ("DESPESA".equalsIgnoreCase(lancamento.getTipo())) {
+            radioDespesa.setSelected(true);
+        } else if ("RECEITA".equalsIgnoreCase(lancamento.getTipo())) {
+            radioReceita.setSelected(true);
+        } else if ("TRANSFERENCIA".equalsIgnoreCase(lancamento.getTipo())) {
+            radioTransferencia.setSelected(true);
+        }
+
+        if (lancamento.getContaOrigem() != null) {
+            selecionarComboPorCodigo(comboContaOrigem, lancamento.getContaOrigem().getCodConta());
+        }
+
+        if (lancamento.getContaDestino() != null) {
+            selecionarComboPorCodigo(comboContaDestino, lancamento.getContaDestino().getCodConta());
+        }
+
+        if (lancamento.getIdCartao() != null) {
+            selecionarComboPorCodigo(comboIdCartao, lancamento.getIdCartao());
+        }
+
+        if (lancamento.getCategorias() != null && !lancamento.getCategorias().isEmpty()) {
+            selecionarCategoriasNaLista(lancamento.getCategorias());
+        }
+
+        atualizarEstadoBotao();
+    }
+
     private void atualizarEstadoBotao() {
         boolean tipoSelecionado = radioDespesa.isSelected()
                 || radioReceita.isSelected()
@@ -549,7 +638,7 @@ public class editarLancamento extends javax.swing.JDialog {
                 || radioTransferencia.isSelected();
 
         boolean basePreenchida
-                =  !campoDataLancamento.getText().trim().isEmpty()
+                = !campoDataLancamento.getText().trim().isEmpty()
                 && !campoValor.getText().trim().isEmpty()
                 && !textareaDescricao.getText().trim().isEmpty()
                 && !listCategorias.isSelectionEmpty()
