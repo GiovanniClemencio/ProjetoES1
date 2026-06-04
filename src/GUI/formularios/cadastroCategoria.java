@@ -141,7 +141,6 @@ public class cadastroCategoria extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonCadastrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCategoriaActionPerformed
-
         String nomeCategoria = campoNomeCategoria.getText().trim();
         boolean padrao = checkboxPadrao.isSelected();
 
@@ -152,8 +151,6 @@ public class cadastroCategoria extends javax.swing.JDialog {
                 "Categoria cadastrada com sucesso!"
         );
         dispose();
-
-
     }//GEN-LAST:event_buttonCadastrarCategoriaActionPerformed
 
     private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
