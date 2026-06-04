@@ -4,11 +4,19 @@
  */
 package GUI.formularios;
 
+import Classes.Cartao;
+import Classes.Categoria;
+import Classes.Conta;
+import Classes.Lancamento;
 import Classes.Util;
+import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
-import GUI.telas.TelaContasGeral;
+import java.util.Date;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -21,7 +29,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
     private final ControladorLancamento ctrlLancamento;
 
     /*private final TelaContasGeral parent;*/
-
     public cadastroLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria) {
         super(parent, modal);
         this.ctrlLancamento = ctrlLancamento;
@@ -29,6 +36,10 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         configurarValidacaoCampos();
         campoIdLancamento.setText(String.valueOf(Util.getProxIdLancamento()));
+        carregarContasComboBox(ctrlLancamento.getCtrlCartao().getCtrlConta());
+        carregarCartoesComboBox(ctrlLancamento.getCtrlCartao());
+        carregarCategoriasNaLista(ctrlCategoria);
+
         buttonCadastrarLancamento.setEnabled(false);
     }
 
@@ -47,7 +58,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         buttonCadastrarLancamento = new javax.swing.JToggleButton();
         buttonLimparCampos = new javax.swing.JToggleButton();
-        jLabel4 = new javax.swing.JLabel();
         campoValor = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -74,7 +84,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         textareaDescricao = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
-        comboCodConta = new javax.swing.JComboBox<>();
         comboIdCartao = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -117,9 +126,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
             }
         });
 
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Número da conta:");
-
         campoValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoValorActionPerformed(evt);
@@ -158,7 +164,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
         jLabel5.setText("Identificador do lançamento:");
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Conta origem (transferência):");
+        jLabel7.setText("Conta origem:");
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Conta destino (transferência):");
@@ -213,8 +219,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
         textareaDescricao.setRows(5);
         jScrollPane2.setViewportView(textareaDescricao);
 
-        comboCodConta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         comboIdCartao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -268,38 +272,32 @@ public class cadastroLancamento extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(checkboxPermanente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(156, 156, 156)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(campoValor, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jSeparator1)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane1))
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(156, 156, 156)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jScrollPane1))
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(comboCodConta, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(42, 42, 42)))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(campoValor, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(166, 166, 166)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboIdCartao, 0, 249, Short.MAX_VALUE))))
-                .addGap(20, 20, 20))
+                            .addComponent(comboIdCartao, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,15 +349,9 @@ public class cadastroLancamento extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboIdCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboCodConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(comboIdCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonCadastrarLancamento)
@@ -387,40 +379,87 @@ public class cadastroLancamento extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonCadastrarLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarLancamentoActionPerformed
-        /*try {
-            int codConta = Integer.parseInt(campoCodConta.getText().trim());
-            String nomeConta = campoNomeConta.getText().trim();
-            String textoSaldo = campoValor.getText().trim().replace(',', '.');
-
-            double saldoConta = Double.parseDouble(textoSaldo);
-
-            String confirmacao = "Confirme a edicao da conta com os seguintes dados: \n\n"
-            + "Codigo da conta: " + codConta + "\n"
-            + "Nome da conta: " + nomeConta + "\n"
-            + "Saldo: " + saldoConta;
-
-            int opcao = JOptionPane.showConfirmDialog(this, confirmacao, "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-            if (opcao == JOptionPane.YES_OPTION){
-                ctrlConta.editarConta(codConta, nomeConta, saldoConta);
-
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Conta editada com sucesso!"
-                );
-                parent.atualizarVisualizacao();
-                dispose();
-            }else{
-                dispose();
+        try {
+            if (!validarFormularioLancamento()) {
+                JOptionPane.showMessageDialog(this,
+                        "Preencha os campos obrigatórios antes de cadastrar.",
+                        "Validação",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Verifique se o campo 'Saldo' não se encontra com uma entrada inválida.",
-                "Erro de conversão",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }*/
+
+            boolean pendente = true;
+
+            campoDataLancamento.commitEdit();
+            Date dataLancamento = (Date) campoDataLancamento.getValue();
+
+            Date dataMax = null;
+            if (checkboxRecorrente.isSelected() && !checkboxPermanente.isSelected()) {
+                campoDataMax.commitEdit();
+                dataMax = (Date) campoDataMax.getValue();
+            }
+
+            String idLancamento = campoIdLancamento.getText().trim();
+            int idLancamentoInt = Integer.parseInt(idLancamento);
+
+            double valor = parseValorBR(campoValor.getText().trim());
+            String descricao = textareaDescricao.getText().trim();
+
+            String tipo;
+            if (radioDespesa.isSelected()) {
+                tipo = "DESPESA";
+            } else if (radioReceita.isSelected()) {
+                tipo = "RECEITA";
+            } else {
+                tipo = "TRANSFERENCIA";
+            }
+
+            String codConta = extrairCodigo(comboContaOrigem.getSelectedItem().toString());
+            String idCartao = extrairCodigo(comboIdCartao.getSelectedItem().toString());
+
+            int codContaOInt = Integer.parseInt(codConta);
+            Conta contaOrigem = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(codContaOInt);
+
+            Conta contaDestino = null;
+            if (radioTransferencia.isSelected()) {
+                String contaD = extrairCodigo(comboContaDestino.getSelectedItem().toString());
+
+                int codContaDInt = Integer.parseInt(contaD);
+                contaDestino = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(codContaDInt);
+            }
+
+            java.util.List<String> categoriasSelecionadas = listCategorias.getSelectedValuesList();
+
+            if (categoriasSelecionadas.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Selecione ao menos uma categoria.",
+                        "Validação",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            Lancamento lancamento = new Lancamento(idLancamentoInt, tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
+
+            ctrlLancamento.criarLancamento(lancamento);
+
+            JOptionPane.showMessageDialog(this,
+                    "Lançamento cadastrado com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            dispose();
+
+        } catch (java.text.ParseException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Data ou valor inválido.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao cadastrar lançamento: " + ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_buttonCadastrarLancamentoActionPerformed
 
     private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
@@ -461,6 +500,51 @@ public class cadastroLancamento extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoDataMaxActionPerformed
 
+    public void carregarContasComboBox(ControladorConta ctrlConta) {
+        comboContaOrigem.removeAllItems();
+        comboContaDestino.removeAllItems();
+
+        for (Conta conta : ctrlConta.getContas()) {
+            String item = "'" + conta.getCodConta() + "' - '" + conta.getNome() + "'";
+
+            comboContaOrigem.addItem(item);
+            comboContaDestino.addItem(item);
+        }
+    }
+
+    public void carregarCartoesComboBox(ControladorCartao ctrlCartao) {
+        comboIdCartao.removeAllItems();
+
+        for (Cartao cartao : ctrlCartao.getCartoes()) {
+            String item = "'" + cartao.getIdCartao() + "' - '" + cartao.getNome() + "'";
+
+            comboIdCartao.addItem(item);
+        }
+    }
+
+    private void carregarCategoriasNaLista(ControladorCategoria ctrlCategoria) {
+        DefaultListModel<String> model = new DefaultListModel<>();
+
+        for (Categoria categoria : ctrlCategoria.getCategorias()) {
+            model.addElement(categoria.getNome());
+        }
+
+        listCategorias.setModel(model);
+        listCategorias.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+        Categoria categoriaPadrao = ctrlCategoria.getCategoriaPadrao();
+        if (categoriaPadrao != null) {
+            String nomePadrao = categoriaPadrao.getNome();
+
+            for (int i = 0; i < model.size(); i++) {
+                if (model.get(i).equals(nomePadrao)) {
+                    listCategorias.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+    }
+
     private void atualizarEstadoBotao() {
         boolean tipoSelecionado = radioDespesa.isSelected()
                 || radioReceita.isSelected()
@@ -471,8 +555,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 && !campoDataLancamento.getText().trim().isEmpty()
                 && !campoValor.getText().trim().isEmpty()
                 && !textareaDescricao.getText().trim().isEmpty()
-                && listCategorias.getSelectedIndices().length > 0
-                && comboValido(comboCodConta)
+                && !listCategorias.isSelectionEmpty()
                 && comboValido(comboIdCartao);
 
         boolean transferenciaPreenchida = true;
@@ -482,17 +565,68 @@ public class cadastroLancamento extends javax.swing.JDialog {
                     && comboValido(comboContaDestino);
         }
 
-        boolean dataMaxPreenchida = true;
+        boolean recorrenciaValida = true;
         if (checkboxRecorrente.isSelected()) {
-            dataMaxPreenchida = !campoDataMax.getText().trim().isEmpty();
+            recorrenciaValida = checkboxPermanente.isSelected()
+                    || !campoDataMax.getText().trim().isEmpty();
         }
 
-        boolean habilitarBotao = tipoSelecionado
+        buttonCadastrarLancamento.setEnabled(
+                tipoSelecionado
                 && camposBasePreenchidos
                 && transferenciaPreenchida
-                && dataMaxPreenchida;
+                && recorrenciaValida
+        );
+    }
 
-        buttonCadastrarLancamento.setEnabled(habilitarBotao);
+    private boolean validarFormularioLancamento() {
+        boolean tipoSelecionado = radioDespesa.isSelected()
+                || radioReceita.isSelected()
+                || radioTransferencia.isSelected();
+
+        boolean basePreenchida
+                = !campoIdLancamento.getText().trim().isEmpty()
+                && !campoDataLancamento.getText().trim().isEmpty()
+                && !campoValor.getText().trim().isEmpty()
+                && !textareaDescricao.getText().trim().isEmpty()
+                && !listCategorias.isSelectionEmpty()
+                && comboValido(comboIdCartao);
+
+        boolean transferenciaValida = true;
+        if (radioTransferencia.isSelected()) {
+            transferenciaValida
+                    = comboValido(comboContaOrigem)
+                    && comboValido(comboContaDestino);
+        }
+
+        boolean recorrenciaValida = true;
+        if (checkboxRecorrente.isSelected()) {
+            recorrenciaValida
+                    = checkboxPermanente.isSelected()
+                    || !campoDataMax.getText().trim().isEmpty();
+        }
+
+        return tipoSelecionado && basePreenchida && transferenciaValida && recorrenciaValida;
+    }
+
+    private double parseValorBR(String texto) throws java.text.ParseException {
+        java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(new java.util.Locale("pt", "BR"));
+        return nf.parse(texto).doubleValue();
+    }
+
+    private String extrairCodigo(String item) {
+        if (item == null) {
+            return "";
+        }
+
+        int inicio = item.indexOf('\'');
+        int fim = item.indexOf('\'', inicio + 1);
+
+        if (inicio >= 0 && fim > inicio) {
+            return item.substring(inicio + 1, fim);
+        }
+
+        return item;
     }
 
     private boolean comboValido(javax.swing.JComboBox<String> combo) {
@@ -524,7 +658,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
         campoValor.getDocument().addDocumentListener(listener);
         textareaDescricao.getDocument().addDocumentListener(listener);
 
-        comboCodConta.addActionListener(e -> atualizarEstadoBotao());
         comboContaDestino.addActionListener(e -> atualizarEstadoBotao());
         comboContaOrigem.addActionListener(e -> atualizarEstadoBotao());
         comboIdCartao.addActionListener(e -> atualizarEstadoBotao());
@@ -539,7 +672,20 @@ public class cadastroLancamento extends javax.swing.JDialog {
         radioReceita.addActionListener(e -> atualizarEstadoBotao());
         radioTransferencia.addActionListener(e -> atualizarEstadoBotao());
 
-        checkboxRecorrente.addActionListener(e -> atualizarEstadoBotao());
+        checkboxRecorrente.addActionListener(e -> {
+            boolean recorrente = checkboxRecorrente.isSelected();
+            campoDataMax.setEnabled(recorrente);
+            checkboxPermanente.setEnabled(recorrente);
+
+            if (!recorrente) {
+                checkboxPermanente.setSelected(false);
+                campoDataMax.setText("");
+            }
+
+            atualizarEstadoBotao();
+        });
+
+        checkboxPermanente.addActionListener(e -> atualizarEstadoBotao());
 
         atualizarEstadoBotao();
     }
@@ -555,7 +701,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
     private javax.swing.JTextField campoValor;
     private javax.swing.JCheckBox checkboxPermanente;
     private javax.swing.JCheckBox checkboxRecorrente;
-    private javax.swing.JComboBox<String> comboCodConta;
     private javax.swing.JComboBox<String> comboContaDestino;
     private javax.swing.JComboBox<String> comboContaOrigem;
     private javax.swing.JComboBox<String> comboIdCartao;
@@ -564,7 +709,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

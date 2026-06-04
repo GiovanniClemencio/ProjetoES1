@@ -62,7 +62,7 @@ public class ControladorCartao {
 
     }
 
-    public ArrayList<Cartao> listarCartoes() {
+    public ArrayList<Cartao> getCartoes() {
         ArrayList<Cartao> cartoes = new ArrayList<>();
         for (Conta conta : ctrlConta.getContas()) {
             cartoes.addAll(conta.getCartoes());
