@@ -29,7 +29,7 @@ public class ControladorCategoria {
     private final Configuracao caminhosArquivo = Configuracao.getInstancia();
     private ArrayList<Categoria> categorias = Inicializar.carregarObjetos(caminhosArquivo.getArquivoCategoria());
 
-    public void criarCategoria(String nome, Boolean padrao, int idCategoria) {
+    public void criarCategoria(String nome, Boolean padrao, String idCategoria) {
 
         if (categoriaExistente(nome)) {
             return; // Categoria com o mesmo nome já existe, não cria uma nova
@@ -48,12 +48,12 @@ public class ControladorCategoria {
             }
         }
 
-        Categoria categoria = new Categoria(nome, padrao, idCategoria);
+        Categoria categoria = new Categoria(nome, padrao);
         categorias.add(categoria);
         Fechar.salvarObjetos(categorias, caminhosArquivo.getArquivoCategoria());
     }
 
-    public boolean removerCategoria(int id) {
+    public boolean removerCategoria(String id) {
         Categoria categoriaParaRemover = buscarCategoria(id);
 
         if (categoriaParaRemover != null) {
@@ -81,11 +81,11 @@ public class ControladorCategoria {
         return false; // Falha na remoção
     }
 
-    public Categoria buscarCategoria(int idCategoria) {
-        return categorias.stream().filter(c -> c.getIdCategoria() == idCategoria).findFirst().orElse(null);
+    public Categoria buscarCategoria(String idCategoria) {
+        return categorias.stream().filter(c -> c.getIdCategoria().equals(idCategoria)).findFirst().orElse(null);
     }
 
-    public void setPadrao(int idCategoria) {
+    public void setPadrao(String idCategoria) {
         Categoria categoria = buscarCategoria(idCategoria);
 
         // Verifica se a categoria existe e não é a categoria padrão atual
@@ -99,7 +99,7 @@ public class ControladorCategoria {
         }
     }
 
-    public boolean editarCategoria(int idCategoria, String novoNome) {
+    public boolean editarCategoria(String idCategoria, String novoNome) {
 
         if(novoNome.isBlank()) {
             return false; // Não permite nome em branco

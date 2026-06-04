@@ -6,29 +6,31 @@ package Classes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
+
 
 /**
  *
  * @author Portu
  */
 public class Cartao implements Serializable {
-    private int codConta;
+    private String codConta;
     private String idCartao;
     private String nome;
     private double limite;
     private ArrayList<Fatura> faturasAntigas;
     private Fatura faturaAtual;
 
-    public Cartao(int codConta, String idCartao, String nome, double limite) {
+    public Cartao(String codConta, String nome, double limite) {
         this.codConta = codConta;
-        this.idCartao = idCartao;
+        this.idCartao = UUID.randomUUID().toString();
         this.nome = nome;
         this.limite = limite;
         this.faturasAntigas = new ArrayList<>();
         // this.faturaAtual = new Fatura(codConta,idCartao, int idFatura, Date data, Boolean paga);
     }
 
-    public int getCodConta() {
+    public String getCodConta() {
         return codConta;
     }
 
@@ -52,7 +54,7 @@ public class Cartao implements Serializable {
         return faturaAtual;
     }
 
-    public void setCodConta(int codConta) {
+    public void setCodConta(String codConta) {
         this.codConta = codConta;
     }
 

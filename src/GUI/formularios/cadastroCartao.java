@@ -4,7 +4,6 @@
  */
 package GUI.formularios;
 
-import Classes.Cartao;
 import Classes.Conta;
 import Controller.ControladorCartao;
 import GUI.telas.TelaContaIndividual;
@@ -29,7 +28,7 @@ public class cadastroCartao extends javax.swing.JDialog {
         initComponents();
         configurarValidacaoCampos();
 
-        campoCodConta.setText(Integer.toString(atual.getCodConta()));
+        campoCodConta.setText(atual.getCodConta());
         buttonCadastrarCartao.setEnabled(false);
     }
 
@@ -230,7 +229,7 @@ public class cadastroCartao extends javax.swing.JDialog {
 
     private void buttonCadastrarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCartaoActionPerformed
         try {
-            int codConta = Integer.parseInt(campoCodConta.getText().trim());
+            String codConta = campoCodConta.getText().trim();
             String nomeCartao = campoNomeCartao.getText().trim();
             String textoLimite = campoLimiteCartao.getText().trim().replace(',', '.');
 
@@ -249,8 +248,7 @@ public class cadastroCartao extends javax.swing.JDialog {
 
             double limiteCartao = Double.parseDouble(textoLimite);
 
-            Cartao novo = new Cartao(codConta, idCartao, nomeCartao, limiteCartao);
-            ctrlCartao.criarCartao(codConta, novo);
+            ctrlCartao.criarCartao(codConta, nomeCartao, limiteCartao);
 
             JOptionPane.showMessageDialog(
                     this,

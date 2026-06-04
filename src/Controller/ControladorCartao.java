@@ -23,7 +23,8 @@ public class ControladorCartao {
     }
 
 
-    public void criarCartao(int codConta, Cartao cartao) {
+    public void criarCartao(String codConta, String nome, double limite) {
+        Cartao cartao = new Cartao(codConta, nome, limite);
         ctrlConta.buscarConta(codConta).getCartoes().add(cartao);
         Fechar.salvarObjetos(ctrlConta.getContas(), ctrlConta.getCaminhosArquivo().getArquivoConta());
     }

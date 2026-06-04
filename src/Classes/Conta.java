@@ -6,27 +6,28 @@ package Classes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  *
  * @author Portu
  */
 public class Conta implements Serializable {
-    private int codConta;
+    private String codConta;
     private String nome;
     private double saldo;
     private ArrayList<Cartao> cartoes;
     private ArrayList<Lancamento> lancamentos;
 
-    public Conta(int codConta, String nome, double saldo) {
-        this.codConta = codConta;
+    public Conta(String nome, double saldo) {
+        this.codConta = UUID.randomUUID().toString();
         this.nome = nome;
         this.saldo = saldo;
         this.cartoes = new ArrayList<>();
         this.lancamentos = new ArrayList<>();
     }
 
-    public int getCodConta() {
+    public String getCodConta() {
         return codConta;
     }
 
@@ -46,7 +47,7 @@ public class Conta implements Serializable {
         return lancamentos;
     }
 
-    public void setCodConta(int codConta) {
+    public void setCodConta(String codConta) {
         this.codConta = codConta;
     }
 
