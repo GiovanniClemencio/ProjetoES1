@@ -28,12 +28,10 @@ public class editarCategoria extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        buttonEditarCategoria = new javax.swing.JToggleButton();
+        buttonCadastrarCategoria = new javax.swing.JToggleButton();
         buttonLimparCampos = new javax.swing.JToggleButton();
         campoNomeCategoria = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        campoIdCategoria = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         checkboxPadrao = new javax.swing.JCheckBox();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
@@ -42,10 +40,10 @@ public class editarCategoria extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
-        buttonEditarCategoria.setText("Editar");
-        buttonEditarCategoria.addActionListener(new java.awt.event.ActionListener() {
+        buttonCadastrarCategoria.setText("Editar");
+        buttonCadastrarCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonEditarCategoriaActionPerformed(evt);
+                buttonCadastrarCategoriaActionPerformed(evt);
             }
         });
 
@@ -59,11 +57,6 @@ public class editarCategoria extends javax.swing.JDialog {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Nome categoria:");
 
-        campoIdCategoria.setEnabled(false);
-
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Identificador categoria:");
-
         checkboxPadrao.setText("Categoria Padrão");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -74,42 +67,31 @@ public class editarCategoria extends javax.swing.JDialog {
                 .addGap(106, 106, 106)
                 .addComponent(buttonLimparCampos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
-                .addComponent(buttonEditarCategoria)
+                .addComponent(buttonCadastrarCategoria)
                 .addGap(101, 101, 101))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoNomeCategoria)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(35, 35, 35)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoIdCategoria)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(231, 231, 231)
-                        .addComponent(checkboxPadrao)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(231, 231, 231)
+                .addComponent(checkboxPadrao)
+                .addContainerGap(233, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(campoNomeCategoria)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(168, 168, 168))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoIdCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(42, 42, 42)
+                .addGap(68, 68, 68)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(checkboxPadrao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonEditarCategoria)
+                    .addComponent(buttonCadastrarCategoria)
                     .addComponent(buttonLimparCampos))
                 .addGap(23, 23, 23))
         );
@@ -119,7 +101,7 @@ public class editarCategoria extends javax.swing.JDialog {
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
         labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelTitulo.setText("Editar Categoria");
+        labelTitulo.setText("Edição de Categoria");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -154,7 +136,7 @@ public class editarCategoria extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonEditarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCategoriaActionPerformed
+    private void buttonCadastrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCategoriaActionPerformed
         /*try {
             int codConta = Integer.parseInt(campoCodConta.getText().trim());
             String nomeConta = campoNomeCategoria.getText().trim();
@@ -179,36 +161,33 @@ public class editarCategoria extends javax.swing.JDialog {
                 JOptionPane.ERROR_MESSAGE
             );
         }*/
-    }//GEN-LAST:event_buttonEditarCategoriaActionPerformed
+    }//GEN-LAST:event_buttonCadastrarCategoriaActionPerformed
 
     private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
         for (java.awt.Component c : this.getContentPane().getComponents()) {
             if (c instanceof javax.swing.JTextField) {
-                if (c != campoIdCategoria) {
-                    ((javax.swing.JTextField) c).setText("");
-                }
+
+                ((javax.swing.JTextField) c).setText("");
+
             } else if (c instanceof javax.swing.JPanel) {
                 for (java.awt.Component sub : ((javax.swing.JPanel) c).getComponents()) {
                     if (sub instanceof javax.swing.JTextField) {
-                        if (sub != campoIdCategoria) {
-                            ((javax.swing.JTextField) sub).setText("");
-                        }
+
+                        ((javax.swing.JTextField) sub).setText("");
+
                     }
                 }
             }
         }
     }//GEN-LAST:event_buttonLimparCamposActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton buttonEditarCategoria;
+    private javax.swing.JToggleButton buttonCadastrarCategoria;
     private javax.swing.JToggleButton buttonLimparCampos;
-    private javax.swing.JTextField campoIdCategoria;
     private javax.swing.JTextField campoNomeCategoria;
     private javax.swing.JCheckBox checkboxPadrao;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelTitulo;
