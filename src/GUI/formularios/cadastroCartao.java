@@ -248,7 +248,7 @@ public class cadastroCartao extends javax.swing.JDialog {
 
             double limiteCartao = Double.parseDouble(textoLimite);
 
-            ctrlCartao.criarCartao(codConta, nomeCartao, limiteCartao);
+            ctrlCartao.criarCartao(codConta, idCartao, nomeCartao, limiteCartao);
 
             JOptionPane.showMessageDialog(
                     this,
