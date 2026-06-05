@@ -4,25 +4,31 @@
  */
 package GUI.telas;
 
+import Classes.Cartao;
 import Classes.Categoria;
 import Controller.ControladorCategoria;
-import GUI.formularios.cadastroCategoria;
+import Controller.ControladorLancamento;
 import GUI.formularios.editarCategoria;
-import javax.swing.JOptionPane;
+import java.awt.Frame;
+import java.util.ArrayList;
 
 /**
  *
  * @author Portu
  */
-public class TelaCategorias extends javax.swing.JFrame {
+public class TelaCartoesGeral extends javax.swing.JFrame {
 
+    private final java.awt.Frame inicio;
+    private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
-
-    public TelaCategorias(ControladorCategoria ctrlCategoria) {
-        initComponents();
+    
+    public TelaCartoesGeral(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria) {
+        inicio = parent;
+        this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
-
-        carregarCategoriasComboBox();
+        initComponents();
+        
+        carregarCombo(ctrlLancamento.getCtrlCartao().getCartoes());
     }
 
     /**
@@ -34,87 +40,20 @@ public class TelaCategorias extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        comboCategorias = new javax.swing.JComboBox<>();
-        buttonEditarCategoria = new javax.swing.JButton();
-        buttonExcluirCategoria = new javax.swing.JButton();
-        buttonCadastrarCategoria = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         buttonContas = new javax.swing.JToggleButton();
         buttonCategorias = new javax.swing.JToggleButton();
         buttonAnalises = new javax.swing.JToggleButton();
         buttonRelatorios = new javax.swing.JToggleButton();
         buttonCartoes = new javax.swing.JToggleButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        comboCartoes = new javax.swing.JComboBox<>();
+        buttonAbrirCartao = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel2.setBackground(new java.awt.Color(200, 200, 242));
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Categorias cadastradas:");
-
-        comboCategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        buttonEditarCategoria.setText("Editar categoria");
-        buttonEditarCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonEditarCategoriaActionPerformed(evt);
-            }
-        });
-
-        buttonExcluirCategoria.setText("Excluir categoria");
-        buttonExcluirCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonExcluirCategoriaActionPerformed(evt);
-            }
-        });
-
-        buttonCadastrarCategoria.setText("Nova categoria");
-        buttonCadastrarCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonCadastrarCategoriaActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(buttonExcluirCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(buttonEditarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(buttonCadastrarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(44, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(comboCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonEditarCategoria)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonExcluirCategoria)
-                .addGap(28, 28, 28)
-                .addComponent(buttonCadastrarCategoria)
-                .addContainerGap(65, Short.MAX_VALUE))
-        );
 
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
 
@@ -164,7 +103,7 @@ public class TelaCategorias extends javax.swing.JFrame {
                 .addComponent(buttonContas)
                 .addGap(28, 28, 28)
                 .addComponent(buttonCartoes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(buttonCategorias)
                 .addGap(32, 32, 32)
                 .addComponent(buttonRelatorios)
@@ -173,13 +112,56 @@ public class TelaCategorias extends javax.swing.JFrame {
                 .addGap(28, 28, 28))
         );
 
+        jPanel2.setBackground(new java.awt.Color(200, 200, 242));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Cartões diponíveis:");
+
+        comboCartoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        buttonAbrirCartao.setText("Abrir cartão");
+        buttonAbrirCartao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAbrirCartaoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboCartoes, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(buttonAbrirCartao, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(51, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(comboCartoes, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonAbrirCartao)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         jPanel1.setBackground(new java.awt.Color(30, 30, 150));
         jPanel1.setToolTipText("");
 
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
         labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelTitulo.setText("Categorias");
+        labelTitulo.setText("Cartões");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -228,84 +210,50 @@ public class TelaCategorias extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
-    private void buttonCadastrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCategoriaActionPerformed
-        cadastroCategoria dialog = new cadastroCategoria(this, true, ctrlCategoria);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-    }//GEN-LAST:event_buttonCadastrarCategoriaActionPerformed
-
-    private void buttonEditarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCategoriaActionPerformed
-        String itemSelecionado = (String) comboCategorias.getSelectedItem();
-
-        int inicio = itemSelecionado.indexOf('\'');
-        int fim = itemSelecionado.indexOf('\'', inicio + 1);
-
-        String idCategoria = itemSelecionado.substring(inicio + 1, fim);
-
-        Categoria selecionada = ctrlCategoria.buscarCategoria(idCategoria);
-
-        editarCategoria dialog = new editarCategoria(this, true, ctrlCategoria, selecionada);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-    }//GEN-LAST:event_buttonEditarCategoriaActionPerformed
-
-    private void buttonExcluirCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirCategoriaActionPerformed
-        String itemSelecionado = (String) comboCategorias.getSelectedItem();
-
-        int inicio = itemSelecionado.indexOf('\'');
-        int fim = itemSelecionado.indexOf('\'', inicio + 1);
-
-        String idCategoria = itemSelecionado.substring(inicio + 1, fim);
-
-        Categoria selecionada = ctrlCategoria.buscarCategoria(idCategoria);
-        
-        String confirmacao = "Confirme a exclusao da categoria com os seguintes dados: \n\n"
-                + "Id da categoria: " + selecionada.getIdCategoria() + "\n"
-                + "Nome da categoria: " + selecionada.getNome() + "\n"
-                + "Categoria padrão: " + Boolean.toString(selecionada.getPadrao());
-
-        int opcao = JOptionPane.showConfirmDialog(this, confirmacao, "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-        if (opcao == JOptionPane.YES_OPTION) {
-            ctrlCategoria.removerCategoria(selecionada.getIdCategoria());
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Categoria excluida com sucesso!"
-            );
-            carregarCategoriasComboBox();
-        } else {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Operação cancelada!"
-            );
-        }
-    }//GEN-LAST:event_buttonExcluirCategoriaActionPerformed
-
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
-    public void carregarCategoriasComboBox() {
-        comboCategorias.removeAllItems();
+    private void buttonAbrirCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAbrirCartaoActionPerformed
+        String itemSelecionado = (String) comboCartoes.getSelectedItem();
 
-        for (Categoria categoria : ctrlCategoria.getCategorias()) {
-            String item = "'" + categoria.getIdCategoria() + "' - '" + categoria.getNome() + "'";
+        int inicio = itemSelecionado.indexOf('\'');
+        int fim = itemSelecionado.indexOf('\'', inicio + 1);
 
-            comboCategorias.addItem(item);
+        String idCartao = itemSelecionado.substring(inicio + 1, fim);
+
+        Cartao selecionado = ctrlLancamento.getCtrlCartao().buscarCartao(idCartao);
+
+        TelaCartaoIndividual dialog = new TelaCartaoIndividual(this, true, ctrlLancamento, ctrlCategoria, selecionado);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonAbrirCartaoActionPerformed
+
+    private void carregarCombo(ArrayList<Cartao> cartoes){
+        comboCartoes.removeAllItems();
+        
+        for (Cartao cartao : cartoes){
+            String item = "'" + cartao.getIdCartao() + "' - '" + cartao.getNome() + "'";
+
+            comboCartoes.addItem(item);
         }
     }
 
+    public Frame getParent() {
+        return inicio;
+    }
+    
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonAbrirCartao;
     private javax.swing.JToggleButton buttonAnalises;
-    private javax.swing.JButton buttonCadastrarCategoria;
     private javax.swing.JToggleButton buttonCartoes;
     private javax.swing.JToggleButton buttonCategorias;
     private javax.swing.JToggleButton buttonContas;
-    private javax.swing.JButton buttonEditarCategoria;
-    private javax.swing.JButton buttonExcluirCategoria;
     private javax.swing.JToggleButton buttonRelatorios;
-    private javax.swing.JComboBox<String> comboCategorias;
+    private javax.swing.JComboBox<String> comboCartoes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

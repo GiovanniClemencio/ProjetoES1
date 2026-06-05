@@ -4,32 +4,39 @@
  */
 package GUI.formularios;
 
+import Classes.Cartao;
 import Classes.Conta;
 import Controller.ControladorCartao;
-import GUI.telas.TelaContaIndividual;
+import Controller.ControladorCategoria;
+import Controller.ControladorConta;
+import Controller.ControladorLancamento;
+import GUI.telas.TelaCartaoIndividual;
+import GUI.telas.TelaCartoesGeral;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 /**
  *
  * @author Portu
  */
-public class cadastroCartao extends javax.swing.JDialog {
+public class editarCartao extends javax.swing.JDialog {
 
-    private final ControladorCartao ctrlCartao;
-    private final TelaContaIndividual parent;
+    private final ControladorLancamento ctrlLancamento;
+    private final ControladorCategoria ctrlCategoria;
+    private final Cartao atual;
+    private final TelaCartaoIndividual parent;
+    private final TelaCartoesGeral grandparent;
 
-    public cadastroCartao(java.awt.Frame parent, boolean modal, ControladorCartao ctrlCartao, Conta atual) {
+    public editarCartao(TelaCartaoIndividual parent, TelaCartoesGeral grandparent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Cartao cartao) {
         super(parent, modal);
-        this.ctrlCartao = ctrlCartao;
-        this.parent = (TelaContaIndividual) parent;
-
+        this.parent = parent;
+        this.grandparent = grandparent;
+        this.ctrlLancamento = ctrlLancamento;
+        this.ctrlCategoria = ctrlCategoria;
+        this.atual = cartao;
         initComponents();
-        configurarValidacaoCampos();
 
-        campoCodConta.setText(atual.getCodConta());
-        buttonCadastrarCartao.setEnabled(false);
+        carregarCampos(atual);
     }
 
     /**
@@ -41,40 +48,22 @@ public class cadastroCartao extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        campoCodConta = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         campoNomeCartao = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         campoLimiteCartao = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        buttonCadastrarCartao = new javax.swing.JToggleButton();
+        buttonEditarCartao = new javax.swing.JToggleButton();
         buttonLimparCampos = new javax.swing.JToggleButton();
         campoIdCartao = new javax.swing.JFormattedTextField();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
 
-        jLabel1.setText("jLabel1");
-
-        jLabel5.setText("jLabel5");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
-
-        campoCodConta.setEditable(false);
-        campoCodConta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoCodContaActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Conta referente:");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Nome (apelido) do cartão:");
@@ -91,10 +80,10 @@ public class cadastroCartao extends javax.swing.JDialog {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Limite do cartão:");
 
-        buttonCadastrarCartao.setText("Cadastrar");
-        buttonCadastrarCartao.addActionListener(new java.awt.event.ActionListener() {
+        buttonEditarCartao.setText("Editar");
+        buttonEditarCartao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonCadastrarCartaoActionPerformed(evt);
+                buttonEditarCartaoActionPerformed(evt);
             }
         });
 
@@ -116,47 +105,36 @@ public class cadastroCartao extends javax.swing.JDialog {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(477, 477, 477)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(106, 106, 106)
+                .addComponent(buttonLimparCampos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonEditarCartao)
+                .addGap(101, 101, 101))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(65, 65, 65)
+                .addGap(61, 61, 61)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(campoNomeCartao)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                    .addComponent(campoIdCartao))
-                .addGap(68, 68, 68))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(106, 106, 106)
-                .addComponent(buttonLimparCampos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonCadastrarCartao)
-                .addGap(101, 101, 101))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(221, 221, 221))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoIdCartao, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(189, 189, 189)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoLimiteCartao)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(185, 185, 185)
-                        .addComponent(campoCodConta, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(182, 182, 182)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(campoLimiteCartao)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoCodConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(22, 22, 22)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -168,13 +146,13 @@ public class cadastroCartao extends javax.swing.JDialog {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(campoIdCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(59, 59, 59)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(campoLimiteCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonCadastrarCartao)
+                    .addComponent(buttonEditarCartao)
                     .addComponent(buttonLimparCampos))
                 .addGap(23, 23, 23))
         );
@@ -184,7 +162,7 @@ public class cadastroCartao extends javax.swing.JDialog {
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
         labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelTitulo.setText("Cadastro de Cartão");
+        labelTitulo.setText("Editar Cartão");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -217,20 +195,16 @@ public class cadastroCartao extends javax.swing.JDialog {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void campoLimiteCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLimiteCartaoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoLimiteCartaoActionPerformed
 
-    private void campoCodContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCodContaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoCodContaActionPerformed
-
-    private void buttonCadastrarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCartaoActionPerformed
+    private void buttonEditarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCartaoActionPerformed
         try {
-            String codConta = campoCodConta.getText().trim();
+            ControladorCartao ctrlCartao = ctrlLancamento.getCtrlCartao();
+            
             String nomeCartao = campoNomeCartao.getText().trim();
             String textoLimite = campoLimiteCartao.getText().trim().replace(',', '.');
 
@@ -239,22 +213,25 @@ public class cadastroCartao extends javax.swing.JDialog {
                 // válido
             } else {
                 JOptionPane.showMessageDialog(
-                    this,
-                    "Verifique se o campo 'Número do cartão' se encontra com uma entrada inválida.",
-                    "Erro de formatação",
-                    JOptionPane.ERROR_MESSAGE
+                        this,
+                        "Verifique se o campo 'Número do cartão' se encontra com uma entrada inválida.",
+                        "Erro de formatação",
+                        JOptionPane.ERROR_MESSAGE
                 );
                 return;
             }
 
             double limiteCartao = Double.parseDouble(textoLimite);
 
-            ctrlCartao.criarCartao(codConta, idCartao, nomeCartao, limiteCartao);
+            ctrlCartao.editarCartao(idCartao, nomeCartao, limiteCartao, atual.getFaturasAntigas(), atual.getFaturaAtual());
 
             JOptionPane.showMessageDialog(
                     this,
                     "Cartao cadastrado com sucesso!"
             );
+            TelaCartaoIndividual dialog = new TelaCartaoIndividual(grandparent, true, ctrlLancamento, ctrlCategoria, atual);
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
             dispose();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(
@@ -264,72 +241,36 @@ public class cadastroCartao extends javax.swing.JDialog {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-    }//GEN-LAST:event_buttonCadastrarCartaoActionPerformed
+    }//GEN-LAST:event_buttonEditarCartaoActionPerformed
 
     private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
         for (java.awt.Component c : this.getContentPane().getComponents()) {
             if (c instanceof javax.swing.JTextField) {
-                if (c != campoCodConta) {
-                    ((javax.swing.JTextField) c).setText("");
-                }
+                ((javax.swing.JTextField) c).setText("");
             } else if (c instanceof javax.swing.JPanel) {
                 for (java.awt.Component sub : ((javax.swing.JPanel) c).getComponents()) {
                     if (sub instanceof javax.swing.JTextField) {
-                        if (sub != campoCodConta) {
-                            ((javax.swing.JTextField) sub).setText("");
-                        }
+                        ((javax.swing.JTextField) sub).setText("");
                     }
                 }
             }
         }
     }//GEN-LAST:event_buttonLimparCamposActionPerformed
 
-    private void atualizarEstadoBotao() {
-        boolean preenchidos
-                = !campoCodConta.getText().trim().isEmpty()
-                && !campoNomeCartao.getText().trim().isEmpty()
-                && !campoIdCartao.getText().trim().isEmpty()
-                && !campoLimiteCartao.getText().trim().isEmpty();
-
-        buttonCadastrarCartao.setEnabled(preenchidos);
-    }
-
-    private void configurarValidacaoCampos() {
-        DocumentListener listener = new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                atualizarEstadoBotao();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                atualizarEstadoBotao();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                atualizarEstadoBotao();
-            }
-        };
-
-        campoCodConta.getDocument().addDocumentListener(listener);
-        campoNomeCartao.getDocument().addDocumentListener(listener);
-        campoLimiteCartao.getDocument().addDocumentListener(listener);
-        campoIdCartao.getDocument().addDocumentListener(listener);
+    private void carregarCampos(Cartao cartao) {
+        campoIdCartao.setText(cartao.getIdCartao());
+        campoLimiteCartao.setText(Double.toString(cartao.getLimite()));
+        campoNomeCartao.setText(cartao.getNome());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton buttonCadastrarCartao;
+    private javax.swing.JToggleButton buttonEditarCartao;
     private javax.swing.JToggleButton buttonLimparCampos;
-    private javax.swing.JTextField campoCodConta;
     private javax.swing.JFormattedTextField campoIdCartao;
     private javax.swing.JTextField campoLimiteCartao;
     private javax.swing.JTextField campoNomeCartao;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

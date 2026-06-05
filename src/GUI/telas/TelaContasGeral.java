@@ -2,6 +2,7 @@ package GUI.telas;
 
 import GUI.formularios.cadastroConta;
 import Classes.Conta;
+import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
 
@@ -17,15 +18,17 @@ public class TelaContasGeral extends javax.swing.JFrame {
 
     private final ControladorConta ctrlConta;
     private final ControladorLancamento ctrlLancamento;
+    private final ControladorCategoria ctrlCategoria;
     private final TelaInicial inicio;
 
     /**
      * Creates new form TelaContas
      */
-    public TelaContasGeral(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento) {
+    public TelaContasGeral(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria) {
         this.inicio = (TelaInicial) parent;
         this.ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
         this.ctrlLancamento = ctrlLancamento;
+        this.ctrlCategoria = ctrlCategoria;
         initComponents();
 
         carregarContasComboBox();
@@ -60,6 +63,7 @@ public class TelaContasGeral extends javax.swing.JFrame {
         buttonCategorias = new javax.swing.JToggleButton();
         buttonAnalises = new javax.swing.JToggleButton();
         buttonRelatorios = new javax.swing.JToggleButton();
+        buttonCartoes = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -158,34 +162,49 @@ public class TelaContasGeral extends javax.swing.JFrame {
         });
 
         buttonAnalises.setText("Análises");
+        buttonAnalises.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnalisesActionPerformed(evt);
+            }
+        });
 
         buttonRelatorios.setText("Relatórios");
+
+        buttonCartoes.setText("Cartões");
+        buttonCartoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCartoesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonAnalises, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonRelatorios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonCategorias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonAnalises, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonRelatorios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonContas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonCategorias, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                    .addComponent(buttonCartoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(26, 26, 26)
                 .addComponent(buttonContas)
-                .addGap(39, 39, 39)
+                .addGap(26, 26, 26)
+                .addComponent(buttonCartoes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(buttonCategorias)
-                .addGap(41, 41, 41)
+                .addGap(38, 38, 38)
                 .addComponent(buttonRelatorios)
-                .addGap(43, 43, 43)
+                .addGap(32, 32, 32)
                 .addComponent(buttonAnalises)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -230,18 +249,26 @@ public class TelaContasGeral extends javax.swing.JFrame {
 
         Conta contaSelecionada = ctrlConta.buscarConta(codContaTxt);
 
-        TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada, inicio);
+        TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada, inicio, ctrlCategoria);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonVisualizarContaActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento);
+        TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento, ctrlCategoria);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonContasActionPerformed
+
+    private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonAnalisesActionPerformed
+
+    private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonCartoesActionPerformed
 
     public void carregarContasComboBox() {
         comboContas.removeAllItems();
@@ -255,6 +282,7 @@ public class TelaContasGeral extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonAnalises;
+    private javax.swing.JToggleButton buttonCartoes;
     private javax.swing.JToggleButton buttonCategorias;
     private javax.swing.JToggleButton buttonContas;
     private javax.swing.JToggleButton buttonCriarConta;
