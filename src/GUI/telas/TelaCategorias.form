@@ -125,16 +125,25 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Editar categoria"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonEditarCategoriaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="buttonExcluirCategoria">
           <Properties>
             <Property name="text" type="java.lang.String" value="Excluir categoria"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonExcluirCategoriaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="buttonCadastrarCategoria">
           <Properties>
             <Property name="text" type="java.lang.String" value="Nova categoria"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCadastrarCategoriaActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

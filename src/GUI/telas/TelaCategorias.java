@@ -4,17 +4,25 @@
  */
 package GUI.telas;
 
+import Classes.Categoria;
+import Controller.ControladorCategoria;
+import GUI.formularios.cadastroCategoria;
+import GUI.formularios.editarCategoria;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Portu
  */
 public class TelaCategorias extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaCategorias
-     */
-    public TelaCategorias() {
+    private final ControladorCategoria ctrlCategoria;
+
+    public TelaCategorias(ControladorCategoria ctrlCategoria) {
         initComponents();
+        this.ctrlCategoria = ctrlCategoria;
+
+        carregarCategoriasComboBox();
     }
 
     /**
@@ -50,10 +58,25 @@ public class TelaCategorias extends javax.swing.JFrame {
         comboCategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         buttonEditarCategoria.setText("Editar categoria");
+        buttonEditarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEditarCategoriaActionPerformed(evt);
+            }
+        });
 
         buttonExcluirCategoria.setText("Excluir categoria");
+        buttonExcluirCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExcluirCategoriaActionPerformed(evt);
+            }
+        });
 
         buttonCadastrarCategoria.setText("Nova categoria");
+        buttonCadastrarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCadastrarCategoriaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -194,7 +217,69 @@ public class TelaCategorias extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
-    
+    private void buttonCadastrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCategoriaActionPerformed
+        cadastroCategoria dialog = new cadastroCategoria(this, true, ctrlCategoria);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_buttonCadastrarCategoriaActionPerformed
+
+    private void buttonEditarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCategoriaActionPerformed
+        String itemSelecionado = (String) comboCategorias.getSelectedItem();
+
+        int inicio = itemSelecionado.indexOf('\'');
+        int fim = itemSelecionado.indexOf('\'', inicio + 1);
+
+        String idCategoria = itemSelecionado.substring(inicio + 1, fim);
+
+        Categoria selecionada = ctrlCategoria.buscarCategoria(idCategoria);
+
+        editarCategoria dialog = new editarCategoria(this, true, ctrlCategoria, selecionada);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_buttonEditarCategoriaActionPerformed
+
+    private void buttonExcluirCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirCategoriaActionPerformed
+        String itemSelecionado = (String) comboCategorias.getSelectedItem();
+
+        int inicio = itemSelecionado.indexOf('\'');
+        int fim = itemSelecionado.indexOf('\'', inicio + 1);
+
+        String idCategoria = itemSelecionado.substring(inicio + 1, fim);
+
+        Categoria selecionada = ctrlCategoria.buscarCategoria(idCategoria);
+        
+        String confirmacao = "Confirme a exclusao da categoria com os seguintes dados: \n\n"
+                + "Id da categoria: " + selecionada.getIdCategoria() + "\n"
+                + "Nome da categoria: " + selecionada.getNome() + "\n"
+                + "Categoria padrão: " + Boolean.toString(selecionada.getPadrao());
+
+        int opcao = JOptionPane.showConfirmDialog(this, confirmacao, "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+        if (opcao == JOptionPane.YES_OPTION) {
+            ctrlCategoria.removerCategoria(selecionada.getIdCategoria());
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Categoria excluida com sucesso!"
+            );
+            carregarCategoriasComboBox();
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Operação cancelada!"
+            );
+        }
+    }//GEN-LAST:event_buttonExcluirCategoriaActionPerformed
+
+    public void carregarCategoriasComboBox() {
+        comboCategorias.removeAllItems();
+
+        for (Categoria categoria : ctrlCategoria.getCategorias()) {
+            String item = "'" + categoria.getIdCategoria() + "' - '" + categoria.getNome() + "'";
+
+            comboCategorias.addItem(item);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonAnalises;
