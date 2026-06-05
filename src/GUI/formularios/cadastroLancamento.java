@@ -26,11 +26,15 @@ import javax.swing.event.DocumentListener;
 public class cadastroLancamento extends javax.swing.JDialog {
 
     private final ControladorLancamento ctrlLancamento;
+    private final String codConta;
+    private final String idCartao;
 
     /*private final TelaContasGeral parent;*/
-    public cadastroLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria) {
+    public cadastroLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, String idCartao, String codConta) {
         super(parent, modal);
         this.ctrlLancamento = ctrlLancamento;
+        this.codConta = codConta;
+        this.idCartao = idCartao;
         initComponents();
 
         configurarValidacaoCampos();
@@ -477,21 +481,36 @@ public class cadastroLancamento extends javax.swing.JDialog {
         comboContaOrigem.removeAllItems();
         comboContaDestino.removeAllItems();
 
+        if (codConta != null) {
+            Conta conta = ctrlConta.buscarConta(codConta);
+            
+            String item = "'" + conta.getCodConta() + "' - '" + conta.getNome() + "'";
+            comboContaOrigem.addItem(item);
+            
+        }
         for (Conta conta : ctrlConta.getContas()) {
             String item = "'" + conta.getCodConta() + "' - '" + conta.getNome() + "'";
 
-            comboContaOrigem.addItem(item);
+            if (codConta == null) comboContaOrigem.addItem(item);
             comboContaDestino.addItem(item);
         }
+
     }
 
     public void carregarCartoesComboBox(ControladorCartao ctrlCartao) {
         comboIdCartao.removeAllItems();
-
-        for (Cartao cartao : ctrlCartao.getCartoes()) {
+        if (idCartao != null) {
+            Cartao cartao = ctrlCartao.buscarCartao(idCartao);
             String item = "'" + cartao.getIdCartao() + "' - '" + cartao.getNome() + "'";
 
             comboIdCartao.addItem(item);
+        } else {
+
+            for (Cartao cartao : ctrlCartao.getCartoes()) {
+                String item = "'" + cartao.getIdCartao() + "' - '" + cartao.getNome() + "'";
+
+                comboIdCartao.addItem(item);
+            }
         }
     }
 
@@ -556,7 +575,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 || radioTransferencia.isSelected();
 
         boolean basePreenchida
-                =  !campoDataLancamento.getText().trim().isEmpty()
+                = !campoDataLancamento.getText().trim().isEmpty()
                 && !campoValor.getText().trim().isEmpty()
                 && !textareaDescricao.getText().trim().isEmpty()
                 && !listCategorias.isSelectionEmpty()
