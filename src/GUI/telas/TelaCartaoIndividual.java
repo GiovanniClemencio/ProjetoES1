@@ -1,51 +1,37 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI.telas;
 
-import GUI.formularios.cadastroCartao;
-import GUI.formularios.editarConta;
 import Classes.Cartao;
-import Classes.Conta;
+import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
-import Controller.ControladorConta;
 import Controller.ControladorLancamento;
 import GUI.formularios.cadastroLancamento;
+import GUI.formularios.editarCartao;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Portu
  */
-public class TelaContaIndividual extends javax.swing.JFrame {
+public class TelaCartaoIndividual extends javax.swing.JFrame {
 
-    private final Conta atual;
-    private final ControladorConta ctrlConta;
+    private final java.awt.Frame telaCartao;
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
-    private final TelaInicial inicio;
+    private final Cartao atual;
 
-    public TelaContaIndividual(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, Conta aberta, TelaInicial inicio, ControladorCategoria ctrlCategoria) {
-        this.atual = aberta;
-        this.ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
+    public TelaCartaoIndividual(TelaCartoesGeral parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Cartao cartao) {
+        telaCartao = parent;
         this.ctrlLancamento = ctrlLancamento;
-        this.inicio = inicio;
         this.ctrlCategoria = ctrlCategoria;
+        this.atual = cartao;
         initComponents();
 
-        atualizarVisualizacao();
-
-        carregarCartoesComboBox(aberta);
-
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento, ctrlCategoria);
-                dialog.setLocationRelativeTo(TelaContaIndividual.this);
-                dialog.setVisible(true);
-            }
-        });
+        carregarValorFatura();
+        labelTitulo.setText(atual.getNome());
     }
 
     /**
@@ -60,14 +46,11 @@ public class TelaContaIndividual extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        buttonExtratoConta = new javax.swing.JToggleButton();
-        campoSaldo = new javax.swing.JTextField();
+        buttonExtratoCartao = new javax.swing.JToggleButton();
+        campoValor = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        buttonVisualizarCartao = new javax.swing.JToggleButton();
-        comboCartoes = new javax.swing.JComboBox<>();
-        buttonCriarCartao = new javax.swing.JToggleButton();
-        buttonEditarConta = new javax.swing.JToggleButton();
-        buttonExcluirConta = new javax.swing.JToggleButton();
+        buttonEditarCartao = new javax.swing.JToggleButton();
+        buttonExcluirCartao = new javax.swing.JToggleButton();
         jSeparator1 = new javax.swing.JSeparator();
         buttonCadastrarLancamentos = new javax.swing.JToggleButton();
         jPanel4 = new javax.swing.JPanel();
@@ -85,7 +68,7 @@ public class TelaContaIndividual extends javax.swing.JFrame {
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
         labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelTitulo.setText("NoMeCoNtA");
+        labelTitulo.setText("NoMeCaRtAo");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -104,61 +87,40 @@ public class TelaContaIndividual extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
-        buttonExtratoConta.setText("Abrir Extrato");
-        buttonExtratoConta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonExtratoConta.addActionListener(new java.awt.event.ActionListener() {
+        buttonExtratoCartao.setText("Abrir Extrato");
+        buttonExtratoCartao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonExtratoCartao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonExtratoContaActionPerformed(evt);
+                buttonExtratoCartaoActionPerformed(evt);
             }
         });
 
-        campoSaldo.setEditable(false);
-        campoSaldo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        campoSaldo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoSaldo.setText("R$0,00");
-        campoSaldo.addActionListener(new java.awt.event.ActionListener() {
+        campoValor.setEditable(false);
+        campoValor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        campoValor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoValor.setText("R$0,00");
+        campoValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoSaldoActionPerformed(evt);
+                campoValorActionPerformed(evt);
             }
         });
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("SALDO");
+        jLabel2.setText("FATURA ATUAL:");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        buttonVisualizarCartao.setText("Visualizar cartão");
-        buttonVisualizarCartao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonVisualizarCartao.addActionListener(new java.awt.event.ActionListener() {
+        buttonEditarCartao.setText("Editar cartão");
+        buttonEditarCartao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonVisualizarCartaoActionPerformed(evt);
+                buttonEditarCartaoActionPerformed(evt);
             }
         });
 
-        comboCartoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "----", "-----" }));
-        comboCartoes.addActionListener(new java.awt.event.ActionListener() {
+        buttonExcluirCartao.setText("Excluir cartão");
+        buttonExcluirCartao.setActionCommand("Excluir cartão");
+        buttonExcluirCartao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboCartoesActionPerformed(evt);
-            }
-        });
-
-        buttonCriarCartao.setText("Criar novo cartão para conta");
-        buttonCriarCartao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonCriarCartaoActionPerformed(evt);
-            }
-        });
-
-        buttonEditarConta.setText("Editar conta");
-        buttonEditarConta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonEditarContaActionPerformed(evt);
-            }
-        });
-
-        buttonExcluirConta.setText("Excluir conta");
-        buttonExcluirConta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonExcluirContaActionPerformed(evt);
+                buttonExcluirCartaoActionPerformed(evt);
             }
         });
 
@@ -179,18 +141,15 @@ public class TelaContaIndividual extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(94, 94, 94)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(buttonExcluirConta, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonExcluirCartao, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(comboCartoes, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonVisualizarCartao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonExtratoConta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonCriarCartao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
-                                .addComponent(buttonEditarConta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(buttonExtratoCartao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(buttonEditarCartao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE))
                             .addComponent(buttonCadastrarLancamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(77, 77, 77)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoSaldo)
+                            .addComponent(campoValor)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(146, Short.MAX_VALUE))
         );
@@ -200,24 +159,18 @@ public class TelaContaIndividual extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addComponent(buttonExtratoConta)
+                .addComponent(buttonExtratoCartao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonEditarConta)
+                .addComponent(buttonEditarCartao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonExcluirConta)
+                .addComponent(buttonExcluirCartao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonCadastrarLancamentos)
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonCriarCartao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(comboCartoes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonVisualizarCartao)
-                .addContainerGap())
+                .addGap(101, 101, 101))
         );
 
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
@@ -264,25 +217,25 @@ public class TelaContaIndividual extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(14, 14, 14)
                 .addComponent(buttonContas)
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
                 .addComponent(buttonCartoes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(buttonCategorias)
-                .addGap(41, 41, 41)
+                .addGap(18, 18, 18)
                 .addComponent(buttonRelatorios)
-                .addGap(44, 44, 44)
+                .addGap(18, 18, 18)
                 .addComponent(buttonAnalises)
-                .addGap(27, 27, 27))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -293,104 +246,83 @@ public class TelaContaIndividual extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonExtratoContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExtratoContaActionPerformed
+    private void buttonExtratoCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExtratoCartaoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_buttonExtratoContaActionPerformed
+    }//GEN-LAST:event_buttonExtratoCartaoActionPerformed
 
-    private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
+    private void campoValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoValorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_buttonCategoriasActionPerformed
+    }//GEN-LAST:event_campoValorActionPerformed
 
-    private void campoSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSaldoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoSaldoActionPerformed
-
-    private void buttonVisualizarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarCartaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonVisualizarCartaoActionPerformed
-
-    private void buttonCriarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCriarCartaoActionPerformed
-        cadastroCartao dialog = new cadastroCartao(this, true, ctrlLancamento.getCtrlCartao(), atual);
+    private void buttonEditarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCartaoActionPerformed
+        editarCartao dialog = new editarCartao(this, (TelaCartoesGeral) telaCartao, true, ctrlLancamento, ctrlCategoria, atual);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-    }//GEN-LAST:event_buttonCriarCartaoActionPerformed
+        dispose();
+    }//GEN-LAST:event_buttonEditarCartaoActionPerformed
 
-    private void buttonEditarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarContaActionPerformed
-        editarConta dialog = new editarConta(this, true, ctrlConta, atual);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-    }//GEN-LAST:event_buttonEditarContaActionPerformed
+    private void buttonExcluirCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirCartaoActionPerformed
+        ControladorCartao ctrlCartao = ctrlLancamento.getCtrlCartao();
 
-    private void buttonExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirContaActionPerformed
-        String confirmacao = "Confirme a exclusao da conta com os seguintes dados: \n\n"
+        String confirmacao = "Confirme a exclusao do cartão com os seguintes dados: \n\n"
                 + "Codigo da conta: " + atual.getCodConta() + "\n"
-                + "Nome da conta: " + atual.getNome() + "\n"
-                + "Saldo: " + Double.toString(atual.getSaldo());
+                + "Nome do cartao: " + atual.getNome() + "\n"
+                + "Numero do cartao: " + atual.getIdCartao() + "\n"
+                + "Limite: " + Double.toString(atual.getLimite());
 
         int opcao = JOptionPane.showConfirmDialog(this, confirmacao, "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
         if (opcao == JOptionPane.YES_OPTION) {
-            ctrlConta.removerConta(atual.getCodConta());
+            ctrlCartao.removerCartao(atual.getIdCartao());
 
             JOptionPane.showMessageDialog(
                     this,
-                    "Conta excluida com sucesso!"
+                    "Cartao excluido com sucesso!"
             );
-            inicio.setVisible(true);
-            inicio.atualizarSaldoConsolidado();
-            dispose();
-        } else {
-            TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, atual, inicio, ctrlCategoria);
+            TelaCartoesGeral dialog = new TelaCartoesGeral((TelaCartoesGeral) telaCartao.getParent(), true, ctrlLancamento, ctrlCategoria);
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
             dispose();
+        } else {
+            TelaCartoesGeral dialog = new TelaCartoesGeral((TelaCartoesGeral) telaCartao.getParent(), true, ctrlLancamento, ctrlCategoria);
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
             dispose();
         }
-    }//GEN-LAST:event_buttonExcluirContaActionPerformed
-
-    private void comboCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCartoesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboCartoesActionPerformed
-
-    private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento, ctrlCategoria);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_buttonContasActionPerformed
+    }//GEN-LAST:event_buttonExcluirCartaoActionPerformed
 
     private void buttonCadastrarLancamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarLancamentosActionPerformed
-        cadastroLancamento dialog = new cadastroLancamento(this, true, ctrlLancamento, ctrlCategoria, null, atual.getCodConta());
+        cadastroLancamento dialog = new cadastroLancamento((java.awt.Frame) this, true, ctrlLancamento, ctrlCategoria, null, atual.getCodConta());
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonCadastrarLancamentosActionPerformed
 
+    private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
+        TelaContasGeral dialog = new TelaContasGeral( (java.awt.Frame) telaCartao.getParent(), true, ctrlLancamento, ctrlCategoria);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonContasActionPerformed
+
+    private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonCategoriasActionPerformed
+
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
-    private void carregarCartoesComboBox(Conta aberta) {
-        comboCartoes.removeAllItems();
+    private void carregarValorFatura() {
 
-        for (Cartao cartao : aberta.getCartoes()) {
-            String item = "'" + cartao.getNome() + "'";
-
-            comboCartoes.addItem(item);
-        }
-    }
-    
-    public void atualizarVisualizacao(){
-        campoSaldo.setText(Double.toString(atual.getSaldo()));
-        labelTitulo.setText(atual.getNome());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -399,14 +331,11 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     private javax.swing.JToggleButton buttonCartoes;
     private javax.swing.JToggleButton buttonCategorias;
     private javax.swing.JToggleButton buttonContas;
-    private javax.swing.JToggleButton buttonCriarCartao;
-    private javax.swing.JToggleButton buttonEditarConta;
-    private javax.swing.JToggleButton buttonExcluirConta;
-    private javax.swing.JToggleButton buttonExtratoConta;
+    private javax.swing.JToggleButton buttonEditarCartao;
+    private javax.swing.JToggleButton buttonExcluirCartao;
+    private javax.swing.JToggleButton buttonExtratoCartao;
     private javax.swing.JToggleButton buttonRelatorios;
-    private javax.swing.JToggleButton buttonVisualizarCartao;
-    private javax.swing.JTextField campoSaldo;
-    private javax.swing.JComboBox<String> comboCartoes;
+    private javax.swing.JTextField campoValor;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

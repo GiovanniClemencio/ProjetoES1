@@ -1,8 +1,10 @@
 package GUI.telas;
 
 import Classes.Conta;
+import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
+import Controller.ControladorRelatorio;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -15,11 +17,13 @@ import Controller.ControladorLancamento;
  */
 public class TelaInicial extends javax.swing.JFrame {
     private final ControladorLancamento ctrlLancamento;
-    /**
-     * Creates new form TelaInicial
-     */
-    public TelaInicial(ControladorLancamento ctrlLancamento) {
+    private final ControladorCategoria ctrlCategoria;
+    private final ControladorRelatorio ctrlRelatorio;
+    
+    public TelaInicial(ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, ControladorRelatorio ctrlRelatorio) {
         this.ctrlLancamento = ctrlLancamento;
+        this.ctrlCategoria = ctrlCategoria;
+        this.ctrlRelatorio = ctrlRelatorio;
         initComponents();
         atualizarSaldoConsolidado();
     }
@@ -48,6 +52,7 @@ public class TelaInicial extends javax.swing.JFrame {
         buttonCategorias = new javax.swing.JToggleButton();
         buttonAnalises = new javax.swing.JToggleButton();
         buttonRelatorios = new javax.swing.JToggleButton();
+        buttonCartoes = new javax.swing.JToggleButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -170,31 +175,41 @@ public class TelaInicial extends javax.swing.JFrame {
 
         buttonRelatorios.setText("Relatórios");
 
+        buttonCartoes.setText("Cartões");
+        buttonCartoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCartoesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonAnalises, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonRelatorios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonCategorias, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                    .addComponent(buttonContas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonAnalises, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonRelatorios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonCategorias, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                    .addComponent(buttonContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonCartoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(25, 25, 25)
                 .addComponent(buttonContas)
-                .addGap(39, 39, 39)
+                .addGap(27, 27, 27)
+                .addComponent(buttonCartoes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(buttonCategorias)
-                .addGap(41, 41, 41)
+                .addGap(36, 36, 36)
                 .addComponent(buttonRelatorios)
-                .addGap(43, 43, 43)
+                .addGap(36, 36, 36)
                 .addComponent(buttonAnalises)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -234,11 +249,15 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento);
+        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento, ctrlCategoria);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_buttonContasActionPerformed
+
+    private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonCartoesActionPerformed
 
     public void atualizarSaldoConsolidado(){
         ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
@@ -253,6 +272,7 @@ public class TelaInicial extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonAnalises;
+    private javax.swing.JToggleButton buttonCartoes;
     private javax.swing.JToggleButton buttonCategorias;
     private javax.swing.JToggleButton buttonContas;
     private javax.swing.JToggleButton buttonExtratoConsolidado;
