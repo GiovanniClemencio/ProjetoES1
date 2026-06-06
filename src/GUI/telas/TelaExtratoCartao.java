@@ -4,18 +4,27 @@
  */
 package GUI.telas;
 
+import Classes.Cartao;
+import Classes.Lancamento;
+import Controller.ControladorCartao;
+
 /**
  *
  * @author Portu
  */
 public class TelaExtratoCartao extends javax.swing.JDialog {
 
-    /**
-     * Creates new form TelaRelatorioCartao
-     */
-    public TelaExtratoCartao(java.awt.Frame parent, boolean modal) {
+    private final ControladorCartao ctrlCartao;
+    private final Cartao cartao;
+    
+    public TelaExtratoCartao(java.awt.Frame parent, boolean modal, ControladorCartao ctrlCartao, Cartao cartao) {
         super(parent, modal);
+        this.ctrlCartao = ctrlCartao;
+        this.cartao = cartao;
         initComponents();
+        
+        campoNomeCartao.setText(cartao.getNome());
+        carregarFaturaAtual();
     }
 
     /**
@@ -64,6 +73,8 @@ public class TelaExtratoCartao extends javax.swing.JDialog {
         jPanel4.setBackground(new java.awt.Color(200, 200, 242));
 
         jLabel1.setText("Referente ao cartão:");
+
+        campoNomeCartao.setEditable(false);
 
         textAreaExtrato.setColumns(20);
         textAreaExtrato.setRows(5);
@@ -121,7 +132,18 @@ public class TelaExtratoCartao extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void carregarFaturaAtual(){
+        textAreaExtrato.setText(
+        "================== Fatura atual ==================\n");
+        for(Lancamento lancamento : cartao.getFaturaAtual().getLancamentos()){
+            textAreaExtrato.append("-----\n" + lancamento.toString() + "\n-----");
+        }
+        textAreaExtrato.append("\n==================================================\n");
+    }
     
+    private void carregarFaturaAntiga(){
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonCadastrarLancamentos;
