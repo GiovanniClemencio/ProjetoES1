@@ -4,8 +4,10 @@
  */
 package Controller;
 
+import Classes.Cartao;
 import Classes.Categoria;
 import Classes.Conta;
+import Classes.Fatura;
 import Classes.Fechar;
 import Classes.Lancamento;
 import java.util.Date;
@@ -28,6 +30,12 @@ public class ControladorLancamento {
             conta.getLancamentos().add(lancamento);
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
         }
+        if(!(idCartao.equalsIgnoreCase("nenhum"))){
+                Cartao cartao = ctrlCartao.buscarCartao(idCartao);
+                
+                Fatura atual = cartao.getFaturaAtual();
+                atual.adicionarLancamento(lancamento);
+            }
     }
 
     public boolean removerLancamento(String id) {

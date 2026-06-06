@@ -7,6 +7,7 @@ package GUI.formularios;
 import Classes.Cartao;
 import Classes.Categoria;
 import Classes.Conta;
+import Classes.Fatura;
 import Classes.Lancamento;
 import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
@@ -376,7 +377,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 return;
             }
 
-            boolean pendente = true;
+            boolean pendente = false;
 
             campoDataLancamento.commitEdit();
             Date dataLancamento = (Date) campoDataLancamento.getValue();
@@ -420,9 +421,13 @@ public class cadastroLancamento extends javax.swing.JDialog {
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
+            
+            if (!(idCartao.equalsIgnoreCase("nenhum"))){
+                pendente = true;
+            }
+            
             ctrlLancamento.criarLancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
-
+            
             JOptionPane.showMessageDialog(this,
                     "Lançamento cadastrado com sucesso!",
                     "Sucesso",
@@ -483,15 +488,17 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         if (codConta != null) {
             Conta conta = ctrlConta.buscarConta(codConta);
-            
+
             String item = "'" + conta.getCodConta() + "' - '" + conta.getNome() + "'";
             comboContaOrigem.addItem(item);
-            
+
         }
         for (Conta conta : ctrlConta.getContas()) {
             String item = "'" + conta.getCodConta() + "' - '" + conta.getNome() + "'";
 
-            if (codConta == null) comboContaOrigem.addItem(item);
+            if (codConta == null) {
+                comboContaOrigem.addItem(item);
+            }
             comboContaDestino.addItem(item);
         }
 
@@ -512,6 +519,10 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 comboIdCartao.addItem(item);
             }
         }
+
+        String item = "'Nenhum'";
+        comboIdCartao.addItem(item);
+
     }
 
     private void carregarCategoriasNaLista(ControladorCategoria ctrlCategoria) {

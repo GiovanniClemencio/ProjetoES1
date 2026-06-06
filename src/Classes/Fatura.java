@@ -81,6 +81,10 @@ public class Fatura implements Serializable {
         this.lancamentos = lancamentos;
     }
     
+    public void adicionarLancamento(Lancamento novo){
+        lancamentos.add(novo);
+    }
+    
     @Override
     public String toString() {
         return new StringBuffer("Fatura {")
