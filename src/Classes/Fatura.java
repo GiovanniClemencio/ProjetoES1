@@ -5,39 +5,43 @@
 package Classes;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
  * @author Portu
  */
 public class Fatura implements Serializable {
-    private int codConta;
-    private int idCartao;
-    private int idFatura;
+    private String codConta;
+    private String idCartao;
+    private String idFatura;
     private Date data;
     private Boolean paga;
     private ArrayList<Lancamento> lancamentos;
 
-    public Fatura(int codConta, int idCartao, int idFatura, Date data, Boolean paga) {
+    public Fatura(String codConta, String idCartao, Date data, Boolean paga) {
         this.codConta = codConta;
         this.idCartao = idCartao;
-        this.idFatura = idFatura;
+        idFatura = UUID.randomUUID().toString();
         this.data = data;
         this.paga = paga;
         this.lancamentos = new ArrayList<>();
     }
 
-    public int getCodConta() {
+    public String getCodConta() {
         return codConta;
     }
 
-    public int getIdCartao() {
+    public String getIdCartao() {
         return idCartao;
     }
 
-    public int getIdFatura() {
+    public String getIdFatura() {
         return idFatura;
     }
 
@@ -53,15 +57,15 @@ public class Fatura implements Serializable {
         return lancamentos;
     }
 
-    public void setCodConta(int codConta) {
+    public void setCodConta(String codConta) {
         this.codConta = codConta;
     }
 
-    public void setIdCartao(int idCartao) {
+    public void setIdCartao(String idCartao) {
         this.idCartao = idCartao;
     }
 
-    public void setIdFatura(int idFatura) {
+    public void setIdFatura(String idFatura) {
         this.idFatura = idFatura;
     }
 
