@@ -14,6 +14,7 @@ import java.util.UUID;
  * @author Portu
  */
 public class Lancamento implements Serializable {
+
     private String idLancamento;
     private String tipo;
     private Conta contaOrigem;
@@ -147,7 +148,6 @@ public class Lancamento implements Serializable {
         this.pendente = pendente;
     }
 
-    
     @Override
     public String toString() {
         return new StringBuffer("Lancamento {")

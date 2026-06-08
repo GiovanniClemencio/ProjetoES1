@@ -29,7 +29,8 @@ public class ControladorRelatorio {
         this.ctrlConta = ctrlConta;
     }
 
-    public ArrayList<Lancamento> gerarRelatorio(Date inicio, Date fim, String tipo, ArrayList<Categoria> categoria, ArrayList<Cartao> cartao, ArrayList<Conta> conta) {
+    public ArrayList<Lancamento> gerarRelatorio(Date inicio, Date fim, String tipo, ArrayList<Categoria> categoria,
+            ArrayList<Cartao> cartao, ArrayList<Conta> conta) {
 
         Relatorio relatorio = new Relatorio(inicio, fim, tipo, categoria, cartao, conta);
 
@@ -73,12 +74,13 @@ public class ControladorRelatorio {
             caminhoArquivo += ".pdf";
         }
 
+        // CSV
         if (formato.equalsIgnoreCase("csv")) {
             String conteudoCSV = Exportar.exportarCSV(lancamentos);
             try {
-                // Converte o conteúdo CSV para bytes usando UTF-8 e adiciona o marcador BOM no início
+                // Converte o conteúdo CSV para bytes usando UTF-8 e adiciona o marcador BOM no inicio
                 byte[] bytesTexto = conteudoCSV.getBytes(StandardCharsets.UTF_8);
-                byte[] bom = new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF}; // Marcador BOM
+                byte[] bom = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF }; // Marcador BOM
 
                 // Junta o BOM com os bytes do texto
                 byte[] bytesFinais = new byte[bom.length + bytesTexto.length];
@@ -93,10 +95,20 @@ public class ControladorRelatorio {
             }
         }
 
-        // TODO: Implementar exportação para PDF
-        // if(formato.equalsIgnoreCase("pdf")) {
-        //     return false;
-        // }
+        // PDF
+        if (formato.equalsIgnoreCase("pdf")) {
+            try {
+                // Gera o conteúdo do PDF
+                byte[] bytesPDF = Exportar.exportarPDF(lancamentos);
+                // Escreve os bytes do PDF no arquivo selecionado
+                java.nio.file.Files.write(java.nio.file.Paths.get(caminhoArquivo), bytesPDF);
+                return true; // Exportação bem-sucedida
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false; // Exportação falhou
+            }
+        }
+
         return false; // Formato não suportado
     }
 

@@ -13,6 +13,7 @@ import java.util.UUID;
  * @author Portu
  */
 public class Conta implements Serializable {
+
     private String codConta;
     private String nome;
     private double saldo;
@@ -88,7 +89,7 @@ public class Conta implements Serializable {
         this.saldo = saldo;
     }
 
-    public ArrayList<Lancamento> extrato(){
+    public ArrayList<Lancamento> extrato() {
         if (lancamentos.isEmpty()) {
             return null;
         }

@@ -33,7 +33,7 @@ public class ControladorCategoria {
             return; // Categoria com o mesmo nome já existe, não cria uma nova
         }
 
-        if(nome.isBlank()) {
+        if (nome.isBlank()) {
             return; // Não permite criar categorias com nome em branco
         }
 
@@ -61,12 +61,12 @@ public class ControladorCategoria {
 
             ArrayList<Categoria> categoriasParaRemover = new ArrayList<>();
             categoriasParaRemover.add(categoriaParaRemover);
-            ArrayList<Lancamento> lancamentos = ctrlRelatorio.gerarRelatorio(null, null, null, categoriasParaRemover, null, null); 
+            ArrayList<Lancamento> lancamentos = ctrlRelatorio.gerarRelatorio(null, null, null, categoriasParaRemover, null, null);
 
-            if(lancamentos != null) {
+            if (lancamentos != null) {
                 for (Lancamento lancamento : lancamentos) {
                     ctrlLancamento.removeCategoriaLancamento(lancamento, categoriaParaRemover); // Remove a categoria da lista de categorias do lançamento
-                    if(lancamento.getCategorias().isEmpty()) {
+                    if (lancamento.getCategorias().isEmpty()) {
                         ctrlLancamento.addCategoriaLancamento(lancamento, getCategoriaPadrao()); // Se o lançamento ficar sem categorias, atribui a padrão
                     }
                 }
@@ -99,7 +99,7 @@ public class ControladorCategoria {
 
     public boolean editarCategoria(String idCategoria, String novoNome) {
 
-        if(novoNome.isBlank()) {
+        if (novoNome.isBlank()) {
             return false; // Não permite nome em branco
         }
 

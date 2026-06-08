@@ -22,9 +22,8 @@ public class ControladorCartao {
         this.ctrlConta = controladorConta;
     }
 
-
     public void criarCartao(String codConta, String idCartao, String nome, double limite) {
-        if(buscarCartao(idCartao) != null) {
+        if (buscarCartao(idCartao) != null) {
             return; // Cartão com o mesmo ID já existe, não criar
         }
         Cartao cartao = new Cartao(codConta, idCartao, nome, limite);
@@ -34,8 +33,8 @@ public class ControladorCartao {
 
     public boolean removerCartao(String id) {
         Cartao cartaoParaRemover = buscarCartao(id);
-        if(cartaoParaRemover != null) {
-            if(cartaoParaRemover.getFaturaAtual() != null){
+        if (cartaoParaRemover != null) {
+            if (cartaoParaRemover.getFaturaAtual() != null) {
                 return false; // Falha na remoção, cartão com fatura atual não paga
             }
             ctrlConta.buscarConta(cartaoParaRemover.getCodConta()).removerCartao(cartaoParaRemover);
@@ -47,9 +46,9 @@ public class ControladorCartao {
     }
 
     public Cartao buscarCartao(String idCartao) {
-        for(Conta conta : ctrlConta.getContas()){
-            for(Cartao cartao : conta.getCartoes()){
-                if(cartao.getIdCartao() == null ? idCartao == null : cartao.getIdCartao().equals(idCartao)){
+        for (Conta conta : ctrlConta.getContas()) {
+            for (Cartao cartao : conta.getCartoes()) {
+                if (cartao.getIdCartao() == null ? idCartao == null : cartao.getIdCartao().equals(idCartao)) {
                     return cartao;
                 }
             }
@@ -77,5 +76,5 @@ public class ControladorCartao {
     public ControladorConta getCtrlConta() {
         return ctrlConta;
     }
-    
+
 }

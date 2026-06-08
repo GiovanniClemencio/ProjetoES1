@@ -8,23 +8,32 @@ package Classes;
  *
  * @author Luan
  */
-public class Configuracao
-{
+public class Configuracao {
+
     private static Configuracao instancia = new Configuracao();
     private String arquivoConta;
     private String arquivoCategoria;
 
-    public Configuracao()
-    {
+    public Configuracao() {
         this.arquivoConta = "./armazenamento/arquivoConta.dat";
         this.arquivoCategoria = "./armazenamento/arquivoCategoria.dat";
     }
 
-    public String getArquivoConta() { return arquivoConta; }
-    public void setArquivoConta(String arquivoConta) { this.arquivoConta = arquivoConta; }
+    public String getArquivoConta() {
+        return arquivoConta;
+    }
 
-    public String getArquivoCategoria() { return arquivoCategoria; }
-    public void setArquivoCategoria(String arquivoCategoria) { this.arquivoCategoria = arquivoCategoria; }
+    public void setArquivoConta(String arquivoConta) {
+        this.arquivoConta = arquivoConta;
+    }
+
+    public String getArquivoCategoria() {
+        return arquivoCategoria;
+    }
+
+    public void setArquivoCategoria(String arquivoCategoria) {
+        this.arquivoCategoria = arquivoCategoria;
+    }
 
     public static Configuracao getInstancia() {
         return instancia;
@@ -33,10 +42,9 @@ public class Configuracao
     public static void setInstancia(Configuracao instancia) {
         Configuracao.instancia = instancia;
     }
-    
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return new StringBuffer("\nConfiguração")
                 .append("\nContas")
                 .append(this.arquivoConta)
@@ -45,4 +53,3 @@ public class Configuracao
                 .toString();
     }
 }
-

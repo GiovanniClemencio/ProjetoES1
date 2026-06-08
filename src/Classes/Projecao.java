@@ -23,8 +23,8 @@ public class Projecao {
         double totalPeriodo = conta.getLancamentos().stream()
                 .filter(l -> !l.getDataLancamento().before(dataInicio) && !l.getDataLancamento().after(dataFim))
                 .mapToDouble(Lancamento::getValor)
-                .sum(); 
-        
+                .sum();
+
         // Calculando o número de dias no período
         long diffEmMilisegundos = Math.abs(dataFim.getTime() - dataInicio.getTime());
         long totalDias = TimeUnit.DAYS.convert(diffEmMilisegundos, TimeUnit.MILLISECONDS) + 1;

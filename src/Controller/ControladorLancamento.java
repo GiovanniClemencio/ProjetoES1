@@ -18,7 +18,7 @@ import java.util.Date;
 public class ControladorLancamento {
 
     protected final ControladorCartao ctrlCartao;
-    
+
     public ControladorLancamento(ControladorCartao controladorCartao) {
         this.ctrlCartao = controladorCartao;
     }
@@ -30,12 +30,12 @@ public class ControladorLancamento {
             conta.getLancamentos().add(lancamento);
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
         }
-        if(!(idCartao.equalsIgnoreCase("nenhum"))){
-                Cartao cartao = ctrlCartao.buscarCartao(idCartao);
-                
-                Fatura atual = cartao.getFaturaAtual();
-                atual.adicionarLancamento(lancamento);
-            }
+        if (!(idCartao.equalsIgnoreCase("nenhum"))) {
+            Cartao cartao = ctrlCartao.buscarCartao(idCartao);
+
+            Fatura atual = cartao.getFaturaAtual();
+            atual.adicionarLancamento(lancamento);
+        }
     }
 
     public boolean removerLancamento(String id) {
@@ -86,5 +86,5 @@ public class ControladorLancamento {
     public ControladorCartao getCtrlCartao() {
         return ctrlCartao;
     }
-    
+
 }

@@ -7,12 +7,12 @@ package Classes;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
 /**
  *
  * @author Portu
  */
 public class Cartao implements Serializable {
+
     private String codConta;
     private String idCartao;
     private String nome;
@@ -76,7 +76,7 @@ public class Cartao implements Serializable {
     public void setFaturaAtual(Fatura faturaAtual) {
         this.faturaAtual = faturaAtual;
     }
-    
+
     public void editarCartao(String nome, double limite, ArrayList<Fatura> faturasAntigas, Fatura faturaAtual) {
         this.nome = nome;
         this.limite = limite;

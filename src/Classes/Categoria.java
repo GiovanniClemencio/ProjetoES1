@@ -12,6 +12,7 @@ import java.util.UUID;
  * @author Portu
  */
 public class Categoria implements Serializable {
+
     private String nome;
     private Boolean padrao;
     private String idCategoria;
@@ -45,7 +46,7 @@ public class Categoria implements Serializable {
     public void setIdCategoria(String idCategoria) {
         this.idCategoria = idCategoria;
     }
-    
+
     @Override
     public String toString() {
         return new StringBuffer("Categoria {")
