@@ -5,8 +5,10 @@
 package GUI.telas;
 
 import Classes.Cartao;
+import Classes.Fatura;
 import Classes.Lancamento;
 import Controller.ControladorCartao;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,11 +18,13 @@ public class TelaExtratoCartao extends javax.swing.JDialog {
 
     private final ControladorCartao ctrlCartao;
     private final Cartao cartao;
+    private ArrayList<Fatura> faturas;
     
     public TelaExtratoCartao(java.awt.Frame parent, boolean modal, ControladorCartao ctrlCartao, Cartao cartao) {
         super(parent, modal);
         this.ctrlCartao = ctrlCartao;
         this.cartao = cartao;
+        faturas = new ArrayList<>(cartao.getFaturasAntigas());
         initComponents();
         
         campoNomeCartao.setText(cartao.getNome());
@@ -81,6 +85,11 @@ public class TelaExtratoCartao extends javax.swing.JDialog {
         jScrollPane1.setViewportView(textAreaExtrato);
 
         buttonMesAnterior.setText("Carregar mês anterior");
+        buttonMesAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonMesAnteriorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -132,48 +141,39 @@ public class TelaExtratoCartao extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonMesAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMesAnteriorActionPerformed
+        carregarFaturaAntiga();
+    }//GEN-LAST:event_buttonMesAnteriorActionPerformed
+
     private void carregarFaturaAtual(){
         textAreaExtrato.setText(
         "================== Fatura atual ==================\n");
         for(Lancamento lancamento : cartao.getFaturaAtual().getLancamentos()){
             textAreaExtrato.append("-----\n" + lancamento.toString() + "\n-----");
         }
-        textAreaExtrato.append("\n==================================================\n");
+        textAreaExtrato.append("\n==================================================\n\n");
     }
     
     private void carregarFaturaAntiga(){
+        Fatura maisRecente = faturas.remove(0);
         
+        textAreaExtrato.setText(
+        "================== Fatura ");
+        textAreaExtrato.append(maisRecente.getData().toString());
+        textAreaExtrato.append(" ==================\n");
+        for(Lancamento lancamento : maisRecente.getLancamentos()){
+            textAreaExtrato.append("-----\n" + lancamento.toString() + "\n-----");
+        }
+        textAreaExtrato.append("\n==================================================\n\n");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton buttonCadastrarLancamentos;
-    private javax.swing.JToggleButton buttonCadastrarLancamentos1;
-    private javax.swing.JToggleButton buttonCriarCartao;
-    private javax.swing.JToggleButton buttonCriarCartao1;
-    private javax.swing.JToggleButton buttonEditarConta;
-    private javax.swing.JToggleButton buttonEditarConta1;
-    private javax.swing.JToggleButton buttonExcluirConta;
-    private javax.swing.JToggleButton buttonExcluirConta1;
-    private javax.swing.JToggleButton buttonExtratoConta;
-    private javax.swing.JToggleButton buttonExtratoConta1;
     private javax.swing.JButton buttonMesAnterior;
-    private javax.swing.JToggleButton buttonVisualizarCartao;
-    private javax.swing.JToggleButton buttonVisualizarCartao1;
     private javax.swing.JTextField campoNomeCartao;
-    private javax.swing.JTextField campoSaldo;
-    private javax.swing.JTextField campoSaldo1;
-    private javax.swing.JComboBox<String> comboCartoes;
-    private javax.swing.JComboBox<String> comboCartoes1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel labelTitulo;
     private javax.swing.JTextArea textAreaExtrato;
     // End of variables declaration//GEN-END:variables

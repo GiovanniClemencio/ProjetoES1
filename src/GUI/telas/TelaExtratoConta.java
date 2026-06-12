@@ -4,18 +4,33 @@
  */
 package GUI.telas;
 
+import Classes.Conta;
+import Classes.Lancamento;
+import Controller.ControladorLancamento;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  *
  * @author Portu
  */
 public class TelaExtratoConta extends javax.swing.JDialog {
 
-    /**
-     * Creates new form TelaRelatorioConta
-     */
-    public TelaExtratoConta(java.awt.Frame parent, boolean modal) {
+    private final ControladorLancamento ctrlLancamento;
+    private final Conta conta;
+    private ArrayList<Lancamento> lancamentos;
+    
+    public TelaExtratoConta(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, Conta conta) {
         super(parent, modal);
+        this.ctrlLancamento = ctrlLancamento;
+        this.conta = conta;
+        lancamentos = new ArrayList<>(conta.getLancamentos());
         initComponents();
+        
+        carregarMes();
     }
 
     /**
@@ -47,6 +62,11 @@ public class TelaExtratoConta extends javax.swing.JDialog {
         jScrollPane1.setViewportView(textAreaExtrato);
 
         buttonMesAnterior.setText("Carregar mês anterior");
+        buttonMesAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonMesAnteriorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -121,7 +141,37 @@ public class TelaExtratoConta extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonMesAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMesAnteriorActionPerformed
+        carregarMes();
+    }//GEN-LAST:event_buttonMesAnteriorActionPerformed
     
+    private YearMonth dateParaYearMonth(Date data){
+        LocalDate dataParcial = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        YearMonth dataYearMonth = YearMonth.from(dataParcial);
+        
+        return dataYearMonth;
+    }
+    
+    private void carregarMes(){
+        Lancamento maisRecente = lancamentos.remove(lancamentos.size() - 1);
+        YearMonth dataRecente = dateParaYearMonth(maisRecente.getDataLancamento());
+        
+        textAreaExtrato.setText(
+        "================== Lancamentos ");
+        textAreaExtrato.append(maisRecente.getDataLancamento().toString());
+        textAreaExtrato.append(" ==================\n");
+        
+        YearMonth dataNova = dateParaYearMonth(maisRecente.getDataLancamento());
+        while(dataNova.equals(dataRecente)){
+            textAreaExtrato.append("-----\n" + maisRecente.toString() + "\n-----");
+            
+            dataRecente = dataNova;
+            maisRecente = lancamentos.remove(lancamentos.size() - 1);
+            dataNova = dateParaYearMonth(maisRecente.getDataLancamento());
+        }
+        lancamentos.add(maisRecente);
+        textAreaExtrato.append("\n==================================================\n\n");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonMesAnterior;

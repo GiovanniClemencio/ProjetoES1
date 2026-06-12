@@ -4,17 +4,30 @@
  */
 package GUI.telas;
 
+import Classes.Cartao;
+import Classes.Conta;
+import Classes.Fatura;
+import Classes.Lancamento;
+import Controller.ControladorConta;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  *
  * @author Portu
  */
 public class TelaExtratoConsolidado extends javax.swing.JDialog {
 
-    /**
-     * Creates new form TelaRelatorioConsolidado
-     */
-    public TelaExtratoConsolidado(java.awt.Frame parent, boolean modal) {
+    private final ControladorConta ctrlConta;
+    private final ArrayList<Conta> contas;
+    
+    public TelaExtratoConsolidado(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta) {
         super(parent, modal);
+        this.ctrlConta = ctrlConta;
+        this.contas = new ArrayList<>(ctrlConta.getContas());
         initComponents();
     }
 
@@ -120,8 +133,61 @@ public class TelaExtratoConsolidado extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
     
+    private void carregarFatura(Fatura fatura){
+        textAreaExtrato.setText("");
+        for(Lancamento lancamento : fatura.getLancamentos()){
+            textAreaExtrato.append("-----\n" + lancamento.toString() + "\n-----");
+        }
+        textAreaExtrato.append("\n");
+    }
+    
+    private YearMonth dateParaYearMonth(Date data){
+        LocalDate dataParcial = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        YearMonth dataYearMonth = YearMonth.from(dataParcial);
+        
+        return dataYearMonth;
+    }
+    
+    private void carregarMes(YearMonth atual){
+        ArrayList<Fatura> faturas;
+        textAreaExtrato.setText(
+        "================== Lancamentos ");
+        textAreaExtrato.append(atual.toString());
+        textAreaExtrato.append(" ==================\n");
+        for(Conta conta : contas){
+            ArrayList<Lancamento> lancamentos = conta.getLancamentos();
+            Lancamento maisRecente = lancamentos.remove(lancamentos.size() - 1);
+
+            YearMonth dataLancamento = dateParaYearMonth(maisRecente.getDataLancamento());
+            while(dataLancamento.equals(atual)){ // vai imprimir todos os lancamentos da conta
+                textAreaExtrato.append("-----\n" + maisRecente.toString() + "\n-----");
+
+                maisRecente = lancamentos.remove(lancamentos.size() - 1);
+                dataLancamento = dateParaYearMonth(maisRecente.getDataLancamento());
+            }
+            lancamentos.add(maisRecente);
+            
+            for(Cartao cartao : conta.getCartoes()){ // vai imprimir lançamentos dos cartões de uma conta
+                faturas = new ArrayList<>(cartao.getFaturasAntigas());
+                faturas.add(cartao.getFaturaAtual());
+                
+                Fatura faturaAtual = faturas.remove(faturas.size() - 1);
+                
+                YearMonth dataFatura = dateParaYearMonth(faturaAtual.getData());
+                
+                while(dataFatura.isAfter(atual)){
+                    faturaAtual = faturas.remove(faturas.size() - 1);
+                    dataFatura = dateParaYearMonth(faturaAtual.getData());
+                }
+                
+                if(dataFatura.equals(atual)){
+                    carregarFatura(faturaAtual);
+                }
+            }
+        }
+        textAreaExtrato.append("\n==================================================\n\n");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonMesAnterior;
