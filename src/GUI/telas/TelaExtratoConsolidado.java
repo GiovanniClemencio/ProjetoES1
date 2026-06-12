@@ -23,12 +23,17 @@ public class TelaExtratoConsolidado extends javax.swing.JDialog {
 
     private final ControladorConta ctrlConta;
     private final ArrayList<Conta> contas;
+    private YearMonth atual;
     
     public TelaExtratoConsolidado(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta) {
         super(parent, modal);
         this.ctrlConta = ctrlConta;
         this.contas = new ArrayList<>(ctrlConta.getContas());
+        
+        atual = atual.now();
         initComponents();
+        
+        carregarMes(atual);
     }
 
     /**
@@ -60,6 +65,11 @@ public class TelaExtratoConsolidado extends javax.swing.JDialog {
         jScrollPane1.setViewportView(textAreaExtrato);
 
         buttonMesAnterior.setText("Carregar mês anterior");
+        buttonMesAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonMesAnteriorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -133,6 +143,14 @@ public class TelaExtratoConsolidado extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonMesAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMesAnteriorActionPerformed
+        YearMonth anterior = atual.minusMonths(1);
+        
+        carregarMes(anterior);
+        
+        atual = anterior;
+    }//GEN-LAST:event_buttonMesAnteriorActionPerformed
     
     private void carregarFatura(Fatura fatura){
         textAreaExtrato.setText("");
