@@ -116,10 +116,10 @@ public class TelaContasGeral extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(comboContas, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(buttonVisualizarConta)
+                .addComponent(buttonVisualizarConta, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonCriarConta)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(30, 30, 150));
@@ -242,12 +242,9 @@ public class TelaContasGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonVisualizarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarContaActionPerformed
-        String itemSelecionado = (String) comboContas.getSelectedItem();
+        String idSelecionado = pegarIdContaSelecionada();
 
-        String codContaTxt = itemSelecionado.split(" - ")[0];
-        codContaTxt = codContaTxt.replace("'", "");
-
-        Conta contaSelecionada = ctrlConta.buscarConta(codContaTxt);
+        Conta contaSelecionada = ctrlConta.buscarConta(idSelecionado);
 
         TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada, inicio, ctrlCategoria);
         dialog.setLocationRelativeTo(this);
@@ -274,10 +271,22 @@ public class TelaContasGeral extends javax.swing.JFrame {
         comboContas.removeAllItems();
 
         for (Conta conta : ctrlConta.getContas()) {
-            String item = "'" + conta.getCodConta() + "' - '" + conta.getNome() + "'";
+            String item = "'" + conta.getNome() + "' - '" + conta.getCodConta() + "'";
 
             comboContas.addItem(item);
         }
+    }
+    
+    private String pegarIdContaSelecionada() {
+        String itemSelecionado = (String) comboContas.getSelectedItem();
+
+        int primeiroInicio = itemSelecionado.indexOf('\'');
+        int primeiroFim = itemSelecionado.indexOf('\'', primeiroInicio + 1);
+
+        int segundoInicio = itemSelecionado.indexOf('\'', primeiroFim + 1);
+        int segundoFim = itemSelecionado.indexOf('\'', segundoInicio + 1);
+
+        return itemSelecionado.substring(segundoInicio + 1, segundoFim);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

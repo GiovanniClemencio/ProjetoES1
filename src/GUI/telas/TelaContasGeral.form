@@ -85,10 +85,10 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="comboContas" min="-2" pref="31" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="buttonVisualizarConta" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonVisualizarConta" min="-2" pref="23" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="buttonCriarConta" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="94" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

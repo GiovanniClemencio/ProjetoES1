@@ -235,14 +235,9 @@ public class TelaCategorias extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCadastrarCategoriaActionPerformed
 
     private void buttonEditarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCategoriaActionPerformed
-        String itemSelecionado = (String) comboCategorias.getSelectedItem();
+        String idSelecionado = pegarIdCategoriaSelecionada();
 
-        int inicio = itemSelecionado.indexOf('\'');
-        int fim = itemSelecionado.indexOf('\'', inicio + 1);
-
-        String idCategoria = itemSelecionado.substring(inicio + 1, fim);
-
-        Categoria selecionada = ctrlCategoria.buscarCategoria(idCategoria);
+        Categoria selecionada = ctrlCategoria.buscarCategoria(idSelecionado);
 
         editarCategoria dialog = new editarCategoria(this, true, ctrlCategoria, selecionada);
         dialog.setLocationRelativeTo(this);
@@ -250,15 +245,10 @@ public class TelaCategorias extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonEditarCategoriaActionPerformed
 
     private void buttonExcluirCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirCategoriaActionPerformed
-        String itemSelecionado = (String) comboCategorias.getSelectedItem();
+        String idSelecionado = pegarIdCategoriaSelecionada();
 
-        int inicio = itemSelecionado.indexOf('\'');
-        int fim = itemSelecionado.indexOf('\'', inicio + 1);
+        Categoria selecionada = ctrlCategoria.buscarCategoria(idSelecionado);
 
-        String idCategoria = itemSelecionado.substring(inicio + 1, fim);
-
-        Categoria selecionada = ctrlCategoria.buscarCategoria(idCategoria);
-        
         String confirmacao = "Confirme a exclusao da categoria com os seguintes dados: \n\n"
                 + "Id da categoria: " + selecionada.getIdCategoria() + "\n"
                 + "Nome da categoria: " + selecionada.getNome() + "\n"
@@ -290,10 +280,22 @@ public class TelaCategorias extends javax.swing.JFrame {
         comboCategorias.removeAllItems();
 
         for (Categoria categoria : ctrlCategoria.getCategorias()) {
-            String item = "'" + categoria.getIdCategoria() + "' - '" + categoria.getNome() + "'";
+            String item = "'" + categoria.getNome() + "' - '" + categoria.getIdCategoria() + "'";
 
             comboCategorias.addItem(item);
         }
+    }
+
+    private String pegarIdCategoriaSelecionada() {
+        String itemSelecionado = (String) comboCategorias.getSelectedItem();
+
+        int primeiroInicio = itemSelecionado.indexOf('\'');
+        int primeiroFim = itemSelecionado.indexOf('\'', primeiroInicio + 1);
+
+        int segundoInicio = itemSelecionado.indexOf('\'', primeiroFim + 1);
+        int segundoFim = itemSelecionado.indexOf('\'', segundoInicio + 1);
+
+        return itemSelecionado.substring(segundoInicio + 1, segundoFim);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
