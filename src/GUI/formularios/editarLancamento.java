@@ -392,14 +392,14 @@ public class editarLancamento extends javax.swing.JDialog {
                 tipo = "TRANSFERENCIA";
             }
 
-            String codConta = extrairCodigo(comboContaOrigem.getSelectedItem().toString());
+            String codConta = pegarIdContaSelecionadaOrigem();
             String idCartao = extrairCodigo(comboIdCartao.getSelectedItem().toString());
 
             Conta contaOrigem = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(codConta);
 
             Conta contaDestino = null;
             if (radioTransferencia.isSelected()) {
-                String contaD = extrairCodigo(comboContaDestino.getSelectedItem().toString());
+                String contaD = pegarIdContaSelecionadaDestino();
 
                 contaDestino = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(contaD);
             }
@@ -470,12 +470,36 @@ public class editarLancamento extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoDataMaxActionPerformed
 
+    private String pegarIdContaSelecionadaDestino() {
+        String itemSelecionado = (String) comboContaDestino.getSelectedItem();
+
+        int primeiroInicio = itemSelecionado.indexOf('\'');
+        int primeiroFim = itemSelecionado.indexOf('\'', primeiroInicio + 1);
+
+        int segundoInicio = itemSelecionado.indexOf('\'', primeiroFim + 1);
+        int segundoFim = itemSelecionado.indexOf('\'', segundoInicio + 1);
+
+        return itemSelecionado.substring(segundoInicio + 1, segundoFim);
+    }
+    
+    private String pegarIdContaSelecionadaOrigem() {
+        String itemSelecionado = (String) comboContaOrigem.getSelectedItem();
+
+        int primeiroInicio = itemSelecionado.indexOf('\'');
+        int primeiroFim = itemSelecionado.indexOf('\'', primeiroInicio + 1);
+
+        int segundoInicio = itemSelecionado.indexOf('\'', primeiroFim + 1);
+        int segundoFim = itemSelecionado.indexOf('\'', segundoInicio + 1);
+
+        return itemSelecionado.substring(segundoInicio + 1, segundoFim);
+    }
+    
     public void carregarContasComboBox(ControladorConta ctrlConta) {
         comboContaOrigem.removeAllItems();
         comboContaDestino.removeAllItems();
 
         for (Conta conta : ctrlConta.getContas()) {
-            String item = "'" + conta.getCodConta() + "' - '" + conta.getNome() + "'";
+            String item = "'" + conta.getNome() + "' - '" + conta.getCodConta() + "'";
 
             comboContaOrigem.addItem(item);
             comboContaDestino.addItem(item);
