@@ -302,7 +302,9 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonExtratoContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExtratoContaActionPerformed
-        // TODO add your handling code here:
+        TelaExtratoConta dialog = new TelaExtratoConta(this, true, ctrlLancamento, ctrlCategoria, atual);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_buttonExtratoContaActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed

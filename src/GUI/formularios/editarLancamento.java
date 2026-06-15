@@ -28,12 +28,14 @@ public class editarLancamento extends javax.swing.JDialog {
 
     private final ControladorLancamento ctrlLancamento;
     private final Lancamento lancamento;
+    private final Runnable aoFechar;
 
-    public editarLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Lancamento lancamento) {
+    public editarLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Lancamento lancamento, Runnable aoFechar) {
         super(parent, modal);
         initComponents();
         this.ctrlLancamento = ctrlLancamento;
         this.lancamento = lancamento;
+        this.aoFechar = aoFechar;
 
         configurarValidacaoCampos();
         carregarContasComboBox(ctrlLancamento.getCtrlCartao().getCtrlConta());
@@ -42,6 +44,17 @@ public class editarLancamento extends javax.swing.JDialog {
         carregarCampos(lancamento);
 
         buttonCadastrarLancamento.setEnabled(false);
+        
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (editarLancamento.this.aoFechar != null) {
+                    editarLancamento.this.aoFechar.run();
+                }
+            }
+        });
     }
 
     /**

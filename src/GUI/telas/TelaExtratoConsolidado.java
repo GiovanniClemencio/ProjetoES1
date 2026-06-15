@@ -8,7 +8,10 @@ import Classes.Cartao;
 import Classes.Conta;
 import Classes.Fatura;
 import Classes.Lancamento;
+import Controller.ControladorCategoria;
 import Controller.ControladorConta;
+import Controller.ControladorLancamento;
+import GUI.formularios.editarLancamento;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -19,15 +22,20 @@ import java.util.Date;
  *
  * @author Portu
  */
-public class TelaExtratoConsolidado extends javax.swing.JDialog {
+public class TelaExtratoConsolidado extends javax.swing.JFrame {
 
     private final ControladorConta ctrlConta;
+    private final ControladorLancamento ctrlLancamento;
+    private final ControladorCategoria ctrlCategoria;
     private final ArrayList<Conta> contas;
+    private final java.awt.Frame parent;
     private YearMonth atual;
     
-    public TelaExtratoConsolidado(java.awt.Frame parent, boolean modal, ControladorConta ctrlConta) {
-        super(parent, modal);
+    public TelaExtratoConsolidado(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorConta ctrlConta, ControladorCategoria ctrlCategoria) {
         this.ctrlConta = ctrlConta;
+        this.ctrlLancamento = ctrlLancamento;
+        this.ctrlCategoria = ctrlCategoria;
+        this.parent = parent;
         this.contas = new ArrayList<>(ctrlConta.getContas());
         
         atual = atual.now();
@@ -51,6 +59,9 @@ public class TelaExtratoConsolidado extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaExtrato = new javax.swing.JTextArea();
         buttonMesAnterior = new javax.swing.JButton();
+        buttonAbrirLancamento = new javax.swing.JButton();
+        campoLancamento = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
 
@@ -71,6 +82,15 @@ public class TelaExtratoConsolidado extends javax.swing.JDialog {
             }
         });
 
+        buttonAbrirLancamento.setText("Abrir");
+        buttonAbrirLancamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAbrirLancamentoActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Abrir Lancamento:");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -85,8 +105,17 @@ public class TelaExtratoConsolidado extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(buttonMesAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(campoLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(buttonAbrirLancamento))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 23, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -100,7 +129,12 @@ public class TelaExtratoConsolidado extends javax.swing.JDialog {
                     .addComponent(buttonMesAnterior))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(campoLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonAbrirLancamento))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(30, 30, 150));
@@ -151,6 +185,18 @@ public class TelaExtratoConsolidado extends javax.swing.JDialog {
         
         atual = anterior;
     }//GEN-LAST:event_buttonMesAnteriorActionPerformed
+
+    private void buttonAbrirLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAbrirLancamentoActionPerformed
+        Lancamento escolhido = ctrlLancamento.buscarLancamento(campoLancamento.getText());
+        
+        editarLancamento dialog = new editarLancamento(this, true, ctrlLancamento, ctrlCategoria, escolhido, () -> {
+            new TelaExtratoConsolidado(parent, true, ctrlLancamento, ctrlConta, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        
+        dispose();
+    }//GEN-LAST:event_buttonAbrirLancamentoActionPerformed
     
     private void carregarFatura(Fatura fatura){
         textAreaExtrato.setText("");
@@ -208,9 +254,12 @@ public class TelaExtratoConsolidado extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonAbrirLancamento;
     private javax.swing.JButton buttonMesAnterior;
+    private javax.swing.JTextField campoLancamento;
     private javax.swing.JTextField campoNomeCartao;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
