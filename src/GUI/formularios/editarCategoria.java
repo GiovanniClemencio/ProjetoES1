@@ -41,6 +41,7 @@ public class editarCategoria extends javax.swing.JDialog {
         buttonLimparCampos = new javax.swing.JToggleButton();
         campoNomeCategoria = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        checkBoxPadrao = new javax.swing.JCheckBox();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
 
@@ -65,6 +66,13 @@ public class editarCategoria extends javax.swing.JDialog {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Nome categoria:");
 
+        checkBoxPadrao.setText("Padrão");
+        checkBoxPadrao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkBoxPadraoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -77,10 +85,15 @@ public class editarCategoria extends javax.swing.JDialog {
                 .addGap(101, 101, 101))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(campoNomeCategoria)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(168, 168, 168))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(campoNomeCategoria)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(168, 168, 168))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(checkBoxPadrao)
+                        .addGap(247, 247, 247))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,7 +102,9 @@ public class editarCategoria extends javax.swing.JDialog {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(campoNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(checkBoxPadrao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonCadastrarCategoria)
                     .addComponent(buttonLimparCampos))
@@ -139,7 +154,8 @@ public class editarCategoria extends javax.swing.JDialog {
     private void buttonCadastrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCategoriaActionPerformed
         String nomeCategoria = campoNomeCategoria.getText().trim();
 
-        ctrlCategoria.editarCategoria(categoria.getIdCategoria(), nomeCategoria);
+        ctrlCategoria.editarCategoria(categoria.getIdCategoria(), nomeCategoria, checkBoxPadrao.isSelected());
+        
 
         JOptionPane.showMessageDialog(
                 this,
@@ -166,14 +182,21 @@ public class editarCategoria extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_buttonLimparCamposActionPerformed
 
+    private void checkBoxPadraoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxPadraoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkBoxPadraoActionPerformed
+
     private void carregarCampo(Categoria categoria) {
         campoNomeCategoria.setText(categoria.getNome());
+        
+        checkBoxPadrao.setSelected(categoria.getPadrao());
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonCadastrarCategoria;
     private javax.swing.JToggleButton buttonLimparCampos;
     private javax.swing.JTextField campoNomeCategoria;
+    private javax.swing.JCheckBox checkBoxPadrao;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

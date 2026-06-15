@@ -97,7 +97,7 @@ public class ControladorCategoria {
         }
     }
 
-    public boolean editarCategoria(String idCategoria, String novoNome) {
+    public boolean editarCategoria(String idCategoria, String novoNome, boolean padrao) {
 
         if (novoNome.isBlank()) {
             return false; // Não permite nome em branco
