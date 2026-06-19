@@ -404,6 +404,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
             }
 
             double valor = parseValorBR(campoValor.getText().trim());
+            valor = Math.round(valor * 100.0) / 100.0;
 
             String descricao = textareaDescricao.getText().trim();
 
