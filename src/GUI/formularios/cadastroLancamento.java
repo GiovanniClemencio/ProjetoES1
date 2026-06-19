@@ -129,7 +129,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
-        buttonCadastrarLancamento.setText("Editar");
+        buttonCadastrarLancamento.setText("Cadastrar");
         buttonCadastrarLancamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonCadastrarLancamentoActionPerformed(evt);

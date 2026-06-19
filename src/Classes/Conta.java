@@ -73,7 +73,12 @@ public class Conta implements Serializable {
     }
 
     public void adicionarLancamento(Lancamento lancamento) {
+        double novoSaldo = this.saldo;
+        
         this.lancamentos.add(lancamento);
+        
+        novoSaldo = novoSaldo + lancamento.getValor();
+        this.saldo = novoSaldo;
     }
 
     public void removerCartao(Cartao cartao) {

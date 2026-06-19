@@ -27,7 +27,7 @@ public class ControladorLancamento {
         Lancamento lancamento = new Lancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
         Conta conta = lancamento.getContaOrigem();
         if (conta != null) {
-            conta.getLancamentos().add(lancamento);
+            conta.adicionarLancamento(lancamento);
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
         }
         if (!(idCartao.equalsIgnoreCase("nenhum"))) {
