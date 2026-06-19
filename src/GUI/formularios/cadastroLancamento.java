@@ -49,7 +49,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
         carregarCategoriasNaLista(ctrlCategoria);
 
         buttonCadastrarLancamento.setEnabled(false);
-        
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -404,6 +404,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
             }
 
             double valor = parseValorBR(campoValor.getText().trim());
+
             String descricao = textareaDescricao.getText().trim();
 
             String tipo;
@@ -443,11 +444,11 @@ public class cadastroLancamento extends javax.swing.JDialog {
             ctrlLancamento.criarLancamento(
                     tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao
             );
-            
+
             ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
-            
+
             Lancamento lancamento = ctrlConta.buscarConta(codConta).getLancamentos().getLast();
-            
+
             if (!(categoriasSelecionadas.size() == 1 && "Nenhuma".equals(categoriasSelecionadas.get(0)))) {
                 for (String nomeCategoria : categoriasSelecionadas) {
                     if (!"Nenhuma".equals(nomeCategoria)) {
@@ -671,8 +672,28 @@ public class cadastroLancamento extends javax.swing.JDialog {
     }
 
     private double parseValorBR(String texto) throws java.text.ParseException {
-        java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(new java.util.Locale("pt", "BR"));
-        return nf.parse(texto).doubleValue();
+        String s = texto.trim().replace(" ", "");
+
+        if (s.isEmpty()) {
+            throw new java.text.ParseException("Valor vazio", 0);
+        }
+
+        int ultimoPonto = s.lastIndexOf('.');
+        int ultimaVirgula = s.lastIndexOf(',');
+
+        if (ultimoPonto >= 0 && ultimaVirgula >= 0) {
+            // Quando os dois aparecem, o último é considerado separador decimal
+            if (ultimoPonto > ultimaVirgula) {
+                s = s.replace(",", ""); // remove milhares
+            } else {
+                s = s.replace(".", ""); // remove milhares
+                s = s.replace(',', '.'); // vírgula vira decimal
+            }
+        } else if (ultimaVirgula >= 0) {
+            s = s.replace(',', '.');
+        }
+
+        return Double.parseDouble(s);
     }
 
     private String extrairCodigo(String item) {
