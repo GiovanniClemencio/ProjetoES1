@@ -25,6 +25,7 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
     private final TelaInicial inicio;
+    private final java.awt.Frame parent;
 
     public TelaContaIndividual(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, Conta aberta, TelaInicial inicio, ControladorCategoria ctrlCategoria) {
         this.atual = aberta;
@@ -32,6 +33,7 @@ public class TelaContaIndividual extends javax.swing.JFrame {
         this.ctrlLancamento = ctrlLancamento;
         this.inicio = inicio;
         this.ctrlCategoria = ctrlCategoria;
+        this.parent = parent;
         initComponents();
 
         atualizarVisualizacao();
@@ -370,7 +372,9 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonContasActionPerformed
 
     private void buttonCadastrarLancamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarLancamentosActionPerformed
-        cadastroLancamento dialog = new cadastroLancamento(this, true, ctrlLancamento, ctrlCategoria, null, atual.getCodConta());
+        cadastroLancamento dialog = new cadastroLancamento(this, true, ctrlLancamento, ctrlCategoria, null, atual.getCodConta(), () -> {
+            new TelaContaIndividual(parent, true, ctrlLancamento, atual, inicio, ctrlCategoria).setVisible(true);
+        });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();

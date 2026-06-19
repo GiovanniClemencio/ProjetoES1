@@ -311,7 +311,9 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonExcluirCartaoActionPerformed
 
     private void buttonCadastrarLancamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarLancamentosActionPerformed
-        cadastroLancamento dialog = new cadastroLancamento((java.awt.Frame) this, true, ctrlLancamento, ctrlCategoria, atual.getIdCartao(), null);
+        cadastroLancamento dialog = new cadastroLancamento((java.awt.Frame) this, true, ctrlLancamento, ctrlCategoria, atual.getIdCartao(), null, () -> {
+            new TelaCartaoIndividual((TelaCartoesGeral) telaCartao, true, ctrlLancamento, ctrlCategoria, atual).setVisible(true);
+        });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();

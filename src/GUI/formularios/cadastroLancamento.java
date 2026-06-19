@@ -27,15 +27,19 @@ import javax.swing.event.DocumentListener;
 public class cadastroLancamento extends javax.swing.JDialog {
 
     private final ControladorLancamento ctrlLancamento;
+    private final ControladorCategoria ctrlCategoria;
     private final String codConta;
     private final String idCartao;
+    private final Runnable aoFechar;
 
     /*private final TelaContasGeral parent;*/
-    public cadastroLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, String idCartao, String codConta) {
+    public cadastroLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, String idCartao, String codConta, Runnable aoFechar) {
         super(parent, modal);
         this.ctrlLancamento = ctrlLancamento;
+        this.ctrlCategoria = ctrlCategoria;
         this.codConta = codConta;
         this.idCartao = idCartao;
+        this.aoFechar = aoFechar;
         initComponents();
 
         configurarValidacaoCampos();
@@ -45,6 +49,17 @@ public class cadastroLancamento extends javax.swing.JDialog {
         carregarCategoriasNaLista(ctrlCategoria);
 
         buttonCadastrarLancamento.setEnabled(false);
+        
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (cadastroLancamento.this.aoFechar != null) {
+                    cadastroLancamento.this.aoFechar.run();
+                }
+            }
+        });
     }
 
     /**
@@ -408,7 +423,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
             Conta contaDestino = null;
             if (radioTransferencia.isSelected()) {
                 String contaD = pegarIdContaSelecionadaDestino();
-
                 contaDestino = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(contaD);
             }
 
@@ -421,13 +435,30 @@ public class cadastroLancamento extends javax.swing.JDialog {
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
-            if (!(idCartao.equalsIgnoreCase("nenhum"))){
+
+            if (!(idCartao.equalsIgnoreCase("nenhum"))) {
                 pendente = true;
             }
+
+            ctrlLancamento.criarLancamento(
+                    tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao
+            );
             
-            ctrlLancamento.criarLancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
+            ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
             
+            Lancamento lancamento = ctrlConta.buscarConta(codConta).getLancamentos().getLast();
+            
+            if (!(categoriasSelecionadas.size() == 1 && "Nenhuma".equals(categoriasSelecionadas.get(0)))) {
+                for (String nomeCategoria : categoriasSelecionadas) {
+                    if (!"Nenhuma".equals(nomeCategoria)) {
+                        Categoria categoria = ctrlCategoria.buscarCategoriaPorNome(nomeCategoria);
+                        if (categoria != null) {
+                            ctrlLancamento.addCategoriaLancamento(lancamento, categoria);
+                        }
+                    }
+                }
+            }
+
             JOptionPane.showMessageDialog(this,
                     "Lançamento cadastrado com sucesso!",
                     "Sucesso",
@@ -493,7 +524,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         return itemSelecionado.substring(segundoInicio + 1, segundoFim);
     }
-    
+
     private String pegarIdContaSelecionadaOrigem() {
         String itemSelecionado = (String) comboContaOrigem.getSelectedItem();
 
@@ -505,7 +536,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         return itemSelecionado.substring(segundoInicio + 1, segundoFim);
     }
-    
+
     public void carregarContasComboBox(ControladorConta ctrlConta) {
         comboContaOrigem.removeAllItems();
         comboContaDestino.removeAllItems();
@@ -552,8 +583,12 @@ public class cadastroLancamento extends javax.swing.JDialog {
     private void carregarCategoriasNaLista(ControladorCategoria ctrlCategoria) {
         DefaultListModel<String> model = new DefaultListModel<>();
 
-        for (Categoria categoria : ctrlCategoria.getCategorias()) {
-            model.addElement(categoria.getNome());
+        if (ctrlCategoria.getCategorias().isEmpty()) {
+            model.addElement("Nenhuma");
+        } else {
+            for (Categoria categoria : ctrlCategoria.getCategorias()) {
+                model.addElement(categoria.getNome());
+            }
         }
 
         listCategorias.setModel(model);
@@ -569,6 +604,8 @@ public class cadastroLancamento extends javax.swing.JDialog {
                     break;
                 }
             }
+        } else if (model.getSize() == 1 && "Nenhuma".equals(model.get(0))) {
+            listCategorias.setSelectedIndex(0);
         }
     }
 

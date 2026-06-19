@@ -246,8 +246,7 @@ public class TelaInicial extends javax.swing.JFrame {
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        dispose();
-        
+        dispose();    
     }//GEN-LAST:event_buttonExtratoConsolidadoActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed

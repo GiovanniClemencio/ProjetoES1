@@ -147,7 +147,22 @@ public class Lancamento implements Serializable {
         this.descricao = descricao;
         this.pendente = pendente;
     }
+    
+    public String toTextoExtrato() {
+    String origem = contaOrigem != null ? contaOrigem.getNome() : "null";
+    String destino = contaDestino != null ? contaDestino.getNome() : "null";
 
+    return "Identificador: " + idLancamento +
+           "\nTipo: " + tipo +
+           "\nConta origem: " + origem +
+           "\nConta destino: " + destino +
+           "\nData máxima: " + dataMax +
+           "\nValor: " + valor +
+           "\nData do lançamento: " + dataLancamento +
+           "\nDescrição: " + descricao +
+           "\nPendente: " + pendente;
+}
+    
     @Override
     public String toString() {
         return new StringBuffer("Lancamento {")

@@ -215,7 +215,7 @@ public class TelaExtratoConta extends javax.swing.JFrame {
         
         YearMonth dataNova = dateParaYearMonth(maisRecente.getDataLancamento());
         while(dataNova.equals(dataRecente)){
-            textAreaExtrato.append("-----\n" + maisRecente.toString() + "\n-----");
+            textAreaExtrato.append("-----\n" + maisRecente.toTextoExtrato() + "\n-----");
             
             dataRecente = dataNova;
             maisRecente = lancamentos.remove(lancamentos.size() - 1);
