@@ -241,7 +241,13 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_campoSaldoConsolidadoActionPerformed
 
     private void buttonExtratoConsolidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExtratoConsolidadoActionPerformed
-        // TODO add your handling code here:
+        TelaExtratoConsolidado dialog = new TelaExtratoConsolidado(this, true, ctrlLancamento, ctrlLancamento.getCtrlCartao().getCtrlConta(), ctrlCategoria, ()-> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria, ctrlRelatorio).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+        
     }//GEN-LAST:event_buttonExtratoConsolidadoActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
