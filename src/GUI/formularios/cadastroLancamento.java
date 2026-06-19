@@ -410,8 +410,10 @@ public class cadastroLancamento extends javax.swing.JDialog {
             String tipo;
             if (radioDespesa.isSelected()) {
                 tipo = "DESPESA";
+                valor = -Math.abs(valor);
             } else if (radioReceita.isSelected()) {
                 tipo = "RECEITA";
+                valor = Math.abs(valor);
             } else {
                 tipo = "TRANSFERENCIA";
             }
