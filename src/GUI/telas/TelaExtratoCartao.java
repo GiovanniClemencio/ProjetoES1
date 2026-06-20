@@ -193,7 +193,7 @@ public class TelaExtratoCartao extends javax.swing.JFrame {
         textAreaExtrato.setText(
         "================== Fatura atual ==================\n");
         for(Lancamento lancamento : cartao.getFaturaAtual().getLancamentos()){
-            textAreaExtrato.append("-----\n" + lancamento.toString() + "\n-----");
+            textAreaExtrato.append("-----\n" + lancamento.toTextoExtrato() + "\n-----");
         }
         textAreaExtrato.append("\n==================================================\n\n");
     }
@@ -206,7 +206,7 @@ public class TelaExtratoCartao extends javax.swing.JFrame {
         textAreaExtrato.append(maisRecente.getData().toString());
         textAreaExtrato.append(" ==================\n");
         for(Lancamento lancamento : maisRecente.getLancamentos()){
-            textAreaExtrato.append("-----\n" + lancamento.toString() + "\n-----");
+            textAreaExtrato.append("-----\n" + lancamento.toTextoExtrato() + "\n-----");
         }
         textAreaExtrato.append("\n==================================================\n\n");
     }

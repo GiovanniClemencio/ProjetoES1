@@ -27,15 +27,19 @@ import javax.swing.event.DocumentListener;
 public class cadastroLancamento extends javax.swing.JDialog {
 
     private final ControladorLancamento ctrlLancamento;
+    private final ControladorCategoria ctrlCategoria;
     private final String codConta;
     private final String idCartao;
+    private final Runnable aoFechar;
 
     /*private final TelaContasGeral parent;*/
-    public cadastroLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, String idCartao, String codConta) {
+    public cadastroLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, String idCartao, String codConta, Runnable aoFechar) {
         super(parent, modal);
         this.ctrlLancamento = ctrlLancamento;
+        this.ctrlCategoria = ctrlCategoria;
         this.codConta = codConta;
         this.idCartao = idCartao;
+        this.aoFechar = aoFechar;
         initComponents();
 
         configurarValidacaoCampos();
@@ -45,6 +49,17 @@ public class cadastroLancamento extends javax.swing.JDialog {
         carregarCategoriasNaLista(ctrlCategoria);
 
         buttonCadastrarLancamento.setEnabled(false);
+
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (cadastroLancamento.this.aoFechar != null) {
+                    cadastroLancamento.this.aoFechar.run();
+                }
+            }
+        });
     }
 
     /**
@@ -114,7 +129,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
-        buttonCadastrarLancamento.setText("Editar");
+        buttonCadastrarLancamento.setText("Cadastrar");
         buttonCadastrarLancamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonCadastrarLancamentoActionPerformed(evt);
@@ -369,7 +384,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
     private void buttonCadastrarLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarLancamentoActionPerformed
         try {
-            if (!validarFormularioLancamento()) {
+            if (!validarFormularioLancamento()){
                 JOptionPane.showMessageDialog(this,
                         "Preencha os campos obrigatórios antes de cadastrar.",
                         "Validação",
@@ -389,15 +404,20 @@ public class cadastroLancamento extends javax.swing.JDialog {
             }
 
             double valor = parseValorBR(campoValor.getText().trim());
+            valor = Math.round(valor * 100.0) / 100.0;
+
             String descricao = textareaDescricao.getText().trim();
 
             String tipo;
-            if (radioDespesa.isSelected()) {
+            if (radioDespesa.isSelected()){
                 tipo = "DESPESA";
+                valor = -Math.abs(valor);
             } else if (radioReceita.isSelected()) {
                 tipo = "RECEITA";
+                valor = Math.abs(valor);
             } else {
                 tipo = "TRANSFERENCIA";
+                valor = -Math.abs(valor);
             }
 
             String codConta = pegarIdContaSelecionadaOrigem();
@@ -406,28 +426,51 @@ public class cadastroLancamento extends javax.swing.JDialog {
             Conta contaOrigem = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(codConta);
 
             Conta contaDestino = null;
-            if (radioTransferencia.isSelected()) {
+            if (radioTransferencia.isSelected()){
                 String contaD = pegarIdContaSelecionadaDestino();
-
                 contaDestino = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(contaD);
             }
 
             java.util.List<String> categoriasSelecionadas = listCategorias.getSelectedValuesList();
 
-            if (categoriasSelecionadas.isEmpty()) {
+            if (categoriasSelecionadas.isEmpty()){
                 JOptionPane.showMessageDialog(this,
                         "Selecione ao menos uma categoria.",
                         "Validação",
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
-            if (!(idCartao.equalsIgnoreCase("nenhum"))){
+
+            if (!(idCartao.equalsIgnoreCase("nenhum"))) {
                 pendente = true;
             }
             
-            ctrlLancamento.criarLancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
+            if(radioTransferencia.isSelected()){
+                ctrlLancamento.criarTransferencia(
+                        tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao
+                );
+            }else{
+                ctrlLancamento.criarLancamento(
+                        tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao
+                );
+            }
             
+
+            ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
+
+            Lancamento lancamento = ctrlConta.buscarConta(codConta).getLancamentos().getLast();
+
+            if (!(categoriasSelecionadas.size() == 1 && "Nenhuma".equals(categoriasSelecionadas.get(0)))) {
+                for (String nomeCategoria : categoriasSelecionadas) {
+                    if (!"Nenhuma".equals(nomeCategoria)) {
+                        Categoria categoria = ctrlCategoria.buscarCategoriaPorNome(nomeCategoria);
+                        if (categoria != null) {
+                            ctrlLancamento.addCategoriaLancamento(lancamento, categoria);
+                        }
+                    }
+                }
+            }
+
             JOptionPane.showMessageDialog(this,
                     "Lançamento cadastrado com sucesso!",
                     "Sucesso",
@@ -493,7 +536,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         return itemSelecionado.substring(segundoInicio + 1, segundoFim);
     }
-    
+
     private String pegarIdContaSelecionadaOrigem() {
         String itemSelecionado = (String) comboContaOrigem.getSelectedItem();
 
@@ -505,7 +548,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         return itemSelecionado.substring(segundoInicio + 1, segundoFim);
     }
-    
+
     public void carregarContasComboBox(ControladorConta ctrlConta) {
         comboContaOrigem.removeAllItems();
         comboContaDestino.removeAllItems();
@@ -552,8 +595,12 @@ public class cadastroLancamento extends javax.swing.JDialog {
     private void carregarCategoriasNaLista(ControladorCategoria ctrlCategoria) {
         DefaultListModel<String> model = new DefaultListModel<>();
 
-        for (Categoria categoria : ctrlCategoria.getCategorias()) {
-            model.addElement(categoria.getNome());
+        if (ctrlCategoria.getCategorias().isEmpty()) {
+            model.addElement("Nenhuma");
+        } else {
+            for (Categoria categoria : ctrlCategoria.getCategorias()) {
+                model.addElement(categoria.getNome());
+            }
         }
 
         listCategorias.setModel(model);
@@ -569,6 +616,8 @@ public class cadastroLancamento extends javax.swing.JDialog {
                     break;
                 }
             }
+        } else if (model.getSize() == 1 && "Nenhuma".equals(model.get(0))) {
+            listCategorias.setSelectedIndex(0);
         }
     }
 
@@ -577,7 +626,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 || radioReceita.isSelected()
                 || radioTransferencia.isSelected();
 
-        boolean camposBasePreenchidos
+        boolean basePreenchidos
                 = !campoDataLancamento.getText().trim().isEmpty()
                 && !campoValor.getText().trim().isEmpty()
                 && !textareaDescricao.getText().trim().isEmpty()
@@ -589,6 +638,9 @@ public class cadastroLancamento extends javax.swing.JDialog {
             transferenciaPreenchida
                     = comboValido(comboContaOrigem)
                     && comboValido(comboContaDestino);
+            comboContaDestino.setEnabled(true);
+        }else{
+            comboContaDestino.setEnabled(false);
         }
 
         boolean recorrenciaValida = true;
@@ -599,6 +651,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         buttonCadastrarLancamento.setEnabled(
                 tipoSelecionado
+                && basePreenchidos
                 && transferenciaPreenchida
                 && recorrenciaValida
         );
@@ -634,8 +687,28 @@ public class cadastroLancamento extends javax.swing.JDialog {
     }
 
     private double parseValorBR(String texto) throws java.text.ParseException {
-        java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(new java.util.Locale("pt", "BR"));
-        return nf.parse(texto).doubleValue();
+        String s = texto.trim().replace(" ", "");
+
+        if (s.isEmpty()) {
+            throw new java.text.ParseException("Valor vazio", 0);
+        }
+
+        int ultimoPonto = s.lastIndexOf('.');
+        int ultimaVirgula = s.lastIndexOf(',');
+
+        if (ultimoPonto >= 0 && ultimaVirgula >= 0) {
+            // Quando os dois aparecem, o último é considerado separador decimal
+            if (ultimoPonto > ultimaVirgula) {
+                s = s.replace(",", ""); // remove milhares
+            } else {
+                s = s.replace(".", ""); // remove milhares
+                s = s.replace(',', '.'); // vírgula vira decimal
+            }
+        } else if (ultimaVirgula >= 0) {
+            s = s.replace(',', '.');
+        }
+
+        return Double.parseDouble(s);
     }
 
     private String extrairCodigo(String item) {

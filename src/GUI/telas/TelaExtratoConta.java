@@ -26,7 +26,7 @@ public class TelaExtratoConta extends javax.swing.JFrame {
     private final Conta conta;
     private final java.awt.Frame parent;
     private ArrayList<Lancamento> lancamentos;
-    
+
     public TelaExtratoConta(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Conta conta) {
         this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
@@ -34,8 +34,7 @@ public class TelaExtratoConta extends javax.swing.JFrame {
         this.parent = parent;
         lancamentos = new ArrayList<>(conta.getLancamentos());
         initComponents();
-        
-        
+
         carregarMes();
     }
 
@@ -183,46 +182,65 @@ public class TelaExtratoConta extends javax.swing.JFrame {
 
     private void buttonAbrirLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAbrirLancamentoActionPerformed
         Lancamento escolhido = ctrlLancamento.buscarLancamento(campoLancamento.getText());
-        
+
         editarLancamento dialog = new editarLancamento(this, true, ctrlLancamento, ctrlCategoria, escolhido, () -> {
             new TelaExtratoConta(parent, true, ctrlLancamento, ctrlCategoria, conta).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        
+
         dispose();
     }//GEN-LAST:event_buttonAbrirLancamentoActionPerformed
 
     private void campoLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLancamentoActionPerformed
-       
+
     }//GEN-LAST:event_campoLancamentoActionPerformed
-    
-    private YearMonth dateParaYearMonth(Date data){
+
+    private YearMonth dateParaYearMonth(Date data) {
         LocalDate dataParcial = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         YearMonth dataYearMonth = YearMonth.from(dataParcial);
-        
+
         return dataYearMonth;
     }
-    
-    private void carregarMes(){
+
+    private void carregarMes() {
+
+        if (lancamentos.isEmpty()) {
+            textAreaExtrato.setText("Nenhum lançamento cadastrado.");
+            return;
+        }
+
         Lancamento maisRecente = lancamentos.remove(lancamentos.size() - 1);
         YearMonth dataRecente = dateParaYearMonth(maisRecente.getDataLancamento());
-        
-        textAreaExtrato.setText(
-        "================== Lancamentos ");
-        textAreaExtrato.append(maisRecente.getDataLancamento().toString());
-        textAreaExtrato.append(" ==================\n");
-        
-        YearMonth dataNova = dateParaYearMonth(maisRecente.getDataLancamento());
-        while(dataNova.equals(dataRecente)){
-            textAreaExtrato.append("-----\n" + maisRecente.toString() + "\n-----");
-            
-            dataRecente = dataNova;
+
+        textAreaExtrato.setText("============== Lancamentos ");
+        textAreaExtrato.append(dataRecente.toString());
+        textAreaExtrato.append(" ==============\n");
+
+        while (true) {
+
+            textAreaExtrato.append("-----\n");
+            textAreaExtrato.append(maisRecente.toTextoExtrato());
+            textAreaExtrato.append("\n-----\n");
+
+            if (lancamentos.isEmpty()) {
+                break;
+            }
+
+            Lancamento proximo = lancamentos.get(lancamentos.size() - 1);
+
+            YearMonth dataProximo
+                    = dateParaYearMonth(proximo.getDataLancamento());
+
+            if (!dataProximo.equals(dataRecente)) {
+                break;
+            }
+
             maisRecente = lancamentos.remove(lancamentos.size() - 1);
-            dataNova = dateParaYearMonth(maisRecente.getDataLancamento());
         }
-        lancamentos.add(maisRecente);
-        textAreaExtrato.append("\n==================================================\n\n");
+
+        textAreaExtrato.append(
+                "\n==================================================\n\n");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

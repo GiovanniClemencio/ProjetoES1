@@ -127,4 +127,24 @@ public class ControladorCategoria {
     public Configuracao getCaminhosArquivo() {
         return caminhosArquivo;
     }
+
+    public Categoria buscarCategoriaPorNome(String nome) {
+        if (nome == null) {
+            return null;
+        }
+
+        nome = nome.trim();
+
+        for (Categoria categoria : categorias) {
+            if (categoria.getNome().trim().equalsIgnoreCase(nome)) {
+                return categoria;
+            }
+        }
+
+        return null;
+    }
+
+    public ControladorRelatorio getCtrlRelatorio() {
+        return ctrlRelatorio;
+    }
 }

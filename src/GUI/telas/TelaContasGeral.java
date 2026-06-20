@@ -5,6 +5,7 @@ import Classes.Conta;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,25 +20,28 @@ public class TelaContasGeral extends javax.swing.JFrame {
     private final ControladorConta ctrlConta;
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
-    private final TelaInicial inicio;
+    private final Runnable aoFechar;
+    private final java.awt.Frame parent;
 
     /**
      * Creates new form TelaContas
      */
-    public TelaContasGeral(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria) {
-        this.inicio = (TelaInicial) parent;
+    public TelaContasGeral(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Runnable aoFechar) {
+        this.aoFechar = aoFechar;
         this.ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
         this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
+        this.parent = parent;
         initComponents();
 
         carregarContasComboBox();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                inicio.setVisible(true);
-                inicio.atualizarSaldoConsolidado();
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (TelaContasGeral.this.aoFechar != null) {
+                    TelaContasGeral.this.aoFechar.run();
+                }
             }
         });
     }
@@ -148,6 +152,7 @@ public class TelaContasGeral extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
 
         buttonContas.setText("Contas");
+        buttonContas.setEnabled(false);
         buttonContas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonContasActionPerformed(evt);
@@ -238,25 +243,39 @@ public class TelaContasGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCriarContaActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
-        // TODO add your handling code here:
+        TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonVisualizarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarContaActionPerformed
         String idSelecionado = pegarIdContaSelecionada();
+        if (((String) comboContas.getSelectedItem()).equalsIgnoreCase("'Nenhuma'")) {
+            JOptionPane.showMessageDialog(this,
+                    "Nenhuma conta selecionada.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            Conta contaSelecionada = ctrlConta.buscarConta(idSelecionado);
 
-        Conta contaSelecionada = ctrlConta.buscarConta(idSelecionado);
+            TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada, ctrlCategoria, () -> {
+                new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+                    new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+                }).setVisible(true);
+            });
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+            dispose();
+        }
 
-        TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada, inicio, ctrlCategoria);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_buttonVisualizarContaActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento, ctrlCategoria);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_buttonContasActionPerformed
 
     private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
@@ -264,7 +283,12 @@ public class TelaContasGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
-        // TODO add your handling code here:
+        TelaCartoesGeral dialog = new TelaCartoesGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     public void carregarContasComboBox() {
@@ -275,8 +299,11 @@ public class TelaContasGeral extends javax.swing.JFrame {
 
             comboContas.addItem(item);
         }
+
+        String item = "'Nenhuma'";
+        comboContas.addItem(item);
     }
-    
+
     private String pegarIdContaSelecionada() {
         String itemSelecionado = (String) comboContas.getSelectedItem();
 

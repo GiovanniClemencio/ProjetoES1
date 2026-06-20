@@ -12,6 +12,7 @@ import Controller.ControladorConta;
 import Controller.ControladorLancamento;
 import GUI.telas.TelaCartaoIndividual;
 import GUI.telas.TelaCartoesGeral;
+import GUI.telas.TelaInicial;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -24,10 +25,10 @@ public class editarCartao extends javax.swing.JDialog {
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
     private final Cartao atual;
-    private final TelaCartaoIndividual parent;
-    private final TelaCartoesGeral grandparent;
+    private final java.awt.Frame parent;
+    private final java.awt.Frame grandparent;
 
-    public editarCartao(TelaCartaoIndividual parent, TelaCartoesGeral grandparent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Cartao cartao) {
+    public editarCartao(java.awt.Frame parent, java.awt.Frame grandparent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Cartao cartao) {
         super(parent, modal);
         this.parent = parent;
         this.grandparent = grandparent;
@@ -204,7 +205,7 @@ public class editarCartao extends javax.swing.JDialog {
     private void buttonEditarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCartaoActionPerformed
         try {
             ControladorCartao ctrlCartao = ctrlLancamento.getCtrlCartao();
-            
+
             String nomeCartao = campoNomeCartao.getText().trim();
             String textoLimite = campoLimiteCartao.getText().trim().replace(',', '.');
 
@@ -229,7 +230,11 @@ public class editarCartao extends javax.swing.JDialog {
                     this,
                     "Cartao cadastrado com sucesso!"
             );
-            TelaCartaoIndividual dialog = new TelaCartaoIndividual(grandparent, true, ctrlLancamento, ctrlCategoria, atual);
+            TelaCartaoIndividual dialog = new TelaCartaoIndividual(grandparent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
+                new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+                    new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+                }).setVisible(true);
+            });
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
             dispose();
