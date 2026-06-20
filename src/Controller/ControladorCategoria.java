@@ -143,4 +143,8 @@ public class ControladorCategoria {
 
         return null;
     }
+
+    public ControladorRelatorio getCtrlRelatorio() {
+        return ctrlRelatorio;
+    }
 }

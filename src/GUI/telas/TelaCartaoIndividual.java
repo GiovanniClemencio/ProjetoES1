@@ -18,20 +18,31 @@ import javax.swing.JOptionPane;
  */
 public class TelaCartaoIndividual extends javax.swing.JFrame {
 
-    private final java.awt.Frame telaCartao;
+    private final java.awt.Frame parent;
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
     private final Cartao atual;
+    private final Runnable aoFechar;
 
-    public TelaCartaoIndividual(TelaCartoesGeral parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Cartao cartao) {
-        telaCartao = parent;
+    public TelaCartaoIndividual(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Cartao cartao, Runnable aoFechar) {
+        this.parent = parent;
         this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
         this.atual = cartao;
+        this.aoFechar = aoFechar;
         initComponents();
 
         carregarValorFatura();
         labelTitulo.setText(atual.getNome());
+        
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (TelaCartaoIndividual.this.aoFechar != null) {
+                    TelaCartaoIndividual.this.aoFechar.run();
+                }
+            }
+        });
     }
 
     /**
@@ -274,7 +285,7 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_campoValorActionPerformed
 
     private void buttonEditarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCartaoActionPerformed
-        editarCartao dialog = new editarCartao(this, (TelaCartoesGeral) telaCartao, true, ctrlLancamento, ctrlCategoria, atual);
+        editarCartao dialog = new editarCartao(this, parent, true, ctrlLancamento, ctrlCategoria, atual);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
@@ -298,21 +309,15 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
                     this,
                     "Cartao excluido com sucesso!"
             );
-            TelaCartoesGeral dialog = new TelaCartoesGeral((TelaCartoesGeral) telaCartao.getParent(), true, ctrlLancamento, ctrlCategoria);
-            dialog.setLocationRelativeTo(this);
-            dialog.setVisible(true);
-            dispose();
-        } else {
-            TelaCartoesGeral dialog = new TelaCartoesGeral((TelaCartoesGeral) telaCartao.getParent(), true, ctrlLancamento, ctrlCategoria);
-            dialog.setLocationRelativeTo(this);
-            dialog.setVisible(true);
             dispose();
         }
     }//GEN-LAST:event_buttonExcluirCartaoActionPerformed
 
     private void buttonCadastrarLancamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarLancamentosActionPerformed
         cadastroLancamento dialog = new cadastroLancamento((java.awt.Frame) this, true, ctrlLancamento, ctrlCategoria, atual.getIdCartao(), null, () -> {
-            new TelaCartaoIndividual((TelaCartoesGeral) telaCartao, true, ctrlLancamento, ctrlCategoria, atual).setVisible(true);
+            new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
@@ -320,18 +325,36 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCadastrarLancamentosActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral( (java.awt.Frame) telaCartao.getParent(), true, ctrlLancamento, ctrlCategoria);
+        TelaContasGeral dialog = new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+            new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonContasActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
-        // TODO add your handling code here:
+        TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
+            new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
-        // TODO add your handling code here:
+        TelaCartoesGeral dialog = new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+            new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void buttonPagarFaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPagarFaturaActionPerformed

@@ -24,16 +24,16 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     private final ControladorConta ctrlConta;
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
-    private final TelaInicial inicio;
     private final java.awt.Frame parent;
+    private final Runnable aoFechar;
 
-    public TelaContaIndividual(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, Conta aberta, TelaInicial inicio, ControladorCategoria ctrlCategoria) {
+    public TelaContaIndividual(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, Conta aberta, ControladorCategoria ctrlCategoria, Runnable aoFechar) {
         this.atual = aberta;
         this.ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
         this.ctrlLancamento = ctrlLancamento;
-        this.inicio = inicio;
         this.ctrlCategoria = ctrlCategoria;
         this.parent = parent;
+        this.aoFechar = aoFechar;
         initComponents();
 
         atualizarVisualizacao();
@@ -42,10 +42,10 @@ public class TelaContaIndividual extends javax.swing.JFrame {
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento, ctrlCategoria);
-                dialog.setLocationRelativeTo(TelaContaIndividual.this);
-                dialog.setVisible(true);
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (TelaContaIndividual.this.aoFechar != null) {
+                    TelaContaIndividual.this.aoFechar.run();
+                }
             }
         });
     }
@@ -310,7 +310,14 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonExtratoContaActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
-        // TODO add your handling code here:
+        TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
+            new TelaContaIndividual(parent, true, ctrlLancamento, atual, ctrlCategoria, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void campoSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSaldoActionPerformed
@@ -348,14 +355,6 @@ public class TelaContaIndividual extends javax.swing.JFrame {
                     this,
                     "Conta excluida com sucesso!"
             );
-            inicio.setVisible(true);
-            inicio.atualizarSaldoConsolidado();
-            dispose();
-        } else {
-            TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, atual, inicio, ctrlCategoria);
-            dialog.setLocationRelativeTo(this);
-            dialog.setVisible(true);
-            dispose();
             dispose();
         }
     }//GEN-LAST:event_buttonExcluirContaActionPerformed
@@ -365,7 +364,11 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_comboCartoesActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento, ctrlCategoria);
+        TelaContasGeral dialog = new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+            new TelaContaIndividual(parent, true, ctrlLancamento, atual, ctrlCategoria, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
@@ -373,7 +376,9 @@ public class TelaContaIndividual extends javax.swing.JFrame {
 
     private void buttonCadastrarLancamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarLancamentosActionPerformed
         cadastroLancamento dialog = new cadastroLancamento(this, true, ctrlLancamento, ctrlCategoria, null, atual.getCodConta(), () -> {
-            new TelaContaIndividual(parent, true, ctrlLancamento, atual, inicio, ctrlCategoria).setVisible(true);
+            new TelaContaIndividual(parent, true, ctrlLancamento, atual, ctrlCategoria, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
@@ -381,7 +386,14 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCadastrarLancamentosActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
-        // TODO add your handling code here:
+        TelaCartoesGeral dialog = new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+            new TelaContaIndividual(parent, true, ctrlLancamento, atual, ctrlCategoria, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void carregarCartoesComboBox(Conta aberta) {

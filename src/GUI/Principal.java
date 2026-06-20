@@ -37,7 +37,7 @@ public class Principal {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TelaInicial janela = new TelaInicial(ctrlLancamento, ctrlCategoria, ctrlRelatorio);
+                TelaInicial janela = new TelaInicial(ctrlLancamento, ctrlCategoria);
                 janela.setLocationRelativeTo(null); // Centraliza na tela
                 janela.setVisible(true);            // Torna a janela visível
             }

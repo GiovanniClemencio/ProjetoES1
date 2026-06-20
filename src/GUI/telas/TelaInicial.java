@@ -20,10 +20,10 @@ public class TelaInicial extends javax.swing.JFrame {
     private final ControladorCategoria ctrlCategoria;
     private final ControladorRelatorio ctrlRelatorio;
     
-    public TelaInicial(ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, ControladorRelatorio ctrlRelatorio) {
+    public TelaInicial(ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria) {
         this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
-        this.ctrlRelatorio = ctrlRelatorio;
+        this.ctrlRelatorio = ctrlCategoria.getCtrlRelatorio();
         initComponents();
         atualizarSaldoConsolidado();
     }
@@ -242,7 +242,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
     private void buttonExtratoConsolidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExtratoConsolidadoActionPerformed
         TelaExtratoConsolidado dialog = new TelaExtratoConsolidado(this, true, ctrlLancamento, ctrlLancamento.getCtrlCartao().getCtrlConta(), ctrlCategoria, ()-> {
-            new TelaInicial(ctrlLancamento, ctrlCategoria, ctrlRelatorio).setVisible(true);
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
@@ -250,18 +250,30 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonExtratoConsolidadoActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
-        // TODO add your handling code here:
+        TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, ()-> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose(); 
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento, ctrlCategoria);
+        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento, ctrlCategoria, ()-> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        this.setVisible(false);
+        dispose(); 
     }//GEN-LAST:event_buttonContasActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
-        // TODO add your handling code here:
+        TelaCartoesGeral dialog = new TelaCartoesGeral(this, true, ctrlLancamento, ctrlCategoria, ()-> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose(); 
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     public void atualizarSaldoConsolidado(){

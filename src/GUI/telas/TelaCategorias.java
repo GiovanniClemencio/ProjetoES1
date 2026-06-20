@@ -6,6 +6,7 @@ package GUI.telas;
 
 import Classes.Categoria;
 import Controller.ControladorCategoria;
+import Controller.ControladorLancamento;
 import GUI.formularios.cadastroCategoria;
 import GUI.formularios.editarCategoria;
 import javax.swing.JOptionPane;
@@ -17,12 +18,25 @@ import javax.swing.JOptionPane;
 public class TelaCategorias extends javax.swing.JFrame {
 
     private final ControladorCategoria ctrlCategoria;
+    private final ControladorLancamento ctrlLancamento;
+    private final Runnable aoFechar;
 
-    public TelaCategorias(ControladorCategoria ctrlCategoria) {
+    public TelaCategorias(ControladorCategoria ctrlCategoria, ControladorLancamento ctrlLancamento, Runnable aoFechar) {
         initComponents();
         this.ctrlCategoria = ctrlCategoria;
+        this.ctrlLancamento = ctrlLancamento;
+        this.aoFechar = aoFechar;
 
         carregarCategoriasComboBox();
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (TelaCategorias.this.aoFechar != null) {
+                    TelaCategorias.this.aoFechar.run();
+                }
+            }
+        });
     }
 
     /**
@@ -126,6 +140,7 @@ public class TelaCategorias extends javax.swing.JFrame {
         });
 
         buttonCategorias.setText("Categorias");
+        buttonCategorias.setEnabled(false);
         buttonCategorias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonCategoriasActionPerformed(evt);
@@ -221,7 +236,12 @@ public class TelaCategorias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        /*-*/
+        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonContasActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
@@ -273,7 +293,12 @@ public class TelaCategorias extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonExcluirCategoriaActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
-        // TODO add your handling code here:
+        TelaCartoesGeral dialog = new TelaCartoesGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     public void carregarCategoriasComboBox() {
