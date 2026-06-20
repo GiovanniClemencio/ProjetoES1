@@ -384,7 +384,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
     private void buttonCadastrarLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarLancamentoActionPerformed
         try {
-            if (!validarFormularioLancamento()) {
+            if (!validarFormularioLancamento()){
                 JOptionPane.showMessageDialog(this,
                         "Preencha os campos obrigatórios antes de cadastrar.",
                         "Validação",
@@ -409,7 +409,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
             String descricao = textareaDescricao.getText().trim();
 
             String tipo;
-            if (radioDespesa.isSelected()) {
+            if (radioDespesa.isSelected()){
                 tipo = "DESPESA";
                 valor = -Math.abs(valor);
             } else if (radioReceita.isSelected()) {
@@ -417,6 +417,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 valor = Math.abs(valor);
             } else {
                 tipo = "TRANSFERENCIA";
+                valor = -Math.abs(valor);
             }
 
             String codConta = pegarIdContaSelecionadaOrigem();
@@ -425,14 +426,14 @@ public class cadastroLancamento extends javax.swing.JDialog {
             Conta contaOrigem = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(codConta);
 
             Conta contaDestino = null;
-            if (radioTransferencia.isSelected()) {
+            if (radioTransferencia.isSelected()){
                 String contaD = pegarIdContaSelecionadaDestino();
                 contaDestino = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(contaD);
             }
 
             java.util.List<String> categoriasSelecionadas = listCategorias.getSelectedValuesList();
 
-            if (categoriasSelecionadas.isEmpty()) {
+            if (categoriasSelecionadas.isEmpty()){
                 JOptionPane.showMessageDialog(this,
                         "Selecione ao menos uma categoria.",
                         "Validação",
@@ -443,10 +444,17 @@ public class cadastroLancamento extends javax.swing.JDialog {
             if (!(idCartao.equalsIgnoreCase("nenhum"))) {
                 pendente = true;
             }
-
-            ctrlLancamento.criarLancamento(
-                    tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao
-            );
+            
+            if(radioTransferencia.isSelected()){
+                ctrlLancamento.criarTransferencia(
+                        tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao
+                );
+            }else{
+                ctrlLancamento.criarLancamento(
+                        tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao
+                );
+            }
+            
 
             ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
 
@@ -618,7 +626,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 || radioReceita.isSelected()
                 || radioTransferencia.isSelected();
 
-        boolean camposBasePreenchidos
+        boolean basePreenchidos
                 = !campoDataLancamento.getText().trim().isEmpty()
                 && !campoValor.getText().trim().isEmpty()
                 && !textareaDescricao.getText().trim().isEmpty()
@@ -630,6 +638,9 @@ public class cadastroLancamento extends javax.swing.JDialog {
             transferenciaPreenchida
                     = comboValido(comboContaOrigem)
                     && comboValido(comboContaDestino);
+            comboContaDestino.setEnabled(true);
+        }else{
+            comboContaDestino.setEnabled(false);
         }
 
         boolean recorrenciaValida = true;
@@ -640,6 +651,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         buttonCadastrarLancamento.setEnabled(
                 tipoSelecionado
+                && basePreenchidos
                 && transferenciaPreenchida
                 && recorrenciaValida
         );

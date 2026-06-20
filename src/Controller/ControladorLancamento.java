@@ -87,4 +87,21 @@ public class ControladorLancamento {
         return ctrlCartao;
     }
 
+    public void criarTransferencia(String tipo, Conta contaOrigem, Conta contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente, String idCartao) {
+        double valorPos = Math.abs(valor);
+        Lancamento lancamento1 = new Lancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
+        Lancamento lancamento2 = new Lancamento(tipo, contaDestino, contaOrigem, dataMax, valorPos, dataLancamento, descricao, pendente, idCartao);
+        
+        Conta conta = lancamento1.getContaOrigem();
+        if (conta != null) {
+            conta.adicionarLancamento(lancamento1);
+            Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
+        }
+        conta = lancamento2.getContaOrigem();
+        if (conta != null) {
+            conta.adicionarLancamento(lancamento2);
+            Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
+        }
+        
+    }
 }

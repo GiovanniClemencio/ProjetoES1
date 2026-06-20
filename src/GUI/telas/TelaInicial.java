@@ -271,6 +271,7 @@ public class TelaInicial extends javax.swing.JFrame {
         for(Conta conta : ctrlConta.getContas()){
             saldoConsolidado += conta.getSaldo();
         }
+        saldoConsolidado = Math.round(saldoConsolidado * 100)/100.0;
         
         campoSaldoConsolidado.setText(Double.toString(saldoConsolidado));
     }
