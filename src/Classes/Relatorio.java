@@ -42,11 +42,17 @@ public class Relatorio {
         }
 
         // 2. Filtro de data
-        if (inicio != null && fim != null) {
-            if (inicio.before(fim)) {
-                resultado.removeIf(lancamento -> lancamento.getDataLancamento().before(inicio) || lancamento.getDataLancamento().after(fim));
+        if (inicio != null || fim != null) {
+            if (inicio != null && fim != null) {
+                if (!inicio.after(fim)) {
+                    resultado.removeIf(lancamento -> lancamento.getDataLancamento().before(inicio) || lancamento.getDataLancamento().after(fim));
+                } else {
+                    return new ArrayList<>();
+                }
+            } else if (inicio != null) {
+                resultado.removeIf(lancamento -> lancamento.getDataLancamento().before(inicio));
             } else {
-                return new ArrayList<>();
+                resultado.removeIf(lancamento -> lancamento.getDataLancamento().after(fim));
             }
         }
 

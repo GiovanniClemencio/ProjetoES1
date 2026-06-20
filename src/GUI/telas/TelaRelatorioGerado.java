@@ -4,44 +4,27 @@
  */
 package GUI.telas;
 
-import Classes.Cartao;
-import Classes.Conta;
-import Classes.Fatura;
+import Classes.Categoria;
 import Classes.Lancamento;
-import Controller.ControladorCategoria;
-import Controller.ControladorConta;
-import Controller.ControladorLancamento;
-import GUI.formularios.editarLancamento;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.ZoneId;
+import Controller.ControladorRelatorio;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
- * @author Portu
+ * @author Luan
  */
-public class TelaExtratoConsolidado extends javax.swing.JFrame {
+public class TelaRelatorioGerado extends javax.swing.JFrame {
 
-    private final ControladorConta ctrlConta;
-    private final ControladorLancamento ctrlLancamento;
-    private final ControladorCategoria ctrlCategoria;
-    private final ArrayList<Conta> contas;
+    private final ControladorRelatorio ctrlRelatorio;
+    ArrayList<Lancamento> relatorio;
     private final java.awt.Frame parent;
-    private YearMonth atual;
-    
-    public TelaExtratoConsolidado(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorConta ctrlConta, ControladorCategoria ctrlCategoria) {
-        this.ctrlConta = ctrlConta;
-        this.ctrlLancamento = ctrlLancamento;
-        this.ctrlCategoria = ctrlCategoria;
+
+    public TelaRelatorioGerado(java.awt.Frame parent, ControladorRelatorio ctrlRelatorio, ArrayList<Lancamento> relatorio) {
+        this.ctrlRelatorio = ctrlRelatorio;
         this.parent = parent;
-        this.contas = new ArrayList<>(ctrlConta.getContas());
-        
-        atual = atual.now();
+        this.relatorio = relatorio;
         initComponents();
-        
-        carregarMes(atual);
+        carregarRelatorio();
     }
 
     /**
@@ -54,14 +37,10 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        campoNomeCartao = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        textAreaExtrato = new javax.swing.JTextArea();
-        buttonMesAnterior = new javax.swing.JButton();
-        buttonAbrirLancamento = new javax.swing.JButton();
-        campoLancamento = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        textAreaRelatorio = new javax.swing.JTextArea();
+        buttonExportCSV = new javax.swing.JButton();
+        buttonExportPDF = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
 
@@ -69,27 +48,23 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(200, 200, 242));
 
-        jLabel1.setText("Referente ao cartão:");
+        textAreaRelatorio.setColumns(20);
+        textAreaRelatorio.setRows(5);
+        jScrollPane1.setViewportView(textAreaRelatorio);
 
-        textAreaExtrato.setColumns(20);
-        textAreaExtrato.setRows(5);
-        jScrollPane1.setViewportView(textAreaExtrato);
-
-        buttonMesAnterior.setText("Carregar mês anterior");
-        buttonMesAnterior.addActionListener(new java.awt.event.ActionListener() {
+        buttonExportCSV.setText("Exportar CSV");
+        buttonExportCSV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonMesAnteriorActionPerformed(evt);
+                buttonExportCSVActionPerformed(evt);
             }
         });
 
-        buttonAbrirLancamento.setText("Abrir");
-        buttonAbrirLancamento.addActionListener(new java.awt.event.ActionListener() {
+        buttonExportPDF.setText("Exportar PDF");
+        buttonExportPDF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonAbrirLancamentoActionPerformed(evt);
+                buttonExportPDFActionPerformed(evt);
             }
         });
-
-        jLabel2.setText("Abrir Lancamento:");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -98,43 +73,25 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoNomeCartao, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonMesAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(28, 28, 28)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(campoLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonAbrirLancamento))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 23, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(99, 99, 99)
+                        .addComponent(buttonExportCSV)
+                        .addGap(151, 151, 151)
+                        .addComponent(buttonExportPDF)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(campoNomeCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonMesAnterior))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(campoLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonAbrirLancamento))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(buttonExportCSV)
+                    .addComponent(buttonExportPDF))
+                .addGap(22, 22, 22))
         );
 
         jPanel1.setBackground(new java.awt.Color(30, 30, 150));
@@ -143,7 +100,7 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
         labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelTitulo.setText("Extrato consolidado");
+        labelTitulo.setText("Relatorio");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -178,92 +135,85 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonMesAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMesAnteriorActionPerformed
-        YearMonth anterior = atual.minusMonths(1);
-        
-        carregarMes(anterior);
-        
-        atual = anterior;
-    }//GEN-LAST:event_buttonMesAnteriorActionPerformed
+    private void buttonExportCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExportCSVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonExportCSVActionPerformed
 
-    private void buttonAbrirLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAbrirLancamentoActionPerformed
-        Lancamento escolhido = ctrlLancamento.buscarLancamento(campoLancamento.getText());
-        
-        editarLancamento dialog = new editarLancamento(this, true, ctrlLancamento, ctrlCategoria, escolhido, () -> {
-            new TelaExtratoConsolidado(parent, true, ctrlLancamento, ctrlConta, ctrlCategoria).setVisible(true);
-        });
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        
-        dispose();
-    }//GEN-LAST:event_buttonAbrirLancamentoActionPerformed
-    
-    private void carregarFatura(Fatura fatura){
-        textAreaExtrato.setText("");
-        for(Lancamento lancamento : fatura.getLancamentos()){
-            textAreaExtrato.append("-----\n" + lancamento.toString() + "\n-----");
-        }
-        textAreaExtrato.append("\n");
-    }
-    
-    private YearMonth dateParaYearMonth(Date data){
-        LocalDate dataParcial = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        YearMonth dataYearMonth = YearMonth.from(dataParcial);
-        
-        return dataYearMonth;
-    }
-    
-    private void carregarMes(YearMonth atual){
-        ArrayList<Fatura> faturas;
-        textAreaExtrato.setText(
-        "================== Lancamentos ");
-        textAreaExtrato.append(atual.toString());
-        textAreaExtrato.append(" ==================\n");
-        for(Conta conta : contas){
-            ArrayList<Lancamento> lancamentos = conta.getLancamentos();
-            Lancamento maisRecente = lancamentos.remove(lancamentos.size() - 1);
+    private void buttonExportPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExportPDFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonExportPDFActionPerformed
+    private void carregarRelatorio() {
+        // Limpa e define o cabeçalho do relatório
+        StringBuilder sb = new StringBuilder();
+        sb.append("==============================================================\n");
+        sb.append("                     RELATÓRIO FINANCEIRO                     \n");
+        sb.append("==============================================================\n");
+        sb.append(String.format("%-12s | %-15s | %-12s | %-10s\n", "Data", "Descrição", "Categoria", "Valor (R$)"));
+        sb.append("--------------------------------------------------------------\n");
 
-            YearMonth dataLancamento = dateParaYearMonth(maisRecente.getDataLancamento());
-            while(dataLancamento.equals(atual)){ // vai imprimir todos os lancamentos da conta
-                textAreaExtrato.append("-----\n" + maisRecente.toString() + "\n-----");
+        double totalReceitas = 0.0;
+        double totalDespesas = 0.0;
 
-                maisRecente = lancamentos.remove(lancamentos.size() - 1);
-                dataLancamento = dateParaYearMonth(maisRecente.getDataLancamento());
-            }
-            lancamentos.add(maisRecente);
-            
-            for(Cartao cartao : conta.getCartoes()){ // vai imprimir lançamentos dos cartões de uma conta
-                faturas = new ArrayList<>(cartao.getFaturasAntigas());
-                faturas.add(cartao.getFaturaAtual());
-                
-                Fatura faturaAtual = faturas.remove(faturas.size() - 1);
-                
-                YearMonth dataFatura = dateParaYearMonth(faturaAtual.getData());
-                
-                while(dataFatura.isAfter(atual)){
-                    faturaAtual = faturas.remove(faturas.size() - 1);
-                    dataFatura = dateParaYearMonth(faturaAtual.getData());
+        // Vazia
+        if (relatorio == null || relatorio.isEmpty()) {
+            sb.append(" Nenhum lançamento encontrado para os filtros selecionados.\n");
+        } else {
+            // Formatos auxiliares
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+
+            for (Lancamento l : relatorio) {
+                String dataStr = (l.getDataLancamento() != null) ? sdf.format(l.getDataLancamento()) : " - ";
+
+                String descricao = (l.getDescricao() != null && !l.getDescricao().isEmpty()) ? l.getDescricao() : "Sem desc.";
+
+                String categoria = "Geral";
+                if (l.getCategorias() != null && !l.getCategorias().isEmpty()) {
+                    ArrayList<String> nomesCategorias = new ArrayList<>();
+                    for (Categoria cat : l.getCategorias()) {
+                        nomesCategorias.add(cat.getNome());
+                    }
+                    // Junta todas as categorias da lista separando por ", "
+                    categoria = String.join(", ", nomesCategorias);
                 }
-                
-                if(dataFatura.equals(atual)){
-                    carregarFatura(faturaAtual);
+                double valor = l.getValor();
+
+                if (l.getTipo() != null && (l.getTipo().equalsIgnoreCase("Receita") || l.getTipo().equalsIgnoreCase("Ganho"))) {
+                    totalReceitas += valor;
+                } else {
+                    totalDespesas += valor;
                 }
+
+                // Corta textos muito longos para não quebrar o alinhamento das colunas
+                if (descricao.length() > 15) {
+                    descricao = descricao.substring(0, 12) + "...";
+                }
+                if (categoria.length() > 12) {
+                    categoria = categoria.substring(0, 9) + "...";
+                }
+
+                sb.append(String.format("%-12s | %-15s | %-12s | %10.2f\n", dataStr, descricao, categoria, valor));
             }
         }
-        textAreaExtrato.append("\n==================================================\n\n");
+
+        // Rodapé
+        sb.append("==============================================================\n");
+        sb.append(String.format(" Total de Receitas: R$ %.2f\n", totalReceitas));
+        sb.append(String.format(" Total de Despesas: R$ %.2f\n", totalDespesas));
+        sb.append("--------------------------------------------------------------\n");
+        sb.append(String.format(" Saldo do Período:  R$ %.2f\n", (totalReceitas - totalDespesas)));
+        sb.append("==============================================================\n");
+
+        textAreaRelatorio.setText(sb.toString());
+        textAreaRelatorio.setEditable(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonAbrirLancamento;
-    private javax.swing.JButton buttonMesAnterior;
-    private javax.swing.JTextField campoLancamento;
-    private javax.swing.JTextField campoNomeCartao;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton buttonExportCSV;
+    private javax.swing.JButton buttonExportPDF;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelTitulo;
-    private javax.swing.JTextArea textAreaExtrato;
+    private javax.swing.JTextArea textAreaRelatorio;
     // End of variables declaration//GEN-END:variables
 }

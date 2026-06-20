@@ -91,7 +91,7 @@ public class Conta implements Serializable {
 
     public ArrayList<Lancamento> extrato() {
         if (lancamentos.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
         return lancamentos;
     }
