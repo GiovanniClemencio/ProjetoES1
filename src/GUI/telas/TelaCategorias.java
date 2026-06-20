@@ -7,6 +7,7 @@ package GUI.telas;
 import Classes.Categoria;
 import Controller.ControladorCategoria;
 import Controller.ControladorLancamento;
+import Controller.ControladorRelatorio;
 import GUI.formularios.cadastroCategoria;
 import GUI.formularios.editarCategoria;
 import javax.swing.JOptionPane;
@@ -150,6 +151,11 @@ public class TelaCategorias extends javax.swing.JFrame {
         buttonAnalises.setText("Análises");
 
         buttonRelatorios.setText("Relatórios");
+        buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRelatoriosActionPerformed(evt);
+            }
+        });
 
         buttonCartoes.setText("Cartões");
         buttonCartoes.addActionListener(new java.awt.event.ActionListener() {
@@ -300,6 +306,15 @@ public class TelaCategorias extends javax.swing.JFrame {
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonCartoesActionPerformed
+
+    private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonRelatoriosActionPerformed
 
     public void carregarCategoriasComboBox() {
         comboCategorias.removeAllItems();

@@ -2,52 +2,39 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package GUI.telas;
+package GUI.formularios;
 
 import Classes.Cartao;
-import Classes.Fatura;
-import Classes.Lancamento;
 import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
+import Controller.ControladorConta;
 import Controller.ControladorLancamento;
-import GUI.formularios.editarLancamento;
-import java.util.ArrayList;
 
 /**
  *
  * @author Portu
  */
-public class TelaExtratoCartao extends javax.swing.JFrame {
+public class pagarFatura extends javax.swing.JDialog {
 
-    private final ControladorCartao ctrlCartao;
+    private final java.awt.Frame parent;
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
-    private final java.awt.Frame parent;
+    private final ControladorConta ctrlConta;
+    private final ControladorCartao ctrlCartao;
     private final Cartao cartao;
     private final Runnable aoFechar;
-    private ArrayList<Fatura> faturas;
     
-    public TelaExtratoCartao(java.awt.Frame parent, boolean modal, ControladorCartao ctrlCartao, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Cartao cartao, Runnable aoFechar) {
-        this.ctrlCartao = ctrlCartao;
+    public pagarFatura(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Cartao cartao, Runnable aoFechar) {
+        super(parent, modal);
+        this.parent = parent;
         this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
+        this.ctrlCartao = ctrlLancamento.getCtrlCartao();
+        this.ctrlConta = ctrlCartao.getCtrlConta();
         this.cartao = cartao;
-        this.parent = parent;
         this.aoFechar = aoFechar;
-        faturas = new ArrayList<>(cartao.getFaturasAntigas());
+        
         initComponents();
-        
-        campoNomeCartao.setText(cartao.getNome());
-        carregarFaturaAtual();
-        
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                if (TelaExtratoCartao.this.aoFechar != null) {
-                    TelaExtratoCartao.this.aoFechar.run();
-                }
-            }
-        });
     }
 
     /**
@@ -66,10 +53,11 @@ public class TelaExtratoCartao extends javax.swing.JFrame {
         campoNomeCartao = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaExtrato = new javax.swing.JTextArea();
-        buttonMesAnterior = new javax.swing.JButton();
-        buttonAbrirLancamento = new javax.swing.JButton();
-        campoLancamento = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        contaCartoes = new javax.swing.JComboBox<>();
+        comboContas = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -79,7 +67,7 @@ public class TelaExtratoCartao extends javax.swing.JFrame {
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
         labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelTitulo.setText("Extrato de cartão");
+        labelTitulo.setText("Pagar fatura de cartão");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -106,64 +94,64 @@ public class TelaExtratoCartao extends javax.swing.JFrame {
         textAreaExtrato.setRows(5);
         jScrollPane1.setViewportView(textAreaExtrato);
 
-        buttonMesAnterior.setText("Carregar mês anterior");
-        buttonMesAnterior.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonMesAnteriorActionPerformed(evt);
-            }
-        });
+        jLabel2.setText("Escolha a fatura:");
 
-        buttonAbrirLancamento.setText("Abrir");
-        buttonAbrirLancamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonAbrirLancamentoActionPerformed(evt);
-            }
-        });
+        contaCartoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel2.setText("Abrir Lancamento:");
+        comboContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel3.setText("Conta a abater valor da fatura:");
+
+        jToggleButton1.setText("Pagar");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(70, 129, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoNomeCartao, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonMesAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(campoNomeCartao, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 23, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonAbrirLancamento)))
-                .addContainerGap())
+                        .addComponent(contaCartoes, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(93, 93, 93))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboContas, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jToggleButton1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(campoNomeCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonMesAnterior))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                    .addComponent(campoNomeCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(campoLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonAbrirLancamento))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(contaCartoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(comboContas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -184,56 +172,19 @@ public class TelaExtratoCartao extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonMesAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMesAnteriorActionPerformed
-        carregarFaturaAntiga();
-    }//GEN-LAST:event_buttonMesAnteriorActionPerformed
-
-    private void buttonAbrirLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAbrirLancamentoActionPerformed
-        Lancamento escolhido = ctrlLancamento.buscarLancamento(campoLancamento.getText());
-        
-        editarLancamento dialog = new editarLancamento(this, true, ctrlLancamento, ctrlCategoria, escolhido, () -> {
-            new TelaExtratoCartao(parent, true, ctrlCartao, ctrlLancamento, ctrlCategoria, cartao, () -> {
-                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-            }).setVisible(true);
-        });
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        
-        dispose();
-    }//GEN-LAST:event_buttonAbrirLancamentoActionPerformed
-
-    private void carregarFaturaAtual(){
-        textAreaExtrato.setText(
-        "================== Fatura atual ==================\n");
-        for(Lancamento lancamento : cartao.getFaturaAtual().getLancamentos()){
-            textAreaExtrato.append("-----\n" + lancamento.toTextoExtrato() + "\n-----");
-        }
-        textAreaExtrato.append("\n==================================================\n\n");
-    }
     
-    private void carregarFaturaAntiga(){
-        Fatura maisRecente = faturas.remove(0);
-        
-        textAreaExtrato.setText(
-        "================== Fatura ");
-        textAreaExtrato.append(maisRecente.getData().toString());
-        textAreaExtrato.append(" ==================\n");
-        for(Lancamento lancamento : maisRecente.getLancamentos()){
-            textAreaExtrato.append("-----\n" + lancamento.toTextoExtrato() + "\n-----");
-        }
-        textAreaExtrato.append("\n==================================================\n\n");
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonAbrirLancamento;
-    private javax.swing.JButton buttonMesAnterior;
-    private javax.swing.JTextField campoLancamento;
     private javax.swing.JTextField campoNomeCartao;
+    private javax.swing.JComboBox<String> comboContas;
+    private javax.swing.JComboBox<String> contaCartoes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel labelTitulo;
     private javax.swing.JTextArea textAreaExtrato;
     // End of variables declaration//GEN-END:variables

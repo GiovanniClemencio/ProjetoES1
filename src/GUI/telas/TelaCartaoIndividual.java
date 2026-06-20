@@ -10,6 +10,7 @@ import Controller.ControladorCategoria;
 import Controller.ControladorLancamento;
 import GUI.formularios.cadastroLancamento;
 import GUI.formularios.editarCartao;
+import GUI.formularios.pagarFatura;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,7 +35,7 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
 
         carregarValorFatura();
         labelTitulo.setText(atual.getNome());
-        
+
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
@@ -214,6 +215,11 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
         buttonAnalises.setText("Análises");
 
         buttonRelatorios.setText("Relatórios");
+        buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRelatoriosActionPerformed(evt);
+            }
+        });
 
         buttonCartoes.setText("Cartões");
         buttonCartoes.addActionListener(new java.awt.event.ActionListener() {
@@ -269,7 +275,7 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -277,7 +283,14 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonExtratoCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExtratoCartaoActionPerformed
-        // TODO add your handling code here:
+        TelaExtratoCartao dialog = new TelaExtratoCartao(this, true, ctrlLancamento.getCtrlCartao(), ctrlLancamento, ctrlCategoria, atual, () -> {
+            new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonExtratoCartaoActionPerformed
 
     private void campoValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoValorActionPerformed
@@ -358,8 +371,26 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void buttonPagarFaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPagarFaturaActionPerformed
-        // TODO add your handling code here:
+        TelaCartoesGeral dialog = new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+            new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonPagarFaturaActionPerformed
+
+    private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        pagarFatura dialog = new pagarFatura(this, true, ctrlLancamento, ctrlCategoria, atual, () -> {
+            new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonRelatoriosActionPerformed
 
     private void carregarValorFatura() {
 

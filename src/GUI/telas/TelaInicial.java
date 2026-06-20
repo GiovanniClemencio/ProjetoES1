@@ -282,10 +282,12 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
-        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio);
+        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, ()-> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        this.setVisible(false);
+        dispose();
     }//GEN-LAST:event_buttonRelatoriosActionPerformed
 
     public void atualizarSaldoConsolidado(){

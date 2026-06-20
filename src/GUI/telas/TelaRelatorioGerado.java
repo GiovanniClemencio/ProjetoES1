@@ -6,6 +6,8 @@ package GUI.telas;
 
 import Classes.Categoria;
 import Classes.Lancamento;
+import Controller.ControladorCategoria;
+import Controller.ControladorLancamento;
 import Controller.ControladorRelatorio;
 import java.util.ArrayList;
 
@@ -16,15 +18,27 @@ import java.util.ArrayList;
 public class TelaRelatorioGerado extends javax.swing.JFrame {
 
     private final ControladorRelatorio ctrlRelatorio;
+    private final ControladorCategoria ctrlCategoria;
+    private final ControladorLancamento ctrlLancamento;
     ArrayList<Lancamento> relatorio;
     private final java.awt.Frame parent;
 
-    public TelaRelatorioGerado(java.awt.Frame parent, ControladorRelatorio ctrlRelatorio, ArrayList<Lancamento> relatorio) {
-        this.ctrlRelatorio = ctrlRelatorio;
+    public TelaRelatorioGerado(java.awt.Frame parent, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, ArrayList<Lancamento> relatorio) {
+        this.ctrlRelatorio = ctrlCategoria.getCtrlRelatorio();
+        this.ctrlLancamento = ctrlLancamento;
+        this.ctrlCategoria = ctrlCategoria;
         this.parent = parent;
         this.relatorio = relatorio;
         initComponents();
         carregarRelatorio();
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+                dispose();
+            }
+        });
     }
 
     /**

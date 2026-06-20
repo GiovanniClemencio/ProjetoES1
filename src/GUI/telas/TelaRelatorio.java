@@ -34,15 +34,17 @@ public class TelaRelatorio extends javax.swing.JFrame {
     private final ControladorRelatorio ctrlRelatorio;
     private final ControladorConta ctrlConta;
     private final ControladorCartao ctrlCartao;
-    private final TelaInicial inicio;
+    private final Runnable aoFechar;
+    private final java.awt.Frame parent;
 
-    public TelaRelatorio(java.awt.Frame parent, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, ControladorRelatorio ctrlRelatorio) {
+    public TelaRelatorio(java.awt.Frame parent, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, ControladorRelatorio ctrlRelatorio, Runnable aoFechar) {
         this.ctrlRelatorio = ctrlRelatorio;
         this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
         this.ctrlConta = ctrlRelatorio.getCtrlConta();
         this.ctrlCartao = ctrlLancamento.getCtrlCartao();
-        this.inicio = (TelaInicial) parent;
+        this.aoFechar = aoFechar;
+        this.parent = parent;
         initComponents();
 
         carregarContasLista();
@@ -70,6 +72,15 @@ public class TelaRelatorio extends javax.swing.JFrame {
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
+        
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (TelaRelatorio.this.aoFechar != null) {
+                    TelaRelatorio.this.aoFechar.run();
+                }
+            }
+        });
 
     }
 
@@ -325,6 +336,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
         buttonAnalises.setText("Análises");
 
         buttonRelatorios.setText("Relatórios");
+        buttonRelatorios.setEnabled(false);
         buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonRelatoriosActionPerformed(evt);
@@ -398,99 +410,106 @@ public class TelaRelatorio extends javax.swing.JFrame {
     }
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(inicio, true, ctrlLancamento, ctrlCategoria);
+        TelaContasGeral dialog = new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        this.setVisible(false);
         dispose();
     }//GEN-LAST:event_buttonContasActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
-        // TODO add your handling code here:
+        TelaCartoesGeral dialog = new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
-        // TODO add your handling code here:
+        TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
-        TelaRelatorio dialog = new TelaRelatorio(inicio, ctrlLancamento, ctrlCategoria, ctrlRelatorio);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        this.setVisible(false);
-        dispose();
+
     }//GEN-LAST:event_buttonRelatoriosActionPerformed
 
     private void buttonGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGerarRelatorioActionPerformed
         try {
-        // 1. CONTA
-        ArrayList<Conta> contasSelecionadas = new ArrayList<>();
-        if (listaContas.getSelectedIndices().length == 0 || listaContas.isSelectedIndex(0)) {
-            contasSelecionadas = null;
-        } else {
-            for (int indice : listaContas.getSelectedIndices()) {
-                contasSelecionadas.add(ctrlConta.getContas().get(indice - 1));
+            // 1. CONTA
+            ArrayList<Conta> contasSelecionadas = new ArrayList<>();
+            if (listaContas.getSelectedIndices().length == 0 || listaContas.isSelectedIndex(0)) {
+                contasSelecionadas = null;
+            } else {
+                for (int indice : listaContas.getSelectedIndices()) {
+                    contasSelecionadas.add(ctrlConta.getContas().get(indice - 1));
+                }
             }
-        }
 
-        // 2. DATA
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date dataInicio = null;
-        Date dataFim = null;
+            // 2. DATA
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataInicio = null;
+            Date dataFim = null;
 
-        if (dataPreenchida(campoDataInicio)) {
-            dataInicio = sdf.parse(campoDataInicio.getText());
-        }
-
-        if (dataPreenchida(campoDataFim)) {
-            dataFim = sdf.parse(campoDataFim.getText());
-        }
-
-        if (dataInicio != null && dataFim != null) {
-            if (dataInicio.after(dataFim)) {
-                JOptionPane.showMessageDialog(this, "A data inicial não pode ser maior que a data final.", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
-                return;
+            if (dataPreenchida(campoDataInicio)) {
+                dataInicio = sdf.parse(campoDataInicio.getText());
             }
-        }
 
-        // 3. TIPO
-        String tipo = TipoComboBox.getSelectedItem().toString();
-        if (tipo.equals("Todos")) {
-            tipo = null;
-        }
+            if (dataPreenchida(campoDataFim)) {
+                dataFim = sdf.parse(campoDataFim.getText());
+            }
 
-        // 4. CATEGORIA
-        ArrayList<Categoria> categoriaSelecionada = new ArrayList<>();
-        if (listaCategoria.getSelectedIndices().length == 0 || listaCategoria.isSelectedIndex(0)) {
-            categoriaSelecionada = null;
-        } else {
-            for (int indice : listaCategoria.getSelectedIndices()) {
-                categoriaSelecionada.add(ctrlCategoria.getCategorias().get(indice - 1));
+            if (dataInicio != null && dataFim != null) {
+                if (dataInicio.after(dataFim)) {
+                    JOptionPane.showMessageDialog(this, "A data inicial não pode ser maior que a data final.", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
             }
-        }
-        
-        // 5. CARTÃO
-        ArrayList<Cartao> cartaoSelecionado = new ArrayList<>();
-        if (listaCartao.getSelectedIndices().length == 0 || listaCartao.isSelectedIndex(0)) {
-            cartaoSelecionado = null;
-        } else {
-            for (int indice : listaCartao.getSelectedIndices()) {
-                cartaoSelecionado.add(ctrlCartao.getCartoes().get(indice - 1));
+
+            // 3. TIPO
+            String tipo = TipoComboBox.getSelectedItem().toString();
+            if (tipo.equals("Todos")) {
+                tipo = null;
             }
+
+            // 4. CATEGORIA
+            ArrayList<Categoria> categoriaSelecionada = new ArrayList<>();
+            if (listaCategoria.getSelectedIndices().length == 0 || listaCategoria.isSelectedIndex(0)) {
+                categoriaSelecionada = null;
+            } else {
+                for (int indice : listaCategoria.getSelectedIndices()) {
+                    categoriaSelecionada.add(ctrlCategoria.getCategorias().get(indice - 1));
+                }
+            }
+
+            // 5. CARTÃO
+            ArrayList<Cartao> cartaoSelecionado = new ArrayList<>();
+            if (listaCartao.getSelectedIndices().length == 0 || listaCartao.isSelectedIndex(0)) {
+                cartaoSelecionado = null;
+            } else {
+                for (int indice : listaCartao.getSelectedIndices()) {
+                    cartaoSelecionado.add(ctrlCartao.getCartoes().get(indice - 1));
+                }
+            }
+
+            // 6. GERAR RELATÓRIO
+            ArrayList<Lancamento> relatorio = ctrlRelatorio.gerarRelatorio(dataInicio, dataFim, tipo, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
+
+            TelaRelatorioGerado dialog = new TelaRelatorioGerado(parent, ctrlLancamento, ctrlCategoria, relatorio);
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+            this.setVisible(false);
+            dispose();
+
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Formato de data inválido. Use DD/MM/AAAA.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        
-        // 6. GERAR RELATÓRIO
-        ArrayList<Lancamento> relatorio = ctrlRelatorio.gerarRelatorio(dataInicio, dataFim, tipo, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
-        
-        TelaRelatorioGerado dialog = new TelaRelatorioGerado(inicio, ctrlRelatorio, relatorio);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        this.setVisible(false);
-        dispose();
-        
-    } catch (ParseException ex) {
-        JOptionPane.showMessageDialog(this, "Formato de data inválido. Use DD/MM/AAAA.", "Erro", JOptionPane.ERROR_MESSAGE);
-    }
     }//GEN-LAST:event_buttonGerarRelatorioActionPerformed
 
     private void campoDataInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDataInicioActionPerformed
@@ -520,7 +539,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
             model.addElement(item);
         }
-        
+
         listaCategoria.setModel(model);
     }
 

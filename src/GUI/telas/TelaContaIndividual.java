@@ -8,9 +8,11 @@ import GUI.formularios.cadastroCartao;
 import GUI.formularios.editarConta;
 import Classes.Cartao;
 import Classes.Conta;
+import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
+import Controller.ControladorRelatorio;
 import GUI.formularios.cadastroLancamento;
 import javax.swing.JOptionPane;
 
@@ -241,6 +243,11 @@ public class TelaContaIndividual extends javax.swing.JFrame {
         buttonAnalises.setText("Análises");
 
         buttonRelatorios.setText("Relatórios");
+        buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRelatoriosActionPerformed(evt);
+            }
+        });
 
         buttonCartoes.setText("Cartões");
         buttonCartoes.addActionListener(new java.awt.event.ActionListener() {
@@ -325,7 +332,16 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_campoSaldoActionPerformed
 
     private void buttonVisualizarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarCartaoActionPerformed
-        // TODO add your handling code here:
+        Cartao cartaoSelecionado = resgatarCartaoSelecionado();
+
+        TelaCartaoIndividual dialog = new TelaCartaoIndividual(this, true, ctrlLancamento, ctrlCategoria, cartaoSelecionado, () -> {
+            new TelaContaIndividual(parent, true, ctrlLancamento, atual, ctrlCategoria, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonVisualizarCartaoActionPerformed
 
     private void buttonCriarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCriarCartaoActionPerformed
@@ -396,6 +412,17 @@ public class TelaContaIndividual extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
+    private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
+            new TelaContaIndividual(parent, true, ctrlLancamento, atual, ctrlCategoria, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonRelatoriosActionPerformed
+
     private void carregarCartoesComboBox(Conta aberta) {
         comboCartoes.removeAllItems();
 
@@ -405,10 +432,28 @@ public class TelaContaIndividual extends javax.swing.JFrame {
             comboCartoes.addItem(item);
         }
     }
-    
-    public void atualizarVisualizacao(){
+
+    public void atualizarVisualizacao() {
         campoSaldo.setText(Double.toString(atual.getSaldo()));
         labelTitulo.setText(atual.getNome());
+    }
+
+    private Cartao resgatarCartaoSelecionado(){
+        String itemSelecionado = (String) comboCartoes.getSelectedItem();
+        if (itemSelecionado == null) {
+            return null;
+        }
+        String nomeSelecionado = itemSelecionado.replace("'", "");
+        
+        ControladorCartao ctrlCartao = ctrlLancamento.getCtrlCartao();
+
+        for (Cartao cartao : ctrlCartao.getCartoes()) {
+            if (cartao.getNome() != null && cartao.getNome().equals(nomeSelecionado)) {
+                return cartao;
+            }
+        }
+
+        return null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -174,6 +174,11 @@ public class TelaContasGeral extends javax.swing.JFrame {
         });
 
         buttonRelatorios.setText("Relatórios");
+        buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRelatoriosActionPerformed(evt);
+            }
+        });
 
         buttonCartoes.setText("Cartões");
         buttonCartoes.addActionListener(new java.awt.event.ActionListener() {
@@ -290,6 +295,17 @@ public class TelaContasGeral extends javax.swing.JFrame {
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonCartoesActionPerformed
+
+    private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
+            new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonRelatoriosActionPerformed
 
     public void carregarContasComboBox() {
         comboContas.removeAllItems();

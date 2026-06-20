@@ -85,6 +85,11 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
         buttonAnalises.setText("Análises");
 
         buttonRelatorios.setText("Relatórios");
+        buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRelatoriosActionPerformed(evt);
+            }
+        });
 
         buttonCartoes.setText("Cartões");
         buttonCartoes.setEnabled(false);
@@ -257,6 +262,15 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonAbrirCartaoActionPerformed
+
+    private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonRelatoriosActionPerformed
 
     private void carregarCombo(ArrayList<Cartao> cartoes){
         comboCartoes.removeAllItems();
