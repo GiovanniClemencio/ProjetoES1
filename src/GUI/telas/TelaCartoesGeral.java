@@ -263,7 +263,9 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
         String idCartao = itemSelecionado.substring(inicio + 1, fim);
 
         Cartao selecionado = ctrlLancamento.getCtrlCartao().buscarCartao(idCartao);
-
+        
+        this.aoFechar = null;
+        
         TelaCartaoIndividual dialog = new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, selecionado, () -> {
             new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);

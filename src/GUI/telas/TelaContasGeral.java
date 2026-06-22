@@ -277,6 +277,8 @@ public class TelaContasGeral extends javax.swing.JFrame {
         } else {
             Conta contaSelecionada = ctrlConta.buscarConta(idSelecionado);
 
+            this.aoFechar = null;
+            
             TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada, ctrlCategoria, () -> {
                 new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
                     new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
