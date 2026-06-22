@@ -4,6 +4,7 @@
  */
 package Classes;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -13,14 +14,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class Projecao {
 
-    public static double calcularMediaDiaria(Date dataInicio, Date dataFim, Conta conta) {
-        // Tratando entradas nulas ou inválidas
-        if (dataInicio == null || dataFim == null || conta == null || dataInicio.after(dataFim)) {
-            return 0.0;
-        }
+    public static double calcularMediaDiaria(Date dataInicio, Date dataFim, ArrayList<Lancamento> lancamentos) {
 
         // Soma dos valores dos lançamentos no período
-        double totalPeriodo = conta.getLancamentos().stream()
+        double totalPeriodo = lancamentos.stream()
                 .filter(l -> !l.getDataLancamento().before(dataInicio) && !l.getDataLancamento().after(dataFim))
                 .mapToDouble(Lancamento::getValor)
                 .sum();
@@ -32,8 +29,8 @@ public class Projecao {
         return totalPeriodo / totalDias;
     }
 
-    public static double projetarEstimativaFutura(Date dataInicio, Date dataFim, int diasFuturos, Conta conta) {
-        double mediaDiaria = calcularMediaDiaria(dataInicio, dataFim, conta);
+    public static double projetarValor(Date dataInicio, Date dataFim, int diasFuturos, ArrayList<Lancamento> lancamentos) {
+        double mediaDiaria = calcularMediaDiaria(dataInicio, dataFim, lancamentos);
         return mediaDiaria * diasFuturos;
     }
 

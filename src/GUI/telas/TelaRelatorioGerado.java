@@ -186,15 +186,14 @@ public class TelaRelatorioGerado extends javax.swing.JFrame {
                     for (Categoria cat : l.getCategorias()) {
                         nomesCategorias.add(cat.getNome());
                     }
-                    // Junta todas as categorias da lista separando por ", "
                     categoria = String.join(", ", nomesCategorias);
                 }
                 double valor = l.getValor();
 
-                if (l.getTipo() != null && (l.getTipo().equalsIgnoreCase("Receita") || l.getTipo().equalsIgnoreCase("Ganho"))) {
+                if (valor > 0) {
                     totalReceitas += valor;
-                } else {
-                    totalDespesas += valor;
+                } else if (valor < 0) {
+                    totalDespesas += Math.abs(valor);
                 }
 
                 // Corta textos muito longos para não quebrar o alinhamento das colunas
