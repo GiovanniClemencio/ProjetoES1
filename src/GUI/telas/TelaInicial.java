@@ -173,6 +173,11 @@ public class TelaInicial extends javax.swing.JFrame {
         });
 
         buttonAnalises.setText("Análises");
+        buttonAnalises.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnalisesActionPerformed(evt);
+            }
+        });
 
         buttonRelatorios.setText("Relatórios");
         buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
@@ -296,6 +301,15 @@ public class TelaInicial extends javax.swing.JFrame {
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonRelatoriosActionPerformed
+
+    private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
+        TelaAnalise dialog = new TelaAnalise(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, ()-> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     public void atualizarSaldoConsolidado(){
         ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
