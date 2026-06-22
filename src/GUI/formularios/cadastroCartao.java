@@ -19,16 +19,18 @@ public class cadastroCartao extends javax.swing.JDialog {
 
     private final ControladorCartao ctrlCartao;
     private final TelaContaIndividual parent;
+    private final Conta atual;
 
     public cadastroCartao(java.awt.Frame parent, boolean modal, ControladorCartao ctrlCartao, Conta atual) {
         super(parent, modal);
         this.ctrlCartao = ctrlCartao;
+        this.atual = atual;
         this.parent = (TelaContaIndividual) parent;
 
         initComponents();
         configurarValidacaoCampos();
 
-        campoCodConta.setText(atual.getCodConta());
+        campoConta.setText(atual.getNome());
         buttonCadastrarCartao.setEnabled(false);
     }
 
@@ -44,7 +46,7 @@ public class cadastroCartao extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        campoCodConta = new javax.swing.JTextField();
+        campoConta = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         campoNomeCartao = new javax.swing.JTextField();
@@ -66,10 +68,10 @@ public class cadastroCartao extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
-        campoCodConta.setEditable(false);
-        campoCodConta.addActionListener(new java.awt.event.ActionListener() {
+        campoConta.setEditable(false);
+        campoConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoCodContaActionPerformed(evt);
+                campoContaActionPerformed(evt);
             }
         });
 
@@ -146,7 +148,7 @@ public class cadastroCartao extends javax.swing.JDialog {
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(185, 185, 185)
-                        .addComponent(campoCodConta, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoConta, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -155,7 +157,7 @@ public class cadastroCartao extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoCodConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -224,13 +226,13 @@ public class cadastroCartao extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoLimiteCartaoActionPerformed
 
-    private void campoCodContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCodContaActionPerformed
+    private void campoContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoContaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_campoCodContaActionPerformed
+    }//GEN-LAST:event_campoContaActionPerformed
 
     private void buttonCadastrarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCartaoActionPerformed
         try {
-            String codConta = campoCodConta.getText().trim();
+            String codConta = atual.getCodConta().trim();
             String nomeCartao = campoNomeCartao.getText().trim();
             String textoLimite = campoLimiteCartao.getText().trim().replace(',', '.');
 
@@ -269,13 +271,13 @@ public class cadastroCartao extends javax.swing.JDialog {
     private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
         for (java.awt.Component c : this.getContentPane().getComponents()) {
             if (c instanceof javax.swing.JTextField) {
-                if (c != campoCodConta) {
+                if (c != campoConta) {
                     ((javax.swing.JTextField) c).setText("");
                 }
             } else if (c instanceof javax.swing.JPanel) {
                 for (java.awt.Component sub : ((javax.swing.JPanel) c).getComponents()) {
                     if (sub instanceof javax.swing.JTextField) {
-                        if (sub != campoCodConta) {
+                        if (sub != campoConta) {
                             ((javax.swing.JTextField) sub).setText("");
                         }
                     }
@@ -286,7 +288,7 @@ public class cadastroCartao extends javax.swing.JDialog {
 
     private void atualizarEstadoBotao() {
         boolean preenchidos
-                = !campoCodConta.getText().trim().isEmpty()
+                = !campoConta.getText().trim().isEmpty()
                 && !campoNomeCartao.getText().trim().isEmpty()
                 && !campoIdCartao.getText().trim().isEmpty()
                 && !campoLimiteCartao.getText().trim().isEmpty();
@@ -312,7 +314,7 @@ public class cadastroCartao extends javax.swing.JDialog {
             }
         };
 
-        campoCodConta.getDocument().addDocumentListener(listener);
+        campoConta.getDocument().addDocumentListener(listener);
         campoNomeCartao.getDocument().addDocumentListener(listener);
         campoLimiteCartao.getDocument().addDocumentListener(listener);
         campoIdCartao.getDocument().addDocumentListener(listener);
@@ -321,7 +323,7 @@ public class cadastroCartao extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonCadastrarCartao;
     private javax.swing.JToggleButton buttonLimparCampos;
-    private javax.swing.JTextField campoCodConta;
+    private javax.swing.JTextField campoConta;
     private javax.swing.JFormattedTextField campoIdCartao;
     private javax.swing.JTextField campoLimiteCartao;
     private javax.swing.JTextField campoNomeCartao;

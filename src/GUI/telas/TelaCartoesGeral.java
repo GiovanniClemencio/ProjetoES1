@@ -21,7 +21,7 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
     private final java.awt.Frame parent;
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
-    private final Runnable aoFechar;
+    private Runnable aoFechar;
     
     public TelaCartoesGeral(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Runnable aoFechar) {
         this.parent = parent;
@@ -57,6 +57,7 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
         buttonAnalises = new javax.swing.JToggleButton();
         buttonRelatorios = new javax.swing.JToggleButton();
         buttonCartoes = new javax.swing.JToggleButton();
+        buttonInicio = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         comboCartoes = new javax.swing.JComboBox<>();
@@ -83,6 +84,11 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
         });
 
         buttonAnalises.setText("Análises");
+        buttonAnalises.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnalisesActionPerformed(evt);
+            }
+        });
 
         buttonRelatorios.setText("Relatórios");
         buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +105,13 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
             }
         });
 
+        buttonInicio.setText("Inicio");
+        buttonInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonInicioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -110,23 +123,26 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
                     .addComponent(buttonRelatorios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonCategorias, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
                     .addComponent(buttonContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonCartoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(buttonCartoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(buttonInicio)
+                .addGap(27, 27, 27)
                 .addComponent(buttonContas)
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(buttonCartoes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(buttonCategorias)
-                .addGap(32, 32, 32)
+                .addGap(27, 27, 27)
                 .addComponent(buttonRelatorios)
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addComponent(buttonAnalises)
-                .addGap(28, 28, 28))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
@@ -220,6 +236,8 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
+        this.aoFechar = null;
+        
         TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -229,6 +247,8 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonContasActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
+        this.aoFechar = null;
+        
         TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
             new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
@@ -252,7 +272,9 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
         String idCartao = itemSelecionado.substring(inicio + 1, fim);
 
         Cartao selecionado = ctrlLancamento.getCtrlCartao().buscarCartao(idCartao);
-
+        
+        this.aoFechar = null;
+        
         TelaCartaoIndividual dialog = new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, selecionado, () -> {
             new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
@@ -264,6 +286,8 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAbrirCartaoActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        this.aoFechar = null;
+        
         TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -271,6 +295,19 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonRelatoriosActionPerformed
+
+    private void buttonInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInicioActionPerformed
+        this.aoFechar = null;
+        
+        TelaInicial dialog = new TelaInicial(ctrlLancamento, ctrlCategoria);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonInicioActionPerformed
+
+    private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     private void carregarCombo(ArrayList<Cartao> cartoes){
         comboCartoes.removeAllItems();
@@ -294,6 +331,7 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
     private javax.swing.JToggleButton buttonCartoes;
     private javax.swing.JToggleButton buttonCategorias;
     private javax.swing.JToggleButton buttonContas;
+    private javax.swing.JButton buttonInicio;
     private javax.swing.JToggleButton buttonRelatorios;
     private javax.swing.JComboBox<String> comboCartoes;
     private javax.swing.JLabel jLabel1;
