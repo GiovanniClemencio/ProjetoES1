@@ -16,12 +16,10 @@ import java.util.Date;
  */
 public class ControladorProjecao {
 
-    protected final ControladorConta ctrlConta;
     protected final ControladorRelatorio ctrlRelatorio;
 
 
-    public ControladorProjecao(ControladorConta controladorConta, ControladorRelatorio controladorRelatorio) {
-        this.ctrlConta = controladorConta;
+    public ControladorProjecao(ControladorRelatorio controladorRelatorio) {
         this.ctrlRelatorio = controladorRelatorio;
     }
     
