@@ -6,6 +6,8 @@ package Classes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -26,7 +28,7 @@ public class Cartao implements Serializable {
         this.nome = nome;
         this.limite = limite;
         this.faturasAntigas = new ArrayList<>();
-        // this.faturaAtual = new Fatura(codConta,idCartao, int idFatura, Date data, Boolean paga);
+        this.faturaAtual = new Fatura(codConta, idCartao, new Date(), false);
     }
 
     public String getCodConta() {
