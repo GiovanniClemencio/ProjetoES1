@@ -390,9 +390,9 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void buttonPagarFaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPagarFaturaActionPerformed
-        odshfoashdflajsdfljahlkdf // identificando oq ainda tem que ser termidado
+        this.aoFechar = null;
         
-        TelaCartoesGeral dialog = new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+        pagarFatura dialog = new pagarFatura(parent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
             new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
             }).setVisible(true);

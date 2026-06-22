@@ -5,10 +5,17 @@
 package GUI.formularios;
 
 import Classes.Cartao;
+import Classes.Conta;
+import Classes.Fatura;
+import Classes.Fechar;
+import Classes.Lancamento;
 import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
+import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,7 +30,7 @@ public class pagarFatura extends javax.swing.JDialog {
     private final ControladorCartao ctrlCartao;
     private final Cartao cartao;
     private final Runnable aoFechar;
-    
+
     public pagarFatura(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Cartao cartao, Runnable aoFechar) {
         super(parent, modal);
         this.parent = parent;
@@ -33,8 +40,31 @@ public class pagarFatura extends javax.swing.JDialog {
         this.ctrlConta = ctrlCartao.getCtrlConta();
         this.cartao = cartao;
         this.aoFechar = aoFechar;
-        
+
         initComponents();
+        campoNomeCartao.setText(cartao.getNome());
+        buttonPagar.setEnabled(false);
+
+        carregarContas();
+        carregarFaturasPendentes();
+
+        comboContas.addActionListener(e -> atualizarEstadoBotao());
+        comboFaturas.addActionListener(e -> {
+            atualizarExtratoFaturaSelecionada();
+            atualizarEstadoBotao();
+        });
+
+        atualizarExtratoFaturaSelecionada();
+        atualizarEstadoBotao();
+        
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (pagarFatura.this.aoFechar != null) {
+                    pagarFatura.this.aoFechar.run();
+                }
+            }
+        });
     }
 
     /**
@@ -52,12 +82,12 @@ public class pagarFatura extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         campoNomeCartao = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        textAreaExtrato = new javax.swing.JTextArea();
+        textAreaExtratoFatura = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
-        contaCartoes = new javax.swing.JComboBox<>();
+        comboFaturas = new javax.swing.JComboBox<>();
         comboContas = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        buttonPagar = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -90,36 +120,48 @@ public class pagarFatura extends javax.swing.JDialog {
 
         campoNomeCartao.setEditable(false);
 
-        textAreaExtrato.setColumns(20);
-        textAreaExtrato.setRows(5);
-        jScrollPane1.setViewportView(textAreaExtrato);
+        textAreaExtratoFatura.setColumns(20);
+        textAreaExtratoFatura.setRows(5);
+        jScrollPane1.setViewportView(textAreaExtratoFatura);
 
         jLabel2.setText("Escolha a fatura:");
 
-        contaCartoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboFaturas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboFaturasActionPerformed(evt);
+            }
+        });
 
-        comboContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboContas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboContasActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Conta a abater valor da fatura:");
 
-        jToggleButton1.setText("Pagar");
+        buttonPagar.setText("Pagar");
+        buttonPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPagarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(70, 129, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(campoNomeCartao, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(contaCartoes, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(comboFaturas, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(93, 93, 93))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
@@ -129,7 +171,7 @@ public class pagarFatura extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboContas, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jToggleButton1))
+                        .addComponent(buttonPagar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -143,12 +185,12 @@ public class pagarFatura extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(contaCartoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboFaturas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(comboContas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton1))
+                    .addComponent(buttonPagar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -172,20 +214,162 @@ public class pagarFatura extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private void buttonPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPagarActionPerformed
+        Conta contaSelecionada = (Conta) comboContas.getSelectedItem();
+        Fatura faturaSelecionada = (Fatura) comboFaturas.getSelectedItem();
+
+        if (contaSelecionada == null || faturaSelecionada == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione uma conta e uma fatura.",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        double valorFatura = calcularTotalFatura(faturaSelecionada);
+
+        // Troque getSaldo() pelo nome real do método da sua classe Conta, se for diferente.
+        double saldoConta = contaSelecionada.getSaldo();
+
+        if (saldoConta < valorFatura) {
+            JOptionPane.showMessageDialog(this,
+                    "Saldo insuficiente para pagar a fatura.\n"
+                    + "Saldo: " + saldoConta + "\n"
+                    + "Valor da fatura: " + valorFatura,
+                    "Saldo insuficiente",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String descricao = "pagamento da fatura " + faturaSelecionada.getIdFatura()
+                + " - " + faturaSelecionada.getData().toString();
+
+        ctrlLancamento.criarLancamento(
+                "Pagamento de fatura",
+                contaSelecionada,
+                null,
+                null,
+                valorFatura,
+                new Date(),
+                descricao,
+                false,
+                "nenhum"
+        );
+
+        faturaSelecionada.setPaga(true);
+
+        Fechar.salvarObjetos(ctrlConta.getContas(), ctrlConta.getCaminhosArquivo().getArquivoConta());
+
+        JOptionPane.showMessageDialog(this,
+                "Fatura paga com sucesso!",
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE);
+
+        carregarFaturasPendentes();
+        atualizarExtratoFaturaSelecionada();
+        atualizarEstadoBotao();
+    }//GEN-LAST:event_buttonPagarActionPerformed
+
+    private void comboFaturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFaturasActionPerformed
+        atualizarExtratoFaturaSelecionada();
+        atualizarEstadoBotao();
+    }//GEN-LAST:event_comboFaturasActionPerformed
+
+    private void comboContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboContasActionPerformed
+        atualizarEstadoBotao();
+    }//GEN-LAST:event_comboContasActionPerformed
+
+    private void carregarContas() {
+        DefaultComboBoxModel<Conta> model = new DefaultComboBoxModel<>();
+
+        for (Conta conta : ctrlConta.getContas()) {
+            model.addElement(conta);
+        }
+
+        comboContas.setModel(model);
+
+        if (model.getSize() > 0) {
+            comboContas.setSelectedIndex(0);
+        }
+    }
+
+    private void carregarFaturasPendentes() {
+        DefaultComboBoxModel<Fatura> model = new DefaultComboBoxModel<>();
+
+        if (cartao.getFaturaAtual() != null && !Boolean.TRUE.equals(cartao.getFaturaAtual().getPaga())) {
+            model.addElement(cartao.getFaturaAtual());
+        }
+
+        if (cartao.getFaturasAntigas() != null) {
+            for (Fatura fatura : cartao.getFaturasAntigas()) {
+                if (!Boolean.TRUE.equals(fatura.getPaga())) {
+                    model.addElement(fatura);
+                }
+            }
+        }
+
+        comboFaturas.setModel(model);
+
+        if (model.getSize() > 0) {
+            comboFaturas.setSelectedIndex(0);
+        }
+    }
+
+    private void atualizarExtratoFaturaSelecionada() {
+        Fatura fatura = (Fatura) comboFaturas.getSelectedItem();
+
+        if (fatura == null) {
+            textAreaExtratoFatura.setText("");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Fatura: ").append(fatura.getIdFatura()).append("\n");
+        sb.append("Data: ").append(fatura.getData()).append("\n");
+        sb.append("Paga: ").append(fatura.getPaga()).append("\n");
+        sb.append("--------------------------------------------------\n");
+
+        if (fatura.getLancamentos() != null) {
+            for (Lancamento l : fatura.getLancamentos()) {
+                sb.append(l.toString()).append("\n\n");
+            }
+        }
+
+        textAreaExtratoFatura.setText(sb.toString());
+        textAreaExtratoFatura.setCaretPosition(0);
+    }
+
+    private void atualizarEstadoBotao() {
+        boolean temFatura = comboFaturas.getSelectedItem() != null;
+        boolean temConta = comboContas.getSelectedItem() != null;
+        buttonPagar.setEnabled(temFatura && temConta);
+    }
+
+    private double calcularTotalFatura(Fatura fatura) {
+        double total = 0.0;
+
+        if (fatura != null && fatura.getLancamentos() != null) {
+            for (Lancamento l : fatura.getLancamentos()) {
+                total += l.getValor();
+            }
+        }
+
+        return total;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton buttonPagar;
     private javax.swing.JTextField campoNomeCartao;
-    private javax.swing.JComboBox<String> comboContas;
-    private javax.swing.JComboBox<String> contaCartoes;
+    private javax.swing.JComboBox<Conta> comboContas;
+    private javax.swing.JComboBox<Fatura> comboFaturas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel labelTitulo;
-    private javax.swing.JTextArea textAreaExtrato;
+    private javax.swing.JTextArea textAreaExtratoFatura;
     // End of variables declaration//GEN-END:variables
 }
