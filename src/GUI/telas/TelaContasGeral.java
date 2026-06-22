@@ -259,6 +259,8 @@ public class TelaContasGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCriarContaActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
+        this.aoFechar = null;
+        
         TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -268,6 +270,8 @@ public class TelaContasGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonVisualizarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarContaActionPerformed
+        this.aoFechar = null;
+        
         String idSelecionado = pegarIdContaSelecionada();
         if (((String) comboContas.getSelectedItem()).equalsIgnoreCase("'Nenhuma'")) {
             JOptionPane.showMessageDialog(this,
@@ -301,6 +305,8 @@ public class TelaContasGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
+        this.aoFechar = null;
+        
         TelaCartoesGeral dialog = new TelaCartoesGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -310,6 +316,8 @@ public class TelaContasGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        this.aoFechar = null;
+        
         TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
             new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);

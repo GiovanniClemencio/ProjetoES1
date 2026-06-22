@@ -84,6 +84,11 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
         });
 
         buttonAnalises.setText("Análises");
+        buttonAnalises.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnalisesActionPerformed(evt);
+            }
+        });
 
         buttonRelatorios.setText("Relatórios");
         buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
@@ -231,6 +236,8 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
+        this.aoFechar = null;
+        
         TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -240,6 +247,8 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonContasActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
+        this.aoFechar = null;
+        
         TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
             new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
@@ -277,6 +286,8 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAbrirCartaoActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        this.aoFechar = null;
+        
         TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -293,6 +304,10 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonInicioActionPerformed
+
+    private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     private void carregarCombo(ArrayList<Cartao> cartoes){
         comboCartoes.removeAllItems();

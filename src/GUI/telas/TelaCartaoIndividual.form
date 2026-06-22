@@ -96,7 +96,6 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
@@ -141,10 +140,7 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="buttonCadastrarLancamentos" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="buttonPagarFatura" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="buttonPagarFatura" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -195,8 +191,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonExcluirCartaoActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JSeparator" name="jSeparator1">
         </Component>
         <Component class="javax.swing.JToggleButton" name="buttonCadastrarLancamentos">
           <Properties>

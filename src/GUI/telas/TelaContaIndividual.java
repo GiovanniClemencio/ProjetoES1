@@ -343,6 +343,8 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_campoSaldoActionPerformed
 
     private void buttonVisualizarCartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarCartaoActionPerformed
+        this.aoFechar = null;
+        
         Cartao cartaoSelecionado = resgatarCartaoSelecionado();
 
         TelaCartaoIndividual dialog = new TelaCartaoIndividual(this, true, ctrlLancamento, ctrlCategoria, cartaoSelecionado, () -> {
