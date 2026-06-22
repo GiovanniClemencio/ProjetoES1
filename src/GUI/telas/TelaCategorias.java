@@ -253,6 +253,8 @@ public class TelaCategorias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
+        this.aoFechar = null;
+        
         TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -266,17 +268,23 @@ public class TelaCategorias extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonCadastrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCategoriaActionPerformed
-        cadastroCategoria dialog = new cadastroCategoria(this, true, ctrlCategoria);
+        this.aoFechar = null;
+        
+        cadastroCategoria dialog = new cadastroCategoria(this, true, ctrlCategoria, ctrlLancamento);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
+        
+        dispose();
     }//GEN-LAST:event_buttonCadastrarCategoriaActionPerformed
 
     private void buttonEditarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCategoriaActionPerformed
+        this.aoFechar = null;
+        
         String idSelecionado = pegarIdCategoriaSelecionada();
 
         Categoria selecionada = ctrlCategoria.buscarCategoria(idSelecionado);
 
-        editarCategoria dialog = new editarCategoria(this, true, ctrlCategoria, selecionada);
+        editarCategoria dialog = new editarCategoria(this, true, ctrlCategoria, ctrlLancamento, selecionada);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }//GEN-LAST:event_buttonEditarCategoriaActionPerformed
@@ -310,6 +318,8 @@ public class TelaCategorias extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonExcluirCategoriaActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
+        this.aoFechar = null;
+        
         TelaCartoesGeral dialog = new TelaCartoesGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -319,6 +329,8 @@ public class TelaCategorias extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        this.aoFechar = null;
+        
         TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });

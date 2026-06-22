@@ -6,6 +6,10 @@ package GUI.formularios;
 
 import Classes.Categoria;
 import Controller.ControladorCategoria;
+import Controller.ControladorLancamento;
+import GUI.telas.TelaCartoesGeral;
+import GUI.telas.TelaCategorias;
+import GUI.telas.TelaInicial;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,16 +18,20 @@ import javax.swing.JOptionPane;
  */
 public class editarCategoria extends javax.swing.JDialog {
 
+    private final java.awt.Frame parent;
     private final ControladorCategoria ctrlCategoria;
+    private final ControladorLancamento ctrlLancamento;
     private final Categoria categoria;
-    
-    public editarCategoria(java.awt.Frame parent, boolean modal, ControladorCategoria ctrlCategoria, Categoria categoria) {
+
+    public editarCategoria(java.awt.Frame parent, boolean modal, ControladorCategoria ctrlCategoria, ControladorLancamento ctrlLancamento, Categoria categoria) {
         super(parent, modal);
+        this.parent = parent;
         initComponents();
-        
+
         this.ctrlCategoria = ctrlCategoria;
+        this.ctrlLancamento = ctrlLancamento;
         this.categoria = categoria;
-        
+
         carregarCampo(categoria);
     }
 
@@ -155,12 +163,17 @@ public class editarCategoria extends javax.swing.JDialog {
         String nomeCategoria = campoNomeCategoria.getText().trim();
 
         ctrlCategoria.editarCategoria(categoria.getIdCategoria(), nomeCategoria, checkBoxPadrao.isSelected());
-        
 
         JOptionPane.showMessageDialog(
                 this,
                 "Categoria cadastrada com sucesso!"
         );
+
+        TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonCadastrarCategoriaActionPerformed
 
@@ -188,10 +201,10 @@ public class editarCategoria extends javax.swing.JDialog {
 
     private void carregarCampo(Categoria categoria) {
         campoNomeCategoria.setText(categoria.getNome());
-        
+
         checkBoxPadrao.setSelected(categoria.getPadrao());
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonCadastrarCategoria;
     private javax.swing.JToggleButton buttonLimparCampos;

@@ -5,6 +5,9 @@
 package GUI.formularios;
 
 import Controller.ControladorCategoria;
+import Controller.ControladorLancamento;
+import GUI.telas.TelaCategorias;
+import GUI.telas.TelaInicial;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,11 +17,13 @@ import javax.swing.JOptionPane;
 public class cadastroCategoria extends javax.swing.JDialog {
 
     private final ControladorCategoria ctrlCategoria;
+    private final ControladorLancamento ctrlLancamento;
     
-    public cadastroCategoria(java.awt.Frame parent, boolean modal, ControladorCategoria ctrlCategoria) {
+    public cadastroCategoria(java.awt.Frame parent, boolean modal, ControladorCategoria ctrlCategoria, ControladorLancamento ctrlLancamento) {
         super(parent, modal);
         initComponents();
         this.ctrlCategoria = ctrlCategoria;
+        this.ctrlLancamento = ctrlLancamento;
         
     }
 
@@ -150,6 +155,12 @@ public class cadastroCategoria extends javax.swing.JDialog {
                 this,
                 "Categoria cadastrada com sucesso!"
         );
+        
+        TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonCadastrarCategoriaActionPerformed
 
