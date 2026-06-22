@@ -150,11 +150,11 @@ public class TelaRelatorioGerado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonExportCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExportCSVActionPerformed
-        dojfhgisdhgosdgh // todo
+        ctrlRelatorio.exportarRelatorio(relatorio, "csv");
     }//GEN-LAST:event_buttonExportCSVActionPerformed
 
     private void buttonExportPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExportPDFActionPerformed
-        dojfhgisdhgosdgh // todo
+        ctrlRelatorio.exportarRelatorio(relatorio, "pdf");
     }//GEN-LAST:event_buttonExportPDFActionPerformed
     private void carregarRelatorio() {
         // Limpa e define o cabeçalho do relatório

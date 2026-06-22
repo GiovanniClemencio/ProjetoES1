@@ -4,6 +4,8 @@
  */
 package Controller;
 
+import Classes.Cartao;
+import Classes.Categoria;
 import Classes.Conta;
 import Classes.Lancamento;
 import Classes.Projecao;
@@ -23,12 +25,13 @@ public class ControladorProjecao {
         this.ctrlRelatorio = controladorRelatorio;
     }
     
-    public double projetarEstimativa(Date dataInicio, Date dataFim, int diasFuturos, ArrayList<Conta> contasParaAnalise) {
+    public double projetarEstimativa(Date dataInicio, Date dataFim, int diasFuturos, ArrayList<Categoria> categoriaParaAnalise,
+            ArrayList<Cartao> cartaoParaAnalise, ArrayList<Conta> contasParaAnalise) {
         if (dataInicio == null || dataFim == null || dataInicio.after(dataFim)) {
             return 0.0;
         }
 
-        ArrayList<Lancamento> lancamentos = this.ctrlRelatorio.gerarRelatorio(dataInicio, dataFim, null, null, null, contasParaAnalise);
+        ArrayList<Lancamento> lancamentos = this.ctrlRelatorio.gerarRelatorio(dataInicio, dataFim, null, categoriaParaAnalise, cartaoParaAnalise, contasParaAnalise);
 
         lancamentos.removeIf(l -> "TRANSFERENCIA".equalsIgnoreCase(l.getTipo()));
 
