@@ -196,7 +196,7 @@ public class TelaAnalise extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Tipo");
+        jLabel2.setText("Dias");
 
         jLabel4.setText("Categoria");
 
@@ -336,6 +336,7 @@ public class TelaAnalise extends javax.swing.JFrame {
         });
 
         buttonAnalises.setText("Análises");
+        buttonAnalises.setEnabled(false);
         buttonAnalises.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonAnalisesActionPerformed(evt);
@@ -343,7 +344,6 @@ public class TelaAnalise extends javax.swing.JFrame {
         });
 
         buttonRelatorios.setText("Relatórios");
-        buttonRelatorios.setEnabled(false);
         buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonRelatoriosActionPerformed(evt);
