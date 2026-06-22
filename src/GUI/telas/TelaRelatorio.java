@@ -335,6 +335,11 @@ public class TelaRelatorio extends javax.swing.JFrame {
         });
 
         buttonAnalises.setText("Análises");
+        buttonAnalises.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnalisesActionPerformed(evt);
+            }
+        });
 
         buttonRelatorios.setText("Relatórios");
         buttonRelatorios.setEnabled(false);
@@ -421,6 +426,8 @@ public class TelaRelatorio extends javax.swing.JFrame {
     }
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
+        this.aoFechar = null;
+        
         TelaContasGeral dialog = new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -430,6 +437,8 @@ public class TelaRelatorio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonContasActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
+        this.aoFechar = null;
+        
         TelaCartoesGeral dialog = new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -439,6 +448,8 @@ public class TelaRelatorio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
+        this.aoFechar = null;
+        
         TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -512,6 +523,8 @@ public class TelaRelatorio extends javax.swing.JFrame {
             // 6. GERAR RELATÓRIO
             ArrayList<Lancamento> relatorio = ctrlRelatorio.gerarRelatorio(dataInicio, dataFim, tipo, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
 
+            this.aoFechar = null;
+            
             TelaRelatorioGerado dialog = new TelaRelatorioGerado(parent, ctrlLancamento, ctrlCategoria, relatorio);
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
@@ -535,6 +548,10 @@ public class TelaRelatorio extends javax.swing.JFrame {
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonInicioActionPerformed
+
+    private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     public void carregarContasLista() {
 

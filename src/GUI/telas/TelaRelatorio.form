@@ -459,6 +459,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="An&#xe1;lises"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonAnalisesActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="buttonRelatorios">
           <Properties>
