@@ -46,7 +46,7 @@ public class pagarFatura extends javax.swing.JDialog {
         buttonPagar.setEnabled(false);
 
         carregarContas();
-        carregarFaturasPendentes();
+        carregarFaturasPendentes(cartao);
 
         comboContas.addActionListener(e -> atualizarEstadoBotao());
         comboFaturas.addActionListener(e -> {
@@ -228,7 +228,6 @@ public class pagarFatura extends javax.swing.JDialog {
 
         double valorFatura = calcularTotalFatura(faturaSelecionada);
 
-        // Troque getSaldo() pelo nome real do método da sua classe Conta, se for diferente.
         double saldoConta = contaSelecionada.getSaldo();
 
         if (saldoConta < valorFatura) {
@@ -253,7 +252,7 @@ public class pagarFatura extends javax.swing.JDialog {
                 new Date(),
                 descricao,
                 false,
-                "nenhum"
+                "vazia"
         );
 
         faturaSelecionada.setPaga(true);
@@ -265,7 +264,7 @@ public class pagarFatura extends javax.swing.JDialog {
                 "Sucesso",
                 JOptionPane.INFORMATION_MESSAGE);
 
-        carregarFaturasPendentes();
+        carregarFaturasPendentes(cartao);
         atualizarExtratoFaturaSelecionada();
         atualizarEstadoBotao();
     }//GEN-LAST:event_buttonPagarActionPerformed
@@ -293,7 +292,7 @@ public class pagarFatura extends javax.swing.JDialog {
         }
     }
 
-    private void carregarFaturasPendentes() {
+    private void carregarFaturasPendentes(Cartao cartao) {
         DefaultComboBoxModel<Fatura> model = new DefaultComboBoxModel<>();
 
         if (cartao.getFaturaAtual() != null && !Boolean.TRUE.equals(cartao.getFaturaAtual().getPaga())) {
@@ -331,7 +330,7 @@ public class pagarFatura extends javax.swing.JDialog {
 
         if (fatura.getLancamentos() != null) {
             for (Lancamento l : fatura.getLancamentos()) {
-                sb.append(l.toString()).append("\n\n");
+                sb.append(l.toTextoExtrato()).append("\n\n");
             }
         }
 

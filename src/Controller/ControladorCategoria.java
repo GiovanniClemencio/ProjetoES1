@@ -106,6 +106,9 @@ public class ControladorCategoria {
         Categoria categoria = buscarCategoria(idCategoria);
         if (categoria != null) {
             categoria.setNome(novoNome);
+            if(padrao){
+                setPadrao(idCategoria);
+            }
             Fechar.salvarObjetos(categorias, caminhosArquivo.getArquivoCategoria());
             return true; // Sucesso na edição
         }
@@ -143,6 +146,8 @@ public class ControladorCategoria {
 
         return null;
     }
+    
+    
 
     public ControladorRelatorio getCtrlRelatorio() {
         return ctrlRelatorio;

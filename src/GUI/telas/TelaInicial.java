@@ -306,6 +306,7 @@ public class TelaInicial extends javax.swing.JFrame {
         TelaAnalise dialog = new TelaAnalise(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, ()-> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
+        
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();

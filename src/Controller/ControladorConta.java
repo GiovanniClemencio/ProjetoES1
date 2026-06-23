@@ -73,5 +73,5 @@ public class ControladorConta {
     public ArrayList<Conta> getContas() {
         return new ArrayList<>(this.contas); // Retorna uma cópia da lista para evitar modificações sem passar pelo controlador
     }
-
+    
 }

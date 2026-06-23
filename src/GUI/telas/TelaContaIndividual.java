@@ -393,6 +393,8 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_comboCartoesActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
+        this.aoFechar = null;
+        
         TelaContasGeral dialog = new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaContaIndividual(parent, true, ctrlLancamento, atual, ctrlCategoria, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
@@ -415,6 +417,8 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCadastrarLancamentosActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
+        this.aoFechar = null;
+        
         TelaCartoesGeral dialog = new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaContaIndividual(parent, true, ctrlLancamento, atual, ctrlCategoria, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
@@ -426,6 +430,8 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        this.aoFechar = null;
+        
         TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
             new TelaContaIndividual(parent, true, ctrlLancamento, atual, ctrlCategoria, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);

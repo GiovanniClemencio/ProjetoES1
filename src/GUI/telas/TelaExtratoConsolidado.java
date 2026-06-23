@@ -207,9 +207,9 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAbrirLancamentoActionPerformed
 
     private void carregarFatura(Fatura fatura) {
-        textAreaExtrato.setText("");
+        textAreaExtrato.append("\n");
         for (Lancamento lancamento : fatura.getLancamentos()) {
-            textAreaExtrato.append("-----\n" + lancamento.toString() + "\n-----");
+            textAreaExtrato.append("-----\n" + lancamento.toTextoExtrato() + "\n-----");
         }
         textAreaExtrato.append("\n");
     }

@@ -27,10 +27,10 @@ public class ControladorLancamento {
         Lancamento lancamento = new Lancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
         Conta conta = lancamento.getContaOrigem();
         if (conta != null) {
-            conta.adicionarLancamento(lancamento);
+            conta.adicionarLancamento(lancamento, !(idCartao.equalsIgnoreCase("vazia")));
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
         }
-        if (!(idCartao.equalsIgnoreCase("nenhum"))) {
+        if (!(idCartao.equalsIgnoreCase("vazia"))) {
             Cartao cartao = ctrlCartao.buscarCartao(idCartao);
 
             Fatura atual = cartao.getFaturaAtual();
@@ -94,12 +94,12 @@ public class ControladorLancamento {
         
         Conta conta = lancamento1.getContaOrigem();
         if (conta != null) {
-            conta.adicionarLancamento(lancamento1);
+            conta.adicionarLancamento(lancamento1, false);
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
         }
         conta = lancamento2.getContaOrigem();
         if (conta != null) {
-            conta.adicionarLancamento(lancamento2);
+            conta.adicionarLancamento(lancamento2, false);
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
         }
         

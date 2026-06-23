@@ -254,7 +254,7 @@ public class TelaCategorias extends javax.swing.JFrame {
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
         this.aoFechar = null;
-        
+
         TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -269,17 +269,17 @@ public class TelaCategorias extends javax.swing.JFrame {
 
     private void buttonCadastrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarCategoriaActionPerformed
         this.aoFechar = null;
-        
+
         cadastroCategoria dialog = new cadastroCategoria(this, true, ctrlCategoria, ctrlLancamento);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        
+
         dispose();
     }//GEN-LAST:event_buttonCadastrarCategoriaActionPerformed
 
     private void buttonEditarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCategoriaActionPerformed
         this.aoFechar = null;
-        
+
         String idSelecionado = pegarIdCategoriaSelecionada();
 
         Categoria selecionada = ctrlCategoria.buscarCategoria(idSelecionado);
@@ -301,14 +301,22 @@ public class TelaCategorias extends javax.swing.JFrame {
 
         int opcao = JOptionPane.showConfirmDialog(this, confirmacao, "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
+        boolean aceito;
         if (opcao == JOptionPane.YES_OPTION) {
-            ctrlCategoria.removerCategoria(selecionada.getIdCategoria());
+            aceito = ctrlCategoria.removerCategoria(selecionada.getIdCategoria());
 
-            JOptionPane.showMessageDialog(
+            if (aceito) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Categoria excluida com sucesso!"
+                );
+                carregarCategoriasComboBox();
+            } else{
+                JOptionPane.showMessageDialog(
                     this,
-                    "Categoria excluida com sucesso!"
+                    "Operação cancelada! Não pode excluir categoria padrão!"
             );
-            carregarCategoriasComboBox();
+            }
         } else {
             JOptionPane.showMessageDialog(
                     this,
@@ -319,7 +327,7 @@ public class TelaCategorias extends javax.swing.JFrame {
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
         this.aoFechar = null;
-        
+
         TelaCartoesGeral dialog = new TelaCartoesGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -330,7 +338,7 @@ public class TelaCategorias extends javax.swing.JFrame {
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
         this.aoFechar = null;
-        
+
         TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -341,7 +349,7 @@ public class TelaCategorias extends javax.swing.JFrame {
 
     private void buttonInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInicioActionPerformed
         this.aoFechar = null;
-        
+
         TelaInicial dialog = new TelaInicial(ctrlLancamento, ctrlCategoria);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);

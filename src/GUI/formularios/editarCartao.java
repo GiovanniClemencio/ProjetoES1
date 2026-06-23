@@ -38,6 +38,14 @@ public class editarCartao extends javax.swing.JDialog {
         initComponents();
 
         carregarCampos(atual);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                TelaInicial dialog = new TelaInicial(ctrlLancamento, ctrlCategoria);
+                dialog.setVisible(true);
+            }
+        });
     }
 
     /**

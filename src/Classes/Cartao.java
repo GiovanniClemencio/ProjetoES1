@@ -93,8 +93,6 @@ public class Cartao implements Serializable {
                 .append(", ID cartao: ").append(idCartao)
                 .append(", Nome: ").append(nome)
                 .append(", Limite: ").append(limite)
-                .append(", Faturas antigas: ").append(faturasAntigas)
-                .append(", Fatura atual: ").append(faturaAtual)
                 .append("}").toString();
     }
 }

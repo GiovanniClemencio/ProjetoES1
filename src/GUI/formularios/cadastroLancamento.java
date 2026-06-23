@@ -384,15 +384,13 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
     private void buttonCadastrarLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarLancamentoActionPerformed
         try {
-            if (!validarFormularioLancamento()){
+            if (!validarFormularioLancamento()) {
                 JOptionPane.showMessageDialog(this,
                         "Preencha os campos obrigatórios antes de cadastrar.",
                         "Validação",
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
-            boolean pendente = false;
 
             campoDataLancamento.commitEdit();
             Date dataLancamento = (Date) campoDataLancamento.getValue();
@@ -407,9 +405,21 @@ public class cadastroLancamento extends javax.swing.JDialog {
             valor = Math.round(valor * 100.0) / 100.0;
 
             String descricao = textareaDescricao.getText().trim();
-
             String tipo;
-            if (radioDespesa.isSelected()){
+
+            boolean temCartao = cartaoSelecionado();
+            String itemCartao = (String) comboIdCartao.getSelectedItem();
+            String idCartaoSelecionado = temCartao ? extrairCodigo(itemCartao) : "Vazia";
+
+            if (temCartao && !radioDespesa.isSelected()) {
+                JOptionPane.showMessageDialog(this,
+                        "Quando um cartão é selecionado, somente lançamentos do tipo DESPESA são permitidos.",
+                        "Validação",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (radioDespesa.isSelected()) {
                 tipo = "DESPESA";
                 valor = -Math.abs(valor);
             } else if (radioReceita.isSelected()) {
@@ -420,20 +430,45 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 valor = -Math.abs(valor);
             }
 
-            String codConta = pegarIdContaSelecionadaOrigem();
-            String idCartao = extrairCodigo(comboIdCartao.getSelectedItem().toString());
+            if (temCartao) {
+                Cartao cartao = ctrlLancamento.getCtrlCartao().buscarCartao(idCartaoSelecionado);
 
+                if (cartao == null) {
+                    JOptionPane.showMessageDialog(this,
+                            "Cartão inválido.",
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                double totalAtualFatura = calcularTotalFaturaAtual(cartao);
+                double novaDespesa = Math.abs(valor);
+                double totalComNovaDespesa = totalAtualFatura + novaDespesa;
+
+                if (totalComNovaDespesa > cartao.getLimite()) {
+                    JOptionPane.showMessageDialog(this,
+                            "Limite do cartão estourado.\n"
+                            + "Total atual da fatura: R$ " + String.format("%.2f", totalAtualFatura) + "\n"
+                            + "Novo lançamento: R$ " + String.format("%.2f", novaDespesa) + "\n"
+                            + "Limite do cartão: R$ " + String.format("%.2f", cartao.getLimite()) + "\n\n"
+                            + "Escolha outro cartão ou reduza o valor.",
+                            "Limite excedido",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
+            String codConta = pegarIdContaSelecionadaOrigem();
             Conta contaOrigem = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(codConta);
 
             Conta contaDestino = null;
-            if (radioTransferencia.isSelected()){
+            if (radioTransferencia.isSelected()) {
                 String contaD = pegarIdContaSelecionadaDestino();
                 contaDestino = ctrlLancamento.getCtrlCartao().getCtrlConta().buscarConta(contaD);
             }
 
             java.util.List<String> categoriasSelecionadas = listCategorias.getSelectedValuesList();
-
-            if (categoriasSelecionadas.isEmpty()){
+            if (categoriasSelecionadas.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
                         "Selecione ao menos uma categoria.",
                         "Validação",
@@ -441,23 +476,19 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 return;
             }
 
-            if (!(idCartao.equalsIgnoreCase("nenhum"))) {
-                pendente = true;
-            }
-            
-            if(radioTransferencia.isSelected()){
+            boolean pendente = temCartao;
+
+            if (radioTransferencia.isSelected()) {
                 ctrlLancamento.criarTransferencia(
-                        tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao
+                        tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartaoSelecionado
                 );
-            }else{
+            } else {
                 ctrlLancamento.criarLancamento(
-                        tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao
+                        tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartaoSelecionado
                 );
             }
-            
 
             ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
-
             Lancamento lancamento = ctrlConta.buscarConta(codConta).getLancamentos().getLast();
 
             if (!(categoriasSelecionadas.size() == 1 && "Nenhuma".equals(categoriasSelecionadas.get(0)))) {
@@ -475,7 +506,6 @@ public class cadastroLancamento extends javax.swing.JDialog {
                     "Lançamento cadastrado com sucesso!",
                     "Sucesso",
                     JOptionPane.INFORMATION_MESSAGE);
-
             dispose();
 
         } catch (java.text.ParseException ex) {
@@ -587,7 +617,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
             }
         }
 
-        String item = "'Nenhum'";
+        String item = "Vazia";
         comboIdCartao.addItem(item);
 
     }
@@ -630,8 +660,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 = !campoDataLancamento.getText().trim().isEmpty()
                 && !campoValor.getText().trim().isEmpty()
                 && !textareaDescricao.getText().trim().isEmpty()
-                && !listCategorias.isSelectionEmpty()
-                && comboValido(comboIdCartao);
+                && !listCategorias.isSelectionEmpty();
 
         boolean transferenciaPreenchida = true;
         if (radioTransferencia.isSelected()) {
@@ -639,7 +668,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                     = comboValido(comboContaOrigem)
                     && comboValido(comboContaDestino);
             comboContaDestino.setEnabled(true);
-        }else{
+        } else {
             comboContaDestino.setEnabled(false);
         }
 
@@ -666,8 +695,7 @@ public class cadastroLancamento extends javax.swing.JDialog {
                 = !campoDataLancamento.getText().trim().isEmpty()
                 && !campoValor.getText().trim().isEmpty()
                 && !textareaDescricao.getText().trim().isEmpty()
-                && !listCategorias.isSelectionEmpty()
-                && comboValido(comboIdCartao);
+                && !listCategorias.isSelectionEmpty();
 
         boolean transferenciaValida = true;
         if (radioTransferencia.isSelected()) {
@@ -683,7 +711,12 @@ public class cadastroLancamento extends javax.swing.JDialog {
                     || !campoDataMax.getText().trim().isEmpty();
         }
 
-        return tipoSelecionado && basePreenchida && transferenciaValida && recorrenciaValida;
+        boolean cartaoValido = true;
+        if (cartaoSelecionado() && !radioDespesa.isSelected()) {
+            cartaoValido = false;
+        }
+
+        return tipoSelecionado && basePreenchida && transferenciaValida && recorrenciaValida && cartaoValido;
     }
 
     private double parseValorBR(String texto) throws java.text.ParseException {
@@ -729,6 +762,13 @@ public class cadastroLancamento extends javax.swing.JDialog {
     private boolean comboValido(javax.swing.JComboBox<String> combo) {
         Object selecionado = combo.getSelectedItem();
         return selecionado != null && !selecionado.toString().trim().isEmpty();
+    }
+
+    private boolean comboValidoCartao(javax.swing.JComboBox<String> combo) {
+        Object selecionado = combo.getSelectedItem();
+        return selecionado != null
+                && !selecionado.toString().trim().isEmpty()
+                && !"Vazia".equalsIgnoreCase(selecionado.toString().trim());
     }
 
     private void configurarValidacaoCampos() {
@@ -783,7 +823,36 @@ public class cadastroLancamento extends javax.swing.JDialog {
 
         checkboxPermanente.addActionListener(e -> atualizarEstadoBotao());
 
+        comboIdCartao.addActionListener(e -> {
+            if (cartaoSelecionado()) {
+                radioDespesa.setSelected(true);
+                radioReceita.setEnabled(false);
+                radioTransferencia.setEnabled(false);
+            } else {
+                radioReceita.setEnabled(true);
+                radioTransferencia.setEnabled(true);
+            }
+            atualizarEstadoBotao();
+        });
+
         atualizarEstadoBotao();
+    }
+
+    private boolean cartaoSelecionado() {
+        Object item = comboIdCartao.getSelectedItem();
+        return item != null && !"Vazia".equalsIgnoreCase(item.toString().trim());
+    }
+
+    private double calcularTotalFaturaAtual(Cartao cartao) {
+        if (cartao == null || cartao.getFaturaAtual() == null || cartao.getFaturaAtual().getLancamentos() == null) {
+            return 0.0;
+        }
+
+        double total = 0.0;
+        for (Lancamento l : cartao.getFaturaAtual().getLancamentos()) {
+            total += Math.abs(l.getValor());
+        }
+        return total;
     }
 
 

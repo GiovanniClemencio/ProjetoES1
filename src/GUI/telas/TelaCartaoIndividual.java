@@ -5,12 +5,14 @@
 package GUI.telas;
 
 import Classes.Cartao;
+import Classes.Lancamento;
 import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
 import Controller.ControladorLancamento;
 import GUI.formularios.cadastroLancamento;
 import GUI.formularios.editarCartao;
 import GUI.formularios.pagarFatura;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,7 +26,7 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
     private final ControladorCategoria ctrlCategoria;
     private final Cartao atual;
     private Runnable aoFechar;
-
+    
     public TelaCartaoIndividual(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, Cartao cartao, Runnable aoFechar) {
         this.parent = parent;
         this.ctrlLancamento = ctrlLancamento;
@@ -425,7 +427,19 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonInicioActionPerformed
 
     private void carregarValorFatura() {
-
+        double valorFatura = 0.0;
+        
+        ArrayList<Lancamento> lancamentos = atual.getFaturaAtual().getLancamentos();
+        
+        for (Lancamento lancamento : lancamentos){
+            valorFatura += lancamento.getValor();
+            
+        }
+        
+        valorFatura = Math.abs(valorFatura);
+        valorFatura = Math.round(valorFatura * 100)/100.0;
+        
+        campoValor.setText(Double.toString(valorFatura));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

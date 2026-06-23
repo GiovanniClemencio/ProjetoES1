@@ -72,12 +72,13 @@ public class Conta implements Serializable {
         this.cartoes.add(cartao);
     }
 
-    public void adicionarLancamento(Lancamento lancamento) {
+    public void adicionarLancamento(Lancamento lancamento, boolean cartao) {
         double novoSaldo = this.saldo;
         
         this.lancamentos.add(lancamento);
         
-        novoSaldo = novoSaldo + lancamento.getValor();
+        if(! cartao) novoSaldo = novoSaldo + lancamento.getValor(); // se o lancamento for para cartão, não afeta o saldo
+        
         this.saldo = novoSaldo;
     }
 
@@ -104,11 +105,9 @@ public class Conta implements Serializable {
     @Override
     public String toString() {
         return new StringBuffer("Conta {")
-                .append("Identificador: ").append(codConta)
                 .append(", Nome: ").append(nome)
+                .append("Identificador: ").append(codConta)
                 .append(", Saldo: ").append(saldo)
-                .append(", Cartoes: ").append(cartoes)
-                .append(", Lancamentos: ").append(lancamentos)
                 .append("}").toString();
     }
 }
