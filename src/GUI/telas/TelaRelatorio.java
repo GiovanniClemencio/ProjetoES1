@@ -550,7 +550,15 @@ public class TelaRelatorio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonInicioActionPerformed
 
     private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
-        // TODO add your handling code here:
+        this.aoFechar = null;
+        
+        TelaAnalise dialog = new TelaAnalise(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), ()-> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     public void carregarContasLista() {

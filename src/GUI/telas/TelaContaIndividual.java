@@ -242,6 +242,11 @@ public class TelaContaIndividual extends javax.swing.JFrame {
         });
 
         buttonAnalises.setText("Análises");
+        buttonAnalises.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnalisesActionPerformed(evt);
+            }
+        });
 
         buttonRelatorios.setText("Relatórios");
         buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
@@ -450,6 +455,18 @@ public class TelaContaIndividual extends javax.swing.JFrame {
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonInicioActionPerformed
+
+    private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
+        this.aoFechar = null;
+        
+        TelaAnalise dialog = new TelaAnalise(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), ()-> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     private void carregarCartoesComboBox(Conta aberta) {
         comboCartoes.removeAllItems();

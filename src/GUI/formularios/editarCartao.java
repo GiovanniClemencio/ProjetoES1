@@ -39,6 +39,7 @@ public class editarCartao extends javax.swing.JDialog {
 
         carregarCampos(atual);
 
+        /*
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
@@ -46,6 +47,7 @@ public class editarCartao extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+        */
     }
 
     /**
