@@ -460,7 +460,14 @@ public class TelaAnalise extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        this.aoFechar = null;
 
+        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonRelatoriosActionPerformed
 
     private void buttonGerarAnaliseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGerarAnaliseActionPerformed
@@ -521,7 +528,7 @@ public class TelaAnalise extends javax.swing.JFrame {
             // 6. GERAR ANÁLISE
             double valorDoPeriodo = ctrlProjecao.projetarEstimativa(dataInicio, dataFim, dias, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
 
-            JOptionPane.showMessageDialog(this, String.format("Valor projetado para os próximos %d dias:\nR$ %.2f", dias,valorDoPeriodo),
+            JOptionPane.showMessageDialog(this, String.format("Valor projetado para os próximos %d dias:\nR$ %.2f", dias, valorDoPeriodo),
                     "Projeção Financeira",
                     JOptionPane.INFORMATION_MESSAGE
             );

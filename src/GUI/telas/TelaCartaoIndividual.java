@@ -411,11 +411,9 @@ public class TelaCartaoIndividual extends javax.swing.JFrame {
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
         this.aoFechar = null;
-        
-        pagarFatura dialog = new pagarFatura(this, true, ctrlLancamento, ctrlCategoria, atual, () -> {
-            new TelaCartaoIndividual(parent, true, ctrlLancamento, ctrlCategoria, atual, () -> {
-                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-            }).setVisible(true);
+
+        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
