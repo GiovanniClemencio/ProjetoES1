@@ -43,7 +43,7 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
         atual = YearMonth.now();
         initComponents();
 
-        carregarMes(atual);
+        carregarMes(atual, true);
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -189,7 +189,7 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
     private void buttonMesAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMesAnteriorActionPerformed
         YearMonth anterior = atual.minusMonths(1);
 
-        carregarMes(anterior);
+        carregarMes(anterior, false);
 
         atual = anterior;
     }//GEN-LAST:event_buttonMesAnteriorActionPerformed
@@ -221,8 +221,12 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
         return dataYearMonth;
     }
 
-    private void carregarMes(YearMonth atual) {
-        textAreaExtrato.setText("================== Lancamentos ");
+    private void carregarMes(YearMonth atual, boolean limparTela) {
+        if (limparTela) {
+            textAreaExtrato.setText("");
+        }
+
+        textAreaExtrato.append("================== Lancamentos ");
         textAreaExtrato.append(atual.toString());
         textAreaExtrato.append(" ==================\n");
 

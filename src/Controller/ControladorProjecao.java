@@ -24,7 +24,7 @@ public class ControladorProjecao {
         this.ctrlRelatorio = controladorRelatorio;
     }
 
-    public double projetarEstimativa(Date dataInicio, Date dataFim, int diasFuturos, ArrayList<Categoria> categoriaParaAnalise,
+    public double gerarProjecaoFutura(Date dataInicio, Date dataFim, int diasFuturos, ArrayList<Categoria> categoriaParaAnalise,
             ArrayList<Cartao> cartaoParaAnalise, ArrayList<Conta> contasParaAnalise) {
         if (dataInicio != null && dataFim != null && dataInicio.after(dataFim)) {
             return 0.0;

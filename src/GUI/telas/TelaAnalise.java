@@ -526,7 +526,7 @@ public class TelaAnalise extends javax.swing.JFrame {
             int dias = (Integer) spinnerDias.getValue();
 
             // 6. GERAR ANÁLISE
-            double valorDoPeriodo = ctrlProjecao.projetarEstimativa(dataInicio, dataFim, dias, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
+            double valorDoPeriodo = ctrlProjecao.gerarProjecaoFutura(dataInicio, dataFim, dias, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
 
             JOptionPane.showMessageDialog(this, String.format("Valor projetado para os próximos %d dias:\nR$ %.2f", dias, valorDoPeriodo),
                     "Projeção Financeira",
