@@ -216,9 +216,9 @@ public class TelaAnalise extends javax.swing.JFrame {
 
         campoDataFim.setText("__/__/____");
 
-        jLabel5.setText("Data Inicio");
+        jLabel5.setText("Data Fim");
 
-        jLabel6.setText("Data Fim");
+        jLabel6.setText("Data Inicio");
 
         jLabel7.setText("Cartão");
 

@@ -337,12 +337,12 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Data Inicio"/>
+            <Property name="text" type="java.lang.String" value="Data Fim"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Data Fim"/>
+            <Property name="text" type="java.lang.String" value="Data Inicio"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
