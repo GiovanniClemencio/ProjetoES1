@@ -47,6 +47,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         campoSaldoConsolidado = new javax.swing.JTextField();
         buttonExtratoConsolidado = new javax.swing.JToggleButton();
+        buttonExtratoConsolidado1 = new javax.swing.JToggleButton();
         jPanel4 = new javax.swing.JPanel();
         buttonContas = new javax.swing.JToggleButton();
         buttonCategorias = new javax.swing.JToggleButton();
@@ -126,6 +127,13 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
 
+        buttonExtratoConsolidado1.setText("Buscar Lançamento");
+        buttonExtratoConsolidado1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonBuscarLancamentoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -141,7 +149,9 @@ public class TelaInicial extends javax.swing.JFrame {
                             .addComponent(campoSaldoConsolidado, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(112, 112, 112)
-                        .addComponent(buttonExtratoConsolidado, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(buttonExtratoConsolidado1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonExtratoConsolidado, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(128, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -153,6 +163,8 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addComponent(campoSaldoConsolidado, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
                 .addComponent(buttonExtratoConsolidado)
+                .addGap(18, 18, 18)
+                .addComponent(buttonExtratoConsolidado1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -312,6 +324,15 @@ public class TelaInicial extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_buttonAnalisesActionPerformed
 
+    private void buttonBuscarLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscarLancamentoActionPerformed
+        TelaBuscarLancamento dialog = new TelaBuscarLancamento(this, true, ctrlLancamento, ctrlLancamento.getCtrlCartao().getCtrlConta(), ctrlCategoria, ()-> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose(); 
+    }//GEN-LAST:event_buttonBuscarLancamentoActionPerformed
+
     public void atualizarSaldoConsolidado(){
         ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
         
@@ -330,6 +351,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JToggleButton buttonCategorias;
     private javax.swing.JToggleButton buttonContas;
     private javax.swing.JToggleButton buttonExtratoConsolidado;
+    private javax.swing.JToggleButton buttonExtratoConsolidado1;
     private javax.swing.JButton buttonInicio;
     private javax.swing.JToggleButton buttonRelatorios;
     private javax.swing.JTextField campoSaldoConsolidado;

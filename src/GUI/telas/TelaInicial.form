@@ -152,7 +152,10 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                          <Component id="buttonExtratoConsolidado" min="-2" pref="208" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="buttonExtratoConsolidado1" min="-2" pref="208" max="-2" attributes="0"/>
+                              <Component id="buttonExtratoConsolidado" min="-2" pref="208" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace pref="128" max="32767" attributes="0"/>
@@ -168,6 +171,8 @@
                   <Component id="campoSaldoConsolidado" min="-2" pref="41" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                   <Component id="buttonExtratoConsolidado" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="buttonExtratoConsolidado1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -198,6 +203,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonExtratoConsolidadoActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="buttonExtratoConsolidado1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Buscar Lan&#xe7;amento"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonBuscarLancamentoActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

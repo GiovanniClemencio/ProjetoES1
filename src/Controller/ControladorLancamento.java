@@ -10,6 +10,7 @@ import Classes.Conta;
 import Classes.Fatura;
 import Classes.Fechar;
 import Classes.Lancamento;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -61,6 +62,23 @@ public class ControladorLancamento {
         return null; // Não encontrou o lançamento
     }
 
+    // 13. Usado na filtragem por descrição, case insensitive
+    public ArrayList<Lancamento> buscarLancamentoDesc(String textoBusca) {
+        ArrayList<Lancamento> resultados = new ArrayList<>();
+
+        for (Conta conta : ctrlCartao.ctrlConta.getContas()) {
+            for (Lancamento lancamento : conta.getLancamentos()) {
+                if (lancamento.getDescricao() != null
+                        && lancamento.getDescricao().toLowerCase().contains(textoBusca.toLowerCase())) {
+
+                    resultados.add(lancamento);
+                }
+            }
+        }
+
+        return new ArrayList<>(resultados);
+    }
+
     public void editarLancamento(String idLancamento, String tipo, Conta contaOrigem, Conta contaDestino, Date dataMax, double valor, Date dataLancamento, String descricao, Boolean pendente) {
         Lancamento lancamento = buscarLancamento(idLancamento);
         if (lancamento != null) {
@@ -91,7 +109,7 @@ public class ControladorLancamento {
         double valorPos = Math.abs(valor);
         Lancamento lancamento1 = new Lancamento(tipo, contaOrigem, contaDestino, dataMax, valor, dataLancamento, descricao, pendente, idCartao);
         Lancamento lancamento2 = new Lancamento(tipo, contaDestino, contaOrigem, dataMax, valorPos, dataLancamento, descricao, pendente, idCartao);
-        
+
         Conta conta = lancamento1.getContaOrigem();
         if (conta != null) {
             conta.adicionarLancamento(lancamento1, false);
@@ -102,6 +120,6 @@ public class ControladorLancamento {
             conta.adicionarLancamento(lancamento2, false);
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
         }
-        
+
     }
 }
