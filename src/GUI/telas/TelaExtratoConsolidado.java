@@ -86,7 +86,7 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
         buttonMesAnterior.setText("Carregar mês anterior");
         buttonMesAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonMesAnteriorActionPerformed(evt);
+                carregarMesAnterior(evt);
             }
         });
 
@@ -186,13 +186,13 @@ public class TelaExtratoConsolidado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonMesAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMesAnteriorActionPerformed
+    private void carregarMesAnterior(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carregarMesAnterior
         YearMonth anterior = atual.minusMonths(1);
 
         carregarMes(anterior, false);
 
         atual = anterior;
-    }//GEN-LAST:event_buttonMesAnteriorActionPerformed
+    }//GEN-LAST:event_carregarMesAnterior
 
     private void buttonAbrirLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAbrirLancamentoActionPerformed
         Lancamento escolhido = ctrlLancamento.buscarLancamento(campoLancamento.getText());

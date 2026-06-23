@@ -130,7 +130,7 @@
             <Property name="text" type="java.lang.String" value="Carregar m&#xea;s anterior"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonMesAnteriorActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="carregarMesAnterior"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="buttonAbrirLancamento">
