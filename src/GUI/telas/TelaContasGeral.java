@@ -5,6 +5,7 @@ import Classes.Conta;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
+import java.awt.Point;
 import javax.swing.JOptionPane;
 
 /*
@@ -260,7 +261,7 @@ public class TelaContasGeral extends javax.swing.JFrame {
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
         this.aoFechar = null;
-        
+
         TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -271,7 +272,7 @@ public class TelaContasGeral extends javax.swing.JFrame {
 
     private void buttonVisualizarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVisualizarContaActionPerformed
         this.aoFechar = null;
-        
+
         String idSelecionado = pegarIdContaSelecionada();
         if (((String) comboContas.getSelectedItem()).equalsIgnoreCase("'Nenhuma'")) {
             JOptionPane.showMessageDialog(this,
@@ -282,12 +283,28 @@ public class TelaContasGeral extends javax.swing.JFrame {
             Conta contaSelecionada = ctrlConta.buscarConta(idSelecionado);
 
             this.aoFechar = null;
-            
-            TelaContaIndividual dialog = new TelaContaIndividual(this, true, ctrlLancamento, contaSelecionada, ctrlCategoria, () -> {
-                new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
-                    new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-                }).setVisible(true);
-            });
+            Point posicao = getLocation();
+            TelaContaIndividual dialog = new TelaContaIndividual(
+                    this,
+                    true,
+                    ctrlLancamento,
+                    contaSelecionada,
+                    ctrlCategoria,
+                    () -> {
+                        TelaContasGeral tela = new TelaContasGeral(
+                                parent,
+                                true,
+                                ctrlLancamento,
+                                ctrlCategoria,
+                                () -> {
+                                    new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+                                }
+                        );
+
+                        tela.setLocation(posicao);
+                        tela.setVisible(true);
+                    }
+            );
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
             dispose();
@@ -302,11 +319,11 @@ public class TelaContasGeral extends javax.swing.JFrame {
 
     private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
         this.aoFechar = null;
-        
-        TelaAnalise dialog = new TelaAnalise(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), ()-> {
+
+        TelaAnalise dialog = new TelaAnalise(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
-        
+
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
@@ -314,7 +331,7 @@ public class TelaContasGeral extends javax.swing.JFrame {
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
         this.aoFechar = null;
-        
+
         TelaCartoesGeral dialog = new TelaCartoesGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -325,7 +342,7 @@ public class TelaContasGeral extends javax.swing.JFrame {
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
         this.aoFechar = null;
-        
+
         TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
             new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
                 new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
@@ -338,7 +355,7 @@ public class TelaContasGeral extends javax.swing.JFrame {
 
     private void buttonInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInicioActionPerformed
         this.aoFechar = null;
-        
+
         TelaInicial dialog = new TelaInicial(ctrlLancamento, ctrlCategoria);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
