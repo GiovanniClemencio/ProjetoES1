@@ -1,6 +1,5 @@
 package GUI.telas;
 
-
 import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
@@ -321,7 +320,16 @@ public class TelaAnalise extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        this.aoFechar = null;
 
+        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
+            new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonRelatoriosActionPerformed
 
     private void buttonInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInicioActionPerformed
