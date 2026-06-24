@@ -479,7 +479,7 @@ public class TelaContaIndividual extends javax.swing.JFrame {
     }
 
     public void atualizarVisualizacao() {
-        campoSaldo.setText(Double.toString(atual.getSaldo()));
+        campoSaldo.setText(String.format("R$ %.2f",atual.getSaldo()));
         labelTitulo.setText(atual.getNome());
     }
 
