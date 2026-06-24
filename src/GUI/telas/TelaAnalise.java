@@ -68,6 +68,7 @@ public class TelaAnalise extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         projecao = new javax.swing.JButton();
         comparar = new javax.swing.JButton();
+        TotaisCategoria = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         buttonContas = new javax.swing.JToggleButton();
         buttonCategorias = new javax.swing.JToggleButton();
@@ -146,6 +147,13 @@ public class TelaAnalise extends javax.swing.JFrame {
             }
         });
 
+        TotaisCategoria.setText("Totais por Categoria");
+        TotaisCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TotaisCategoriaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -153,8 +161,10 @@ public class TelaAnalise extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(177, 177, 177)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(comparar)
-                    .addComponent(projecao, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TotaisCategoria)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(comparar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                        .addComponent(projecao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(244, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -164,6 +174,8 @@ public class TelaAnalise extends javax.swing.JFrame {
                 .addComponent(projecao)
                 .addGap(37, 37, 37)
                 .addComponent(comparar)
+                .addGap(44, 44, 44)
+                .addComponent(TotaisCategoria)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -359,8 +371,22 @@ public class TelaAnalise extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_compararActionPerformed
 
+    private void TotaisCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotaisCategoriaActionPerformed
+        this.aoFechar = null;
+
+        TelaTotaisCategoria dialog = new TelaTotaisCategoria(this, ctrlLancamento, ctrlConta, ctrlCategoria, ctrlRelatorio, () -> {
+            new TelaAnalise(parent, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_TotaisCategoriaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton TotaisCategoria;
     private javax.swing.JToggleButton buttonAnalises;
     private javax.swing.JToggleButton buttonCartoes;
     private javax.swing.JToggleButton buttonCategorias;

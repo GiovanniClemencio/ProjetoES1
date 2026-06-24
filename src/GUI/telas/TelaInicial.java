@@ -5,6 +5,7 @@ import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
 import Controller.ControladorRelatorio;
+import java.util.Locale;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -342,7 +343,7 @@ public class TelaInicial extends javax.swing.JFrame {
         }
         saldoConsolidado = Math.round(saldoConsolidado * 100)/100.0;
         
-        campoSaldoConsolidado.setText(Double.toString(saldoConsolidado));
+        campoSaldoConsolidado.setText(String.format("R$ %.2f", saldoConsolidado));
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -14,6 +14,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -80,7 +81,7 @@ public class ControladorRelatorio {
             try {
                 // Converte o conteúdo CSV para bytes usando UTF-8 e adiciona o marcador BOM no inicio
                 byte[] bytesTexto = conteudoCSV.getBytes(StandardCharsets.UTF_8);
-                byte[] bom = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF }; // Marcador BOM
+                byte[] bom = new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF}; // Marcador BOM
 
                 // Junta o BOM com os bytes do texto
                 byte[] bytesFinais = new byte[bom.length + bytesTexto.length];
@@ -112,6 +113,38 @@ public class ControladorRelatorio {
         return false; // Formato não suportado
     }
 
+    public HashMap<String, Double> obterTotaisPorIdCategoria(Date inicio, Date fim) {
+        ArrayList<Lancamento> lancamentosFiltrados = gerarRelatorio(inicio, fim, null, null, null, null);
+
+        HashMap<String, Double> totaisPorCategoria = new HashMap<>();
+
+        if (lancamentosFiltrados == null) {
+            return totaisPorCategoria;
+        }
+
+        lancamentosFiltrados.removeIf(l -> "TRANSFERENCIA".equalsIgnoreCase(l.getTipo()));
+
+        for (Lancamento l : lancamentosFiltrados) {
+            ArrayList<Categoria> categoriasDoLancamento = l.getCategorias();
+
+            if (categoriasDoLancamento != null) {
+                double valor = l.getValor();
+
+                for (Categoria cat : categoriasDoLancamento) {
+                    if (cat != null && cat.getIdCategoria() != null) {
+                        String idCat = cat.getIdCategoria();
+
+                        totaisPorCategoria.put(idCat, totaisPorCategoria.getOrDefault(idCat, 0.0) + valor);
+                    }
+                }
+            }
+        }
+
+        totaisPorCategoria.replaceAll((id, total) -> Math.round(total * 100.0) / 100.0);
+
+        return totaisPorCategoria;
+    }
+
     public ControladorConta getCtrlConta() {
         return ctrlConta;
     }
@@ -119,4 +152,5 @@ public class ControladorRelatorio {
     public void setCtrlConta(ControladorConta ctrlConta) {
         this.ctrlConta = ctrlConta;
     }
+
 }
