@@ -44,7 +44,7 @@ public class editarLancamento extends javax.swing.JDialog {
         carregarCampos(lancamento);
 
         buttonCadastrarLancamento.setEnabled(false);
-        
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -94,6 +94,7 @@ public class editarLancamento extends javax.swing.JDialog {
         textareaDescricao = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
         comboIdCartao = new javax.swing.JComboBox<>();
+        buttonExcluirLancamento = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
 
@@ -197,6 +198,13 @@ public class editarLancamento extends javax.swing.JDialog {
 
         comboIdCartao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        buttonExcluirLancamento.setText("Excluir");
+        buttonExcluirLancamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExcluirLancamentoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -204,6 +212,8 @@ public class editarLancamento extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(106, 106, 106)
                 .addComponent(buttonLimparCampos)
+                .addGap(78, 78, 78)
+                .addComponent(buttonExcluirLancamento)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonCadastrarLancamento)
                 .addGap(109, 109, 109))
@@ -328,7 +338,8 @@ public class editarLancamento extends javax.swing.JDialog {
                 .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonCadastrarLancamento)
-                    .addComponent(buttonLimparCampos))
+                    .addComponent(buttonLimparCampos)
+                    .addComponent(buttonExcluirLancamento))
                 .addGap(23, 23, 23))
         );
 
@@ -483,6 +494,28 @@ public class editarLancamento extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoDataMaxActionPerformed
 
+    private void buttonExcluirLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirLancamentoActionPerformed
+        int resposta = JOptionPane.showConfirmDialog(
+                this,
+                "Tem certeza que deseja excluir este lançamento?\n\n"
+                + "Esta ação é permanente e não poderá ser desfeita.",
+                "Confirmar exclusão",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (resposta == JOptionPane.YES_OPTION) {
+            ctrlLancamento.removerLancamento(lancamento.getIdLancamento());
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Lançamento excluído com sucesso."
+            );
+
+            dispose();
+        }
+    }//GEN-LAST:event_buttonExcluirLancamentoActionPerformed
+
     private String pegarIdContaSelecionadaDestino() {
         String itemSelecionado = (String) comboContaDestino.getSelectedItem();
 
@@ -494,7 +527,7 @@ public class editarLancamento extends javax.swing.JDialog {
 
         return itemSelecionado.substring(segundoInicio + 1, segundoFim);
     }
-    
+
     private String pegarIdContaSelecionadaOrigem() {
         String itemSelecionado = (String) comboContaOrigem.getSelectedItem();
 
@@ -506,7 +539,7 @@ public class editarLancamento extends javax.swing.JDialog {
 
         return itemSelecionado.substring(segundoInicio + 1, segundoFim);
     }
-    
+
     public void carregarContasComboBox(ControladorConta ctrlConta) {
         comboContaOrigem.removeAllItems();
         comboContaDestino.removeAllItems();
@@ -780,6 +813,7 @@ public class editarLancamento extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonCadastrarLancamento;
+    private javax.swing.JToggleButton buttonExcluirLancamento;
     private javax.swing.JToggleButton buttonLimparCampos;
     private javax.swing.JFormattedTextField campoDataLancamento;
     private javax.swing.JFormattedTextField campoDataMax;
