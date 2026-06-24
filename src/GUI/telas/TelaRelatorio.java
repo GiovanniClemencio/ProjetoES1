@@ -466,6 +466,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
     private void buttonGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGerarRelatorioActionPerformed
         try {
+            this.aoFechar = null;
             // 1. CONTA
             ArrayList<Conta> contasSelecionadas = new ArrayList<>();
             if (listaContas.getSelectedIndices().length == 0 || listaContas.isSelectedIndex(0)) {
@@ -527,7 +528,11 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
             this.aoFechar = null;
             
-            TelaRelatorioGerado dialog = new TelaRelatorioGerado(parent, ctrlLancamento, ctrlCategoria, relatorio);
+            TelaRelatorioGerado dialog = new TelaRelatorioGerado(parent, ctrlLancamento, ctrlCategoria, relatorio, () -> {
+            new TelaRelatorio(parent, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
             this.setVisible(false);

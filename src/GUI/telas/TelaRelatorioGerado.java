@@ -20,23 +20,26 @@ public class TelaRelatorioGerado extends javax.swing.JFrame {
     private final ControladorRelatorio ctrlRelatorio;
     private final ControladorCategoria ctrlCategoria;
     private final ControladorLancamento ctrlLancamento;
+    private Runnable aoFechar;
     ArrayList<Lancamento> relatorio;
     private final java.awt.Frame parent;
 
-    public TelaRelatorioGerado(java.awt.Frame parent, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, ArrayList<Lancamento> relatorio) {
+    public TelaRelatorioGerado(java.awt.Frame parent, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, ArrayList<Lancamento> relatorio, Runnable aoFechar) {
         this.ctrlRelatorio = ctrlCategoria.getCtrlRelatorio();
         this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
         this.parent = parent;
+        this.aoFechar = aoFechar;
         this.relatorio = relatorio;
         initComponents();
         carregarRelatorio();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-                dispose();
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (TelaRelatorioGerado.this.aoFechar != null) {
+                    TelaRelatorioGerado.this.aoFechar.run();
+                }
             }
         });
     }
