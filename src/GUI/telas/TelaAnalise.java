@@ -354,42 +354,62 @@ public class TelaAnalise extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     private void projecaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_projecaoActionPerformed
-        this.aoFechar = null;
+        TelaAnalise telaAtual = this;
 
-        TelaProjecao dialog = new TelaProjecao(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
-            new TelaAnalise(parent, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
-                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-            }).setVisible(true);
-        });
+        TelaProjecao dialog = new TelaProjecao(
+                this,
+                ctrlLancamento,
+                ctrlCategoria,
+                ctrlRelatorio,
+                () -> {
+                    telaAtual.setVisible(true);
+                }
+        );
+
+        setVisible(false);
+
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        dispose();
     }//GEN-LAST:event_projecaoActionPerformed
 
     private void compararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compararActionPerformed
-        this.aoFechar = null;
 
-        TelaCompararPeriodo dialog = new TelaCompararPeriodo(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
-            new TelaAnalise(parent, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
-                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-            }).setVisible(true);
-        });
+        TelaAnalise telaAtual = this;
+
+        TelaCompararPeriodo dialog = new TelaCompararPeriodo(
+                this,
+                ctrlLancamento,
+                ctrlCategoria,
+                ctrlRelatorio,
+                () -> {
+                    telaAtual.setVisible(true);
+                }
+        );
+
+        setVisible(false);
+
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        dispose();
     }//GEN-LAST:event_compararActionPerformed
 
     private void TotaisCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotaisCategoriaActionPerformed
-        this.aoFechar = null;
+        TelaAnalise telaAtual = this;
 
-        TelaTotaisCategoria dialog = new TelaTotaisCategoria(this, ctrlLancamento, ctrlConta, ctrlCategoria, ctrlRelatorio, () -> {
-            new TelaAnalise(parent, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
-                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-            }).setVisible(true);
-        });
+        TelaTotaisCategoria dialog = new TelaTotaisCategoria(
+                this,
+                ctrlLancamento,
+                ctrlConta,
+                ctrlCategoria,
+                ctrlRelatorio,
+                () -> {
+                    telaAtual.setVisible(true);
+                }
+        );
+
+        setVisible(false);
+
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        dispose();
     }//GEN-LAST:event_TotaisCategoriaActionPerformed
 
 

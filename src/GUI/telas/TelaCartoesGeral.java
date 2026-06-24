@@ -5,10 +5,8 @@
 package GUI.telas;
 
 import Classes.Cartao;
-import Classes.Categoria;
 import Controller.ControladorCategoria;
 import Controller.ControladorLancamento;
-import GUI.formularios.editarCategoria;
 import java.awt.Frame;
 import java.util.ArrayList;
 
@@ -65,7 +63,7 @@ public class TelaCartoesGeral extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
 

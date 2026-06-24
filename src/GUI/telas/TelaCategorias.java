@@ -7,7 +7,6 @@ package GUI.telas;
 import Classes.Categoria;
 import Controller.ControladorCategoria;
 import Controller.ControladorLancamento;
-import Controller.ControladorRelatorio;
 import GUI.formularios.cadastroCategoria;
 import GUI.formularios.editarCategoria;
 import javax.swing.JOptionPane;
@@ -66,7 +65,7 @@ public class TelaCategorias extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
