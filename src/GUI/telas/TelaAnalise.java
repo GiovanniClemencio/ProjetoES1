@@ -1,24 +1,13 @@
 package GUI.telas;
 
-import Classes.Cartao;
-import Classes.Categoria;
-import Classes.Conta;
-import Classes.Lancamento;
+
 import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
-import Controller.ControladorProjecao;
 import Controller.ControladorRelatorio;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import javax.swing.DefaultListModel;
 import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -35,7 +24,6 @@ public class TelaAnalise extends javax.swing.JFrame {
     private final ControladorRelatorio ctrlRelatorio;
     private final ControladorConta ctrlConta;
     private final ControladorCartao ctrlCartao;
-    private final ControladorProjecao ctrlProjecao;
     private Runnable aoFechar;
     private final java.awt.Frame parent;
 
@@ -47,34 +35,7 @@ public class TelaAnalise extends javax.swing.JFrame {
         this.ctrlCartao = ctrlLancamento.getCtrlCartao();
         this.aoFechar = aoFechar;
         this.parent = parent;
-        this.ctrlProjecao = new ControladorProjecao(ctrlRelatorio);
         initComponents();
-
-        carregarContasLista();
-        listaContas.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                carregarCartoesFiltrados();
-            }
-        });
-        carregarCategorias();
-        carregarCartoes();
-
-        try {
-            MaskFormatter mascara = new MaskFormatter("##/##/####");
-
-            campoDataInicio.setFormatterFactory(
-                    new DefaultFormatterFactory(mascara)
-            );
-
-            campoDataFim.setFormatterFactory(
-                    new DefaultFormatterFactory(
-                            new MaskFormatter("##/##/####")
-                    )
-            );
-
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -100,26 +61,13 @@ public class TelaAnalise extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listaContas = new javax.swing.JList<>();
-        jLabel1 = new javax.swing.JLabel();
-        buttonGerarAnalise = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        listaCategoria = new javax.swing.JList<>();
-        campoDataInicio = new javax.swing.JFormattedTextField();
-        campoDataFim = new javax.swing.JFormattedTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        listaCartao = new javax.swing.JList<>();
-        jLabel8 = new javax.swing.JLabel();
-        spinnerDias = new javax.swing.JSpinner();
+        projecao = new javax.swing.JButton();
+        comparar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         buttonContas = new javax.swing.JToggleButton();
         buttonCategorias = new javax.swing.JToggleButton();
@@ -154,6 +102,10 @@ public class TelaAnalise extends javax.swing.JFrame {
 
         jLabel3.setText("jLabel3");
 
+        jButton1.setText("jButton1");
+
+        jButton2.setText("jButton2");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(30, 30, 150));
@@ -161,17 +113,17 @@ public class TelaAnalise extends javax.swing.JFrame {
 
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
-        labelTitulo.setText("Análise");
+        labelTitulo.setText("Analise");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(277, 277, 277)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelTitulo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(278, 278, 278))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,143 +132,34 @@ public class TelaAnalise extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 242));
 
-        listaContas.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(listaContas);
-
-        jLabel1.setText("Conta");
-
-        buttonGerarAnalise.setText("Gerar Análise");
-        buttonGerarAnalise.addActionListener(new java.awt.event.ActionListener() {
+        projecao.setText("Projeção");
+        projecao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonGerarAnaliseActionPerformed(evt);
+                projecaoActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Dias");
-
-        jLabel4.setText("Categoria");
-
-        listaCategoria.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane3.setViewportView(listaCategoria);
-
-        campoDataInicio.setText("__/__/____");
-        campoDataInicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoDataInicioActionPerformed(evt);
-            }
-        });
-
-        campoDataFim.setText("__/__/____");
-
-        jLabel5.setText("Data Fim");
-
-        jLabel6.setText("Data Inicio");
-
-        jLabel7.setText("Cartão");
-
-        listaCartao.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane4.setViewportView(listaCartao);
-
-        jLabel8.setText("Deixe em branco para considerar todo o período");
+        comparar.setText("Comparar Períodos");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(173, 173, 173)
-                        .addComponent(buttonGerarAnalise))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(9, 9, 9)
-                                        .addComponent(jLabel1))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jLabel2))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jLabel6))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jLabel5)))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(campoDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(campoDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(spinnerDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(40, 40, 40)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jLabel4)))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel8)))
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addGap(177, 177, 177)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(comparar)
+                    .addComponent(projecao, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(27, 27, 27)
-                            .addComponent(jLabel1))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabel4)))
-                .addGap(23, 23, 23)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel7)
-                            .addComponent(spinnerDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel8)
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(campoDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(campoDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                        .addGap(13, 13, 13)
-                        .addComponent(buttonGerarAnalise)
-                        .addGap(18, 18, 18))))
+                .addGap(28, 28, 28)
+                .addComponent(projecao)
+                .addGap(37, 37, 37)
+                .addComponent(comparar)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
@@ -394,7 +237,7 @@ public class TelaAnalise extends javax.swing.JFrame {
                 .addComponent(buttonRelatorios)
                 .addGap(18, 18, 18)
                 .addComponent(buttonAnalises)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -414,8 +257,9 @@ public class TelaAnalise extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         pack();
@@ -460,87 +304,8 @@ public class TelaAnalise extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
-        this.aoFechar = null;
 
-        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
-            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-        });
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        dispose();
     }//GEN-LAST:event_buttonRelatoriosActionPerformed
-
-    private void buttonGerarAnaliseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGerarAnaliseActionPerformed
-        try {
-            // 1. CONTA
-            ArrayList<Conta> contasSelecionadas = new ArrayList<>();
-            if (listaContas.getSelectedIndices().length == 0 || listaContas.isSelectedIndex(0)) {
-                contasSelecionadas = null;
-            } else {
-                for (int indice : listaContas.getSelectedIndices()) {
-                    contasSelecionadas.add(ctrlConta.getContas().get(indice - 1));
-                }
-            }
-
-            // 2. DATA
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date dataInicio = null;
-            Date dataFim = null;
-
-            if (dataPreenchida(campoDataInicio)) {
-                dataInicio = sdf.parse(campoDataInicio.getText());
-            }
-
-            if (dataPreenchida(campoDataFim)) {
-                dataFim = sdf.parse(campoDataFim.getText());
-            }
-
-            if (dataInicio != null && dataFim != null) {
-                if (dataInicio.after(dataFim)) {
-                    JOptionPane.showMessageDialog(this, "A data inicial não pode ser maior que a data final.", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-            }
-
-            // 3. CATEGORIA
-            ArrayList<Categoria> categoriaSelecionada = new ArrayList<>();
-            if (listaCategoria.getSelectedIndices().length == 0 || listaCategoria.isSelectedIndex(0)) {
-                categoriaSelecionada = null;
-            } else {
-                for (int indice : listaCategoria.getSelectedIndices()) {
-                    categoriaSelecionada.add(ctrlCategoria.getCategorias().get(indice - 1));
-                }
-            }
-
-            // 4. CARTÃO
-            ArrayList<Cartao> cartaoSelecionado = new ArrayList<>();
-            if (listaCartao.getSelectedIndices().length == 0 || listaCartao.isSelectedIndex(0)) {
-                cartaoSelecionado = null;
-            } else {
-                for (int indice : listaCartao.getSelectedIndices()) {
-                    cartaoSelecionado.add(ctrlCartao.getCartoes().get(indice - 1));
-                }
-            }
-
-            // 5. QUANTIDADE DE DIAS
-            int dias = (Integer) spinnerDias.getValue();
-
-            // 6. GERAR ANÁLISE
-            double valorDoPeriodo = ctrlProjecao.gerarProjecaoFutura(dataInicio, dataFim, dias, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
-
-            JOptionPane.showMessageDialog(this, String.format("Valor projetado para os próximos %d dias:\nR$ %.2f", dias, valorDoPeriodo),
-                    "Projeção Financeira",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(this, "Formato de data inválido. Use DD/MM/AAAA.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_buttonGerarAnaliseActionPerformed
-
-    private void campoDataInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDataInicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoDataInicioActionPerformed
 
     private void buttonInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInicioActionPerformed
         this.aoFechar = null;
@@ -552,121 +317,49 @@ public class TelaAnalise extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonInicioActionPerformed
 
     private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
-        // TODO add your handling code here:
+        this.aoFechar = null;
+
+        TelaProjecao dialog = new TelaProjecao(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+        });
+
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_buttonAnalisesActionPerformed
 
-    public void carregarContasLista() {
+    private void projecaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_projecaoActionPerformed
+        this.aoFechar = null;
 
-        DefaultListModel<String> model = new DefaultListModel<>();
-        model.addElement("Todas as contas");
-        for (Conta conta : ctrlConta.getContas()) {
+        TelaProjecao dialog = new TelaProjecao(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
+            new TelaAnalise(parent, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_projecaoActionPerformed
 
-            String item = conta.getNome() + " - " + conta.getCodConta();
-
-            model.addElement(item);
-        }
-
-        listaContas.setModel(model);
-    }
-
-    public void carregarCategorias() {
-        DefaultListModel<String> model = new DefaultListModel<>();
-        model.addElement("Todas as categorias");
-        for (Categoria categoria : ctrlCategoria.getCategorias()) {
-
-            String item = categoria.getNome();
-
-            model.addElement(item);
-        }
-
-        listaCategoria.setModel(model);
-    }
-
-    public void carregarCartoes() {
-        DefaultListModel<String> model = new DefaultListModel<>();
-        model.addElement("Todas os Cartões");
-        for (Cartao cartao : ctrlCartao.getCartoes()) {
-
-            String item = cartao.getIdCartao() + " - " + cartao.getNome();
-
-            model.addElement(item);
-        }
-        listaCartao.setModel(model);
-    }
-
-    public void carregarCartoesFiltrados() {
-
-        DefaultListModel<String> model = new DefaultListModel<>();
-        model.addElement("Todos os Cartões");
-
-        // Se nada estiver selecionado ou "Todas as contas"
-        if (listaContas.getSelectedIndices().length == 0
-                || listaContas.isSelectedIndex(0)) {
-
-            for (Cartao cartao : ctrlCartao.getCartoes()) {
-
-                String item = cartao.getIdCartao()
-                        + " - "
-                        + cartao.getNome();
-
-                model.addElement(item);
-            }
-
-            listaCartao.setModel(model);
-            return;
-        }
-
-        // Apenas cartões das contas selecionadas
-        for (int indice : listaContas.getSelectedIndices()) {
-
-            Conta conta = ctrlConta.getContas().get(indice - 1);
-
-            for (Cartao cartao : conta.getCartoes()) {
-
-                String item = cartao.getIdCartao()
-                        + " - "
-                        + cartao.getNome();
-
-                if (!model.contains(item)) {
-                    model.addElement(item);
-                }
-            }
-        }
-
-        listaCartao.setModel(model);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonAnalises;
     private javax.swing.JToggleButton buttonCartoes;
     private javax.swing.JToggleButton buttonCategorias;
     private javax.swing.JToggleButton buttonContas;
-    private javax.swing.JButton buttonGerarAnalise;
     private javax.swing.JButton buttonInicio;
     private javax.swing.JToggleButton buttonRelatorios;
-    private javax.swing.JFormattedTextField campoDataFim;
-    private javax.swing.JFormattedTextField campoDataInicio;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton comparar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelTitulo;
-    private javax.swing.JList<String> listaCartao;
-    private javax.swing.JList<String> listaCategoria;
-    private javax.swing.JList<String> listaContas;
-    private javax.swing.JSpinner spinnerDias;
+    private javax.swing.JButton projecao;
     // End of variables declaration//GEN-END:variables
 }
