@@ -145,6 +145,21 @@ public class ControladorRelatorio {
         return totaisPorCategoria;
     }
 
+    public ArrayList<Lancamento> filtrarPorValor (ArrayList<Lancamento> lancamentos, Double valorMin, Double valorMax) {
+        
+        ArrayList<Lancamento> resultado = new ArrayList<>(lancamentos);
+
+    if (valorMin != null) {
+        resultado.removeIf(l -> l.getValor() < valorMin);
+    }
+
+    if (valorMax != null) {
+        resultado.removeIf(l -> l.getValor() > valorMax);
+    }
+
+    return resultado;
+    }
+
     public ControladorConta getCtrlConta() {
         return ctrlConta;
     }

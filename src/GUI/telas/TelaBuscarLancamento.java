@@ -11,12 +11,14 @@ import Classes.Lancamento;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
+import Controller.ControladorRelatorio;
 import GUI.formularios.editarLancamento;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,14 +29,16 @@ public class TelaBuscarLancamento extends javax.swing.JFrame {
     private final ControladorConta ctrlConta;
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
+    private final ControladorRelatorio ctrlRelatorio;
     private final ArrayList<Conta> contas;
     private final java.awt.Frame parent;
     private final Runnable aoFechar;
 
-    public TelaBuscarLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorConta ctrlConta, ControladorCategoria ctrlCategoria, Runnable aoFechar) {
+    public TelaBuscarLancamento(java.awt.Frame parent, boolean modal, ControladorLancamento ctrlLancamento, ControladorConta ctrlConta, ControladorCategoria ctrlCategoria, ControladorRelatorio ctrlRelatorio, Runnable aoFechar) {
         this.ctrlConta = ctrlConta;
         this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
+        this.ctrlRelatorio = ctrlRelatorio;
         this.parent = parent;
         this.contas = new ArrayList<>(ctrlConta.getContas());
         this.aoFechar = aoFechar;
@@ -66,6 +70,10 @@ public class TelaBuscarLancamento extends javax.swing.JFrame {
         buttonAbrirLancamento = new javax.swing.JButton();
         campoLancamento = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        campoValorMin = new javax.swing.JFormattedTextField();
+        campoValorMax = new javax.swing.JFormattedTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
 
@@ -95,19 +103,25 @@ public class TelaBuscarLancamento extends javax.swing.JFrame {
 
         jLabel2.setText("Abrir Lancamento:");
 
+        campoValorMin.setColumns(6);
+        campoValorMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoValorMinActionPerformed(evt);
+            }
+        });
+
+        campoValorMax.setColumns(6);
+
+        jLabel3.setText("-");
+
+        jLabel4.setText("Faixa de valor");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoDescLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -120,7 +134,24 @@ public class TelaBuscarLancamento extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 23, Short.MAX_VALUE)))
+                        .addGap(0, 23, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoDescLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(campoValorMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoValorMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -131,8 +162,14 @@ public class TelaBuscarLancamento extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(campoDescLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonPesquisar))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoValorMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoValorMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -186,7 +223,7 @@ public class TelaBuscarLancamento extends javax.swing.JFrame {
         Lancamento escolhido = ctrlLancamento.buscarLancamento(campoLancamento.getText());
 
         editarLancamento dialog = new editarLancamento(this, true, ctrlLancamento, ctrlCategoria, escolhido, () -> {
-            new TelaBuscarLancamento(parent, true, ctrlLancamento, ctrlConta, ctrlCategoria, aoFechar).setVisible(true);
+            new TelaBuscarLancamento(parent, true, ctrlLancamento, ctrlConta, ctrlCategoria, ctrlRelatorio, aoFechar).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
@@ -195,10 +232,37 @@ public class TelaBuscarLancamento extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAbrirLancamentoActionPerformed
 
     private void buttonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPesquisarActionPerformed
-        ArrayList<Lancamento> result = ctrlLancamento.buscarLancamentoDesc(campoDescLancamento.getText());
+        ArrayList<Lancamento> resultBusca = ctrlLancamento.buscarLancamentoDesc(campoDescLancamento.getText());
 
-        carregarLancamentos(result);
+        Double valorMin = null;
+        Double valorMax = null;
+
+        try {
+            if (!campoValorMin.getText().isBlank()) {
+                valorMin = Double.parseDouble(campoValorMin.getText());
+            }
+
+            if (!campoValorMax.getText().isBlank()) {
+                valorMax = Double.parseDouble(campoValorMax.getText());
+            }
+
+            ArrayList<Lancamento> resultFiltro = ctrlRelatorio.filtrarPorValor(resultBusca, valorMin, valorMax);
+
+            carregarLancamentos(resultFiltro);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Valor inválido.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+
     }//GEN-LAST:event_buttonPesquisarActionPerformed
+
+    private void campoValorMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoValorMinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoValorMinActionPerformed
 
     private YearMonth dateParaYearMonth(Date data) {
         LocalDate dataParcial = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -206,18 +270,18 @@ public class TelaBuscarLancamento extends javax.swing.JFrame {
 
         return dataYearMonth;
     }
-    
+
     private void carregarLancamentos(ArrayList<Lancamento> lancamentos) {
         textAreaResultado.setText("================== Lancamentos ==================\n");
 
         for (int i = lancamentos.size() - 1; i >= 0; i--) {
-        Lancamento lancamento = lancamentos.get(i);
-        YearMonth dataLancamento = dateParaYearMonth(lancamento.getDataLancamento());
+            Lancamento lancamento = lancamentos.get(i);
+            YearMonth dataLancamento = dateParaYearMonth(lancamento.getDataLancamento());
 
-        textAreaResultado.append("-----\n");
-        textAreaResultado.append(lancamento.toTextoExtrato());
-        textAreaResultado.append("\n-----\n");
-    }
+            textAreaResultado.append("-----\n");
+            textAreaResultado.append(lancamento.toTextoExtrato());
+            textAreaResultado.append("\n-----\n");
+        }
         textAreaResultado.append("\n==================================================\n\n");
     }
 
@@ -226,8 +290,12 @@ public class TelaBuscarLancamento extends javax.swing.JFrame {
     private javax.swing.JButton buttonPesquisar;
     private javax.swing.JTextField campoDescLancamento;
     private javax.swing.JTextField campoLancamento;
+    private javax.swing.JFormattedTextField campoValorMax;
+    private javax.swing.JFormattedTextField campoValorMin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;

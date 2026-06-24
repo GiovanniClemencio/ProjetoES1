@@ -326,7 +326,7 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     private void buttonBuscarLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscarLancamentoActionPerformed
-        TelaBuscarLancamento dialog = new TelaBuscarLancamento(this, true, ctrlLancamento, ctrlLancamento.getCtrlCartao().getCtrlConta(), ctrlCategoria, ()-> {
+        TelaBuscarLancamento dialog = new TelaBuscarLancamento(this, true, ctrlLancamento, ctrlLancamento.getCtrlCartao().getCtrlConta(), ctrlCategoria, ctrlRelatorio, ()-> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
