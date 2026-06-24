@@ -9,6 +9,7 @@ import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
 import Controller.ControladorRelatorio;
+import java.awt.Point;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -537,10 +538,20 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
             this.aoFechar = null;
 
+            Point posicaoAtual = getLocation();
             TelaRelatorioGerado dialog = new TelaRelatorioGerado(parent, ctrlLancamento, ctrlCategoria, relatorio, () -> {
-                new TelaRelatorio(parent, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
-                    new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-                }).setVisible(true);
+                TelaRelatorio tela = new TelaRelatorio(
+                        parent,
+                        ctrlLancamento,
+                        ctrlCategoria,
+                        ctrlRelatorio,
+                        () -> {
+                            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+                        }
+                );
+
+                tela.setLocation(posicaoAtual);
+                tela.setVisible(true);
             });
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
