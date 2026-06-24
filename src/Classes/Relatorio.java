@@ -33,6 +33,8 @@ public class Relatorio {
 
         ArrayList<Lancamento> resultado = new ArrayList<>(lancamentosBrutos); // Cria uma cópia da lista original
 
+        System.out.println("Inicial: " + resultado.size());
+
         // 1. Filtro de Conta
         if (conta != null) {
             resultado.removeIf(lancamento
@@ -40,6 +42,8 @@ public class Relatorio {
                     && conta.stream().noneMatch(c -> java.util.Objects.equals(c, lancamento.getContaDestino()))
             );
         }
+
+        System.out.println("Após conta: " + resultado.size());
 
         // 2. Filtro de data
         if (inicio != null || fim != null) {
@@ -56,23 +60,46 @@ public class Relatorio {
             }
         }
 
+        System.out.println("Após data: " + resultado.size());
+
         // 3. Filtro de tipo
         if (tipo != null) {
             resultado.removeIf(lancamento -> !tipo.equalsIgnoreCase(lancamento.getTipo()));
         }
 
+        System.out.println("Após tipo: " + resultado.size());
+
         // 4. Filtro de categoria
-        if (categoria != null) {
-            resultado.removeIf(lancamento -> lancamento.getCategorias() == null || !lancamento.getCategorias().containsAll(categoria));
+        if (categoria != null && !categoria.isEmpty()) {
+            resultado.removeIf(lancamento -> {
+                if (lancamento.getCategorias() == null) {
+                    return true;
+                }
+
+                for (Categoria catSelecionada : categoria) {
+                    for (Categoria catLancamento : lancamento.getCategorias()) {
+                        if (catSelecionada.getIdCategoria()
+                                .equals(catLancamento.getIdCategoria())) {
+                            return false; // encontrou uma categoria compatível
+                        }
+                    }
+                }
+
+                return true; // nenhuma categoria compatível encontrada
+            });
         }
 
+        System.out.println("Após categoria: " + resultado.size());
+
         // 5. Filtro de cartão
-        if (cartao != null) {
+        if (cartao != null && !cartao.isEmpty()) {
             resultado.removeIf(lancamento
                     -> lancamento.getIdCartao() == null
                     || cartao.stream().noneMatch(c -> java.util.Objects.equals(c.getIdCartao(), lancamento.getIdCartao()))
             );
         }
+
+        System.out.println("Após cartão: " + resultado.size());
 
         return resultado; // Retorna lista filtrada
     }

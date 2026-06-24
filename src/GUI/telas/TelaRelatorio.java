@@ -72,7 +72,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
-        
+
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
@@ -429,7 +429,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
         this.aoFechar = null;
-        
+
         TelaContasGeral dialog = new TelaContasGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -440,9 +440,9 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
         this.aoFechar = null;
-        
+
         TelaCartoesGeral dialog = new TelaCartoesGeral(parent, true, ctrlLancamento, ctrlCategoria, () -> {
-                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
@@ -451,7 +451,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
         this.aoFechar = null;
-        
+
         TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
@@ -513,6 +513,15 @@ public class TelaRelatorio extends javax.swing.JFrame {
                 }
             }
 
+            System.out.println("Categorias selecionadas:");
+            if (categoriaSelecionada == null) {
+                System.out.println("NULL");
+            } else {
+                for (Categoria c : categoriaSelecionada) {
+                    System.out.println(c.getNome());
+                }
+            }
+
             // 5. CARTÃO
             ArrayList<Cartao> cartaoSelecionado = new ArrayList<>();
             if (listaCartao.getSelectedIndices().length == 0 || listaCartao.isSelectedIndex(0)) {
@@ -527,12 +536,12 @@ public class TelaRelatorio extends javax.swing.JFrame {
             ArrayList<Lancamento> relatorio = ctrlRelatorio.gerarRelatorio(dataInicio, dataFim, tipo, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
 
             this.aoFechar = null;
-            
+
             TelaRelatorioGerado dialog = new TelaRelatorioGerado(parent, ctrlLancamento, ctrlCategoria, relatorio, () -> {
-            new TelaRelatorio(parent, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
-                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-            }).setVisible(true);
-        });
+                new TelaRelatorio(parent, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
+                    new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+                }).setVisible(true);
+            });
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
             this.setVisible(false);
@@ -549,7 +558,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
     private void buttonInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInicioActionPerformed
         this.aoFechar = null;
-        
+
         TelaInicial dialog = new TelaInicial(ctrlLancamento, ctrlCategoria);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
@@ -558,11 +567,11 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
     private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
         this.aoFechar = null;
-        
-        TelaAnalise dialog = new TelaAnalise(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), ()-> {
+
+        TelaAnalise dialog = new TelaAnalise(this, ctrlLancamento, ctrlCategoria, ctrlCategoria.getCtrlRelatorio(), () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
-        
+
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
