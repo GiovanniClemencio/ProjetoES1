@@ -72,6 +72,7 @@
                                       <Component id="buttonExcluirCategoria" min="-2" pref="303" max="-2" attributes="0"/>
                                       <Component id="buttonEditarCategoria" min="-2" pref="303" max="-2" attributes="0"/>
                                       <Component id="buttonCadastrarCategoria" alignment="0" min="-2" pref="303" max="-2" attributes="0"/>
+                                      <Component id="consultarLancamentoCategoria" alignment="0" min="-2" pref="303" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -88,13 +89,15 @@
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="comboCategorias" min="-2" pref="38" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="consultarLancamentoCategoria" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="buttonEditarCategoria" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="buttonExcluirCategoria" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="buttonCadastrarCategoria" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="65" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -145,6 +148,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCadastrarCategoriaActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JButton" name="consultarLancamentoCategoria">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Consultar Lan&#xe7;amentos Vinculados"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="consultarLancamentoCategoriaActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel4">
@@ -184,7 +195,7 @@
                   <Component id="buttonCategorias" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="buttonRelatorios" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
                   <Component id="buttonAnalises" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
