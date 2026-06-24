@@ -467,7 +467,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
     private void buttonGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGerarRelatorioActionPerformed
         try {
-            this.aoFechar = null;
+
             // 1. CONTA
             ArrayList<Conta> contasSelecionadas = new ArrayList<>();
             if (listaContas.getSelectedIndices().length == 0 || listaContas.isSelectedIndex(0)) {
@@ -491,11 +491,12 @@ public class TelaRelatorio extends javax.swing.JFrame {
                 dataFim = sdf.parse(campoDataFim.getText());
             }
 
-            if (dataInicio != null && dataFim != null) {
-                if (dataInicio.after(dataFim)) {
-                    JOptionPane.showMessageDialog(this, "A data inicial não pode ser maior que a data final.", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
+            if (dataInicio != null && dataFim != null && dataInicio.after(dataFim)) {
+                JOptionPane.showMessageDialog(this,
+                        "A data inicial não pode ser maior que a data final.",
+                        "Erro de Validação",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
             }
 
             // 3. TIPO
@@ -514,15 +515,6 @@ public class TelaRelatorio extends javax.swing.JFrame {
                 }
             }
 
-            System.out.println("Categorias selecionadas:");
-            if (categoriaSelecionada == null) {
-                System.out.println("NULL");
-            } else {
-                for (Categoria c : categoriaSelecionada) {
-                    System.out.println(c.getNome());
-                }
-            }
-
             // 5. CARTÃO
             ArrayList<Cartao> cartaoSelecionado = new ArrayList<>();
             if (listaCartao.getSelectedIndices().length == 0 || listaCartao.isSelectedIndex(0)) {
@@ -534,32 +526,38 @@ public class TelaRelatorio extends javax.swing.JFrame {
             }
 
             // 6. GERAR RELATÓRIO
-            ArrayList<Lancamento> relatorio = ctrlRelatorio.gerarRelatorio(dataInicio, dataFim, tipo, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
+            ArrayList<Lancamento> relatorio
+                    = ctrlRelatorio.gerarRelatorio(
+                            dataInicio,
+                            dataFim,
+                            tipo,
+                            categoriaSelecionada,
+                            cartaoSelecionado,
+                            contasSelecionadas
+                    );
 
-            this.aoFechar = null;
+            // 🔥 NOVO PADRÃO: NÃO FECHA, SÓ ESCONDE
+            TelaRelatorio telaAtual = this;
+            setVisible(false);
 
-            Point posicaoAtual = getLocation();
-            TelaRelatorioGerado dialog = new TelaRelatorioGerado(parent, ctrlLancamento, ctrlCategoria, relatorio, () -> {
-                TelaRelatorio tela = new TelaRelatorio(
-                        parent,
-                        ctrlLancamento,
-                        ctrlCategoria,
-                        ctrlRelatorio,
-                        () -> {
-                            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-                        }
-                );
+            TelaRelatorioGerado dialog = new TelaRelatorioGerado(
+                    parent,
+                    ctrlLancamento,
+                    ctrlCategoria,
+                    relatorio,
+                    () -> {
+                        telaAtual.setVisible(true);
+                    }
+            );
 
-                tela.setLocation(posicaoAtual);
-                tela.setVisible(true);
-            });
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
-            this.setVisible(false);
-            dispose();
 
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(this, "Formato de data inválido. Use DD/MM/AAAA.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Formato de data inválido. Use DD/MM/AAAA.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_buttonGerarRelatorioActionPerformed
 

@@ -33,7 +33,7 @@ public class Relatorio {
 
         ArrayList<Lancamento> resultado = new ArrayList<>(lancamentosBrutos); // Cria uma cópia da lista original
 
-        System.out.println("Inicial: " + resultado.size());
+        // System.out.println("Inicial: " + resultado.size());
 
         // 1. Filtro de Conta
         if (conta != null) {
@@ -43,7 +43,7 @@ public class Relatorio {
             );
         }
 
-        System.out.println("Após conta: " + resultado.size());
+        // System.out.println("Após conta: " + resultado.size());
 
         // 2. Filtro de data
         if (inicio != null || fim != null) {
@@ -60,14 +60,14 @@ public class Relatorio {
             }
         }
 
-        System.out.println("Após data: " + resultado.size());
+        // System.out.println("Após data: " + resultado.size());
 
         // 3. Filtro de tipo
         if (tipo != null) {
             resultado.removeIf(lancamento -> !tipo.equalsIgnoreCase(lancamento.getTipo()));
         }
 
-        System.out.println("Após tipo: " + resultado.size());
+        // System.out.println("Após tipo: " + resultado.size());
 
         // 4. Filtro de categoria
         if (categoria != null && !categoria.isEmpty()) {
@@ -89,7 +89,7 @@ public class Relatorio {
             });
         }
 
-        System.out.println("Após categoria: " + resultado.size());
+        //System.out.println("Após categoria: " + resultado.size());
 
         // 5. Filtro de cartão
         if (cartao != null && !cartao.isEmpty()) {
@@ -99,7 +99,7 @@ public class Relatorio {
             );
         }
 
-        System.out.println("Após cartão: " + resultado.size());
+        //System.out.println("Após cartão: " + resultado.size());
 
         return resultado; // Retorna lista filtrada
     }

@@ -11,16 +11,16 @@ import java.util.Locale;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-
 /**
  *
  * @author Portu
  */
 public class TelaInicial extends javax.swing.JFrame {
+
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
     private final ControladorRelatorio ctrlRelatorio;
-    
+
     public TelaInicial(ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria) {
         this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
@@ -267,47 +267,57 @@ public class TelaInicial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void campoSaldoConsolidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSaldoConsolidadoActionPerformed
-        
+
     }//GEN-LAST:event_campoSaldoConsolidadoActionPerformed
 
     private void buttonExtratoConsolidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExtratoConsolidadoActionPerformed
-        TelaExtratoConsolidado dialog = new TelaExtratoConsolidado(this, true, ctrlLancamento, ctrlLancamento.getCtrlCartao().getCtrlConta(), ctrlCategoria, ()-> {
+        TelaExtratoConsolidado dialog = new TelaExtratoConsolidado(this, true, ctrlLancamento, ctrlLancamento.getCtrlCartao().getCtrlConta(), ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        dispose();    
+        dispose();
     }//GEN-LAST:event_buttonExtratoConsolidadoActionPerformed
 
     private void buttonCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCategoriasActionPerformed
-        TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, ()-> {
+        TelaCategorias dialog = new TelaCategorias(ctrlCategoria, ctrlLancamento, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        dispose(); 
+        dispose();
     }//GEN-LAST:event_buttonCategoriasActionPerformed
 
     private void buttonContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContasActionPerformed
-        TelaContasGeral dialog = new TelaContasGeral(this, true, ctrlLancamento, ctrlCategoria, ()-> {
-            new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-        });
+        TelaInicial telaInicial = this;
+
+        TelaContasGeral dialog = new TelaContasGeral(
+                this,
+                true,
+                ctrlLancamento,
+                ctrlCategoria,
+                () -> {
+                    telaInicial.setVisible(true);
+                }
+        );
+
+        setVisible(false);
+
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        dispose(); 
     }//GEN-LAST:event_buttonContasActionPerformed
 
     private void buttonCartoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCartoesActionPerformed
-        TelaCartoesGeral dialog = new TelaCartoesGeral(this, true, ctrlLancamento, ctrlCategoria, ()-> {
+        TelaCartoesGeral dialog = new TelaCartoesGeral(this, true, ctrlLancamento, ctrlCategoria, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        dispose(); 
+        dispose();
     }//GEN-LAST:event_buttonCartoesActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
-        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, ()-> {
+        TelaRelatorio dialog = new TelaRelatorio(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
@@ -316,36 +326,36 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonRelatoriosActionPerformed
 
     private void buttonAnalisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnalisesActionPerformed
-        TelaAnalise dialog = new TelaAnalise(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, ()-> {
+        TelaAnalise dialog = new TelaAnalise(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
-        
+
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_buttonAnalisesActionPerformed
 
     private void buttonBuscarLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscarLancamentoActionPerformed
-        TelaBuscarLancamento dialog = new TelaBuscarLancamento(this, true, ctrlLancamento, ctrlLancamento.getCtrlCartao().getCtrlConta(), ctrlCategoria, ctrlRelatorio, ()-> {
+        TelaBuscarLancamento dialog = new TelaBuscarLancamento(this, true, ctrlLancamento, ctrlLancamento.getCtrlCartao().getCtrlConta(), ctrlCategoria, ctrlRelatorio, () -> {
             new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-        dispose(); 
+        dispose();
     }//GEN-LAST:event_buttonBuscarLancamentoActionPerformed
 
-    public void atualizarSaldoConsolidado(){
+    public void atualizarSaldoConsolidado() {
         ControladorConta ctrlConta = ctrlLancamento.getCtrlCartao().getCtrlConta();
-        
+
         double saldoConsolidado = 0;
-        for(Conta conta : ctrlConta.getContas()){
+        for (Conta conta : ctrlConta.getContas()) {
             saldoConsolidado += conta.getSaldo();
         }
-        saldoConsolidado = Math.round(saldoConsolidado * 100)/100.0;
-        
+        saldoConsolidado = Math.round(saldoConsolidado * 100) / 100.0;
+
         campoSaldoConsolidado.setText(String.format("R$ %.2f", saldoConsolidado));
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton buttonAnalises;
     private javax.swing.JToggleButton buttonCartoes;

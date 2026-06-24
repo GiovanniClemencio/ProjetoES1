@@ -290,7 +290,6 @@ public class TelaCategorias extends javax.swing.JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        dispose();
     }//GEN-LAST:event_buttonCadastrarCategoriaActionPerformed
 
     private void buttonEditarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarCategoriaActionPerformed

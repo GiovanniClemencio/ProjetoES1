@@ -282,8 +282,8 @@ public class TelaContasGeral extends javax.swing.JFrame {
         } else {
             Conta contaSelecionada = ctrlConta.buscarConta(idSelecionado);
 
-            this.aoFechar = null;
-            Point posicao = getLocation();
+            TelaContasGeral telaAtual = this;
+
             TelaContaIndividual dialog = new TelaContaIndividual(
                     this,
                     true,
@@ -291,23 +291,14 @@ public class TelaContasGeral extends javax.swing.JFrame {
                     contaSelecionada,
                     ctrlCategoria,
                     () -> {
-                        TelaContasGeral tela = new TelaContasGeral(
-                                parent,
-                                true,
-                                ctrlLancamento,
-                                ctrlCategoria,
-                                () -> {
-                                    new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
-                                }
-                        );
-
-                        tela.setLocation(posicao);
-                        tela.setVisible(true);
+                        telaAtual.setVisible(true);
                     }
             );
+
+            setVisible(false);
+
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
-            dispose();
         }
 
 
