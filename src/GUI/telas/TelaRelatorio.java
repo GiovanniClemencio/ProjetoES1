@@ -118,6 +118,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         listaCartao = new javax.swing.JList<>();
         jLabel8 = new javax.swing.JLabel();
+        buttonLimparCampos = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         buttonContas = new javax.swing.JToggleButton();
         buttonCategorias = new javax.swing.JToggleButton();
@@ -233,6 +234,13 @@ public class TelaRelatorio extends javax.swing.JFrame {
 
         jLabel8.setText("Deixe em branco para considerar todo o período");
 
+        buttonLimparCampos.setText("Limpar Campos");
+        buttonLimparCampos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLimparCamposActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -240,10 +248,10 @@ public class TelaRelatorio extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(173, 173, 173)
-                        .addComponent(buttonGerarRelatorio))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel8))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -260,8 +268,8 @@ public class TelaRelatorio extends javax.swing.JFrame {
                                         .addComponent(jLabel5)))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(campoDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(campoDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,14 +277,16 @@ public class TelaRelatorio extends javax.swing.JFrame {
                                         .addGap(40, 40, 40)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel7)
-                                            .addComponent(jLabel4)))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel8)))
+                                            .addComponent(jLabel4))))))
                         .addGap(36, 36, 36)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(106, 106, 106)
+                        .addComponent(buttonGerarRelatorio)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonLimparCampos)))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -309,16 +319,19 @@ public class TelaRelatorio extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campoDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(campoDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(campoDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(buttonGerarRelatorio)
+                                    .addComponent(buttonLimparCampos))))
+                        .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                        .addGap(13, 13, 13)
-                        .addComponent(buttonGerarRelatorio)
-                        .addGap(18, 18, 18))))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(46, 46, 46))))
         );
 
         jPanel4.setBackground(new java.awt.Color(242, 200, 200));
@@ -586,6 +599,18 @@ public class TelaRelatorio extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_buttonAnalisesActionPerformed
 
+    private void buttonLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparCamposActionPerformed
+
+        campoDataInicio.setText("");
+        campoDataFim.setText("");
+
+        listaContas.clearSelection();
+        listaCategoria.clearSelection();
+        listaCartao.clearSelection();
+        TipoComboBox.setSelectedIndex(0);
+        
+    }//GEN-LAST:event_buttonLimparCamposActionPerformed
+
     public void carregarContasLista() {
 
         DefaultListModel<String> model = new DefaultListModel<>();
@@ -675,6 +700,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
     private javax.swing.JToggleButton buttonContas;
     private javax.swing.JButton buttonGerarRelatorio;
     private javax.swing.JButton buttonInicio;
+    private javax.swing.JButton buttonLimparCampos;
     private javax.swing.JToggleButton buttonRelatorios;
     private javax.swing.JFormattedTextField campoDataFim;
     private javax.swing.JFormattedTextField campoDataInicio;
