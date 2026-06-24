@@ -35,7 +35,7 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
     private final ControladorRelatorio ctrlRelatorio;
     private final ControladorConta ctrlConta;
     private final ControladorCartao ctrlCartao;
-    private final ControladorAnalise ctrlProjecao;
+    private final ControladorAnalise ctrlAnalise;
     private Runnable aoFechar;
     private final java.awt.Frame parent;
 
@@ -47,7 +47,7 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
         this.ctrlCartao = ctrlLancamento.getCtrlCartao();
         this.aoFechar = aoFechar;
         this.parent = parent;
-        this.ctrlProjecao = new ControladorAnalise(ctrlRelatorio);
+        this.ctrlAnalise = new ControladorAnalise(ctrlRelatorio);
         initComponents();
 
         carregarContasLista();
@@ -65,8 +65,18 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
             campoDataInicio.setFormatterFactory(
                     new DefaultFormatterFactory(mascara)
             );
+            
+            campoDataInicio1.setFormatterFactory(
+                    new DefaultFormatterFactory(mascara)
+            );
 
             campoDataFim.setFormatterFactory(
+                    new DefaultFormatterFactory(
+                            new MaskFormatter("##/##/####")
+                    )
+            );
+            
+            campoDataFim1.setFormatterFactory(
                     new DefaultFormatterFactory(
                             new MaskFormatter("##/##/####")
                     )
@@ -106,8 +116,7 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         listaContas = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
-        buttonGerarAnalise = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        buttonCompararPeriodos = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         listaCategoria = new javax.swing.JList<>();
@@ -118,8 +127,10 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         listaCartao = new javax.swing.JList<>();
-        jLabel8 = new javax.swing.JLabel();
-        spinnerDias = new javax.swing.JSpinner();
+        campoDataInicio1 = new javax.swing.JFormattedTextField();
+        campoDataFim1 = new javax.swing.JFormattedTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -154,7 +165,7 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
 
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
-        labelTitulo.setText("Projeção");
+        labelTitulo.setText("Comparar Períodos");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -162,9 +173,9 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(277, 277, 277)
+                .addGap(214, 214, 214)
                 .addComponent(labelTitulo)
-                .addContainerGap(267, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,14 +193,12 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
 
         jLabel1.setText("Conta");
 
-        buttonGerarAnalise.setText("Gerar Análise");
-        buttonGerarAnalise.addActionListener(new java.awt.event.ActionListener() {
+        buttonCompararPeriodos.setText("Comparar Períodos");
+        buttonCompararPeriodos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonGerarAnaliseActionPerformed(evt);
+                buttonCompararPeriodosActionPerformed(evt);
             }
         });
-
-        jLabel2.setText("Dias");
 
         jLabel4.setText("Categoria");
 
@@ -200,6 +209,7 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(listaCategoria);
 
+        campoDataInicio.setColumns(6);
         campoDataInicio.setText("__/__/____");
         campoDataInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,6 +217,7 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
             }
         });
 
+        campoDataFim.setColumns(6);
         campoDataFim.setText("__/__/____");
 
         jLabel5.setText("Data Fim");
@@ -222,7 +233,20 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(listaCartao);
 
-        jLabel8.setText("Deixe em branco para considerar todo o período");
+        campoDataInicio1.setColumns(6);
+        campoDataInicio1.setText("__/__/____");
+        campoDataInicio1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoDataInicio1ActionPerformed(evt);
+            }
+        });
+
+        campoDataFim1.setColumns(6);
+        campoDataFim1.setText("__/__/____");
+
+        jLabel2.setText("Periodo 1");
+
+        jLabel9.setText("Periodo 2");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -231,39 +255,40 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jLabel6))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jLabel5)))
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(campoDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(87, 87, 87)
-                                .addComponent(buttonGerarAnalise))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(spinnerDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(campoDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(campoDataInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(campoDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(campoDataFim1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonCompararPeriodos)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel8)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel2)
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -274,13 +299,10 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addGap(23, 23, 23))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,26 +315,27 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel7)
-                            .addComponent(spinnerDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel8)
+                        .addComponent(jLabel7)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
+                                .addGap(17, 17, 17)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel9))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(campoDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
+                                    .addComponent(jLabel6)
+                                    .addComponent(campoDataInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(campoDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
+                                    .addComponent(jLabel5)
+                                    .addComponent(campoDataFim1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonGerarAnalise)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                                .addComponent(buttonCompararPeriodos)
                                 .addContainerGap())))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
@@ -345,7 +368,7 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
         return !texto.isEmpty();
     }
 
-    private void buttonGerarAnaliseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGerarAnaliseActionPerformed
+    private void buttonCompararPeriodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCompararPeriodosActionPerformed
         try {
             // 1. CONTA
             ArrayList<Conta> contasSelecionadas = new ArrayList<>();
@@ -361,6 +384,8 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date dataInicio = null;
             Date dataFim = null;
+            Date dataInicio1 = null;
+            Date dataFim1 = null;
 
             if (dataPreenchida(campoDataInicio)) {
                 dataInicio = sdf.parse(campoDataInicio.getText());
@@ -372,11 +397,26 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
 
             if (dataInicio != null && dataFim != null) {
                 if (dataInicio.after(dataFim)) {
-                    JOptionPane.showMessageDialog(this, "A data inicial não pode ser maior que a data final.", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Período 1: A data inicial não pode ser maior que a data final.", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
             }
 
+            if (dataPreenchida(campoDataInicio1)) {
+                dataInicio1 = sdf.parse(campoDataInicio1.getText());
+            }
+
+            if (dataPreenchida(campoDataFim1)) {
+                dataFim1 = sdf.parse(campoDataFim1.getText());
+            }
+
+            if (dataInicio1 != null && dataFim1 != null) {
+                if (dataInicio.after(dataFim)) {
+                    JOptionPane.showMessageDialog(this, "Período 2: A data inicial não pode ser maior que a data final.", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
+            
             // 3. CATEGORIA
             ArrayList<Categoria> categoriaSelecionada = new ArrayList<>();
             if (listaCategoria.getSelectedIndices().length == 0 || listaCategoria.isSelectedIndex(0)) {
@@ -397,25 +437,38 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
                 }
             }
 
-            // 5. QUANTIDADE DE DIAS
-            int dias = (Integer) spinnerDias.getValue();
-
             // 6. GERAR ANÁLISE
-            double valorDoPeriodo = ctrlProjecao.gerarProjecaoFutura(dataInicio, dataFim, dias, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
+            double resultado = ctrlAnalise.compararPeriodos(dataInicio, dataFim, dataInicio1, dataFim1, categoriaSelecionada, cartaoSelecionado, contasSelecionadas);
 
-            JOptionPane.showMessageDialog(this, String.format("Valor projetado para os próximos %d dias:\nR$ %.2f", dias, valorDoPeriodo),
-                    "Projeção Financeira",
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(this, String.format("O segundo período teve um desempenho MELHOR por uma diferença de R$ %.2f", resultado),
+                        "Comparação de períodos",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            } else if(resultado < 0) {
+                JOptionPane.showMessageDialog(this, String.format("O segundo período teve um desempenho PIOR por uma diferença de R$ %.2f", Math.abs(resultado)),
+                    "Comparação de períodos",
                     JOptionPane.INFORMATION_MESSAGE
             );
+            } else {
+                JOptionPane.showMessageDialog(this, String.format("Ambos os períodos tiveram exatamente o mesmo resultado líquido."),
+                    "Comparação de períodos",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            }
 
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "Formato de data inválido. Use DD/MM/AAAA.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_buttonGerarAnaliseActionPerformed
+    }//GEN-LAST:event_buttonCompararPeriodosActionPerformed
 
     private void campoDataInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDataInicioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoDataInicioActionPerformed
+
+    private void campoDataInicio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDataInicio1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoDataInicio1ActionPerformed
 
     public void carregarContasLista() {
 
@@ -499,9 +552,11 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonGerarAnalise;
+    private javax.swing.JButton buttonCompararPeriodos;
     private javax.swing.JFormattedTextField campoDataFim;
+    private javax.swing.JFormattedTextField campoDataFim1;
     private javax.swing.JFormattedTextField campoDataInicio;
+    private javax.swing.JFormattedTextField campoDataInicio1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -509,7 +564,7 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -522,6 +577,5 @@ public class TelaCompararPeriodo extends javax.swing.JFrame {
     private javax.swing.JList<String> listaCartao;
     private javax.swing.JList<String> listaCategoria;
     private javax.swing.JList<String> listaContas;
-    private javax.swing.JSpinner spinnerDias;
     // End of variables declaration//GEN-END:variables
 }

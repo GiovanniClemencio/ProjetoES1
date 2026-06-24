@@ -140,6 +140,11 @@ public class TelaAnalise extends javax.swing.JFrame {
         });
 
         comparar.setText("Comparar Períodos");
+        comparar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compararActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -340,6 +345,19 @@ public class TelaAnalise extends javax.swing.JFrame {
         dialog.setVisible(true);
         dispose();
     }//GEN-LAST:event_projecaoActionPerformed
+
+    private void compararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compararActionPerformed
+        this.aoFechar = null;
+
+        TelaCompararPeriodo dialog = new TelaCompararPeriodo(this, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
+            new TelaAnalise(parent, ctrlLancamento, ctrlCategoria, ctrlRelatorio, () -> {
+                new TelaInicial(ctrlLancamento, ctrlCategoria).setVisible(true);
+            }).setVisible(true);
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_compararActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

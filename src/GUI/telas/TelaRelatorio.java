@@ -206,6 +206,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(listaCategoria);
 
+        campoDataInicio.setColumns(6);
         campoDataInicio.setText("__/__/____");
         campoDataInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,6 +214,7 @@ public class TelaRelatorio extends javax.swing.JFrame {
             }
         });
 
+        campoDataFim.setColumns(6);
         campoDataFim.setText("__/__/____");
 
         jLabel5.setText("Data Inicio");

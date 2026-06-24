@@ -333,6 +333,7 @@
         </Container>
         <Component class="javax.swing.JFormattedTextField" name="campoDataInicio">
           <Properties>
+            <Property name="columns" type="int" value="6"/>
             <Property name="text" type="java.lang.String" value="__/__/____"/>
           </Properties>
           <Events>
@@ -341,6 +342,7 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="campoDataFim">
           <Properties>
+            <Property name="columns" type="int" value="6"/>
             <Property name="text" type="java.lang.String" value="__/__/____"/>
           </Properties>
         </Component>

@@ -37,10 +37,11 @@ public class ControladorAnalise {
         return Projecao.projetarValor(dataInicio, dataFim, diasFuturos, lancamentos);
     }
 
-    public double compararPeriodos(Date dataInicio1, Date dataFim1, Date dataInicio2, Date dataFim2) {
+    public double compararPeriodos(Date dataInicio1, Date dataFim1, Date dataInicio2, Date dataFim2, ArrayList<Categoria> categoriaParaAnalise,
+            ArrayList<Cartao> cartaoParaAnalise, ArrayList<Conta> contasParaAnalise) {
 
-        ArrayList<Lancamento> lancamentos1 = this.ctrlRelatorio.gerarRelatorio(dataInicio1, dataFim1, null, null, null, null);
-        ArrayList<Lancamento> lancamentos2 = this.ctrlRelatorio.gerarRelatorio(dataInicio2, dataFim2, null, null, null, null);
+        ArrayList<Lancamento> lancamentos1 = this.ctrlRelatorio.gerarRelatorio(dataInicio1, dataFim1, null, categoriaParaAnalise, cartaoParaAnalise, contasParaAnalise);
+        ArrayList<Lancamento> lancamentos2 = this.ctrlRelatorio.gerarRelatorio(dataInicio2, dataFim2, null, categoriaParaAnalise, cartaoParaAnalise, contasParaAnalise);
 
         lancamentos1.removeIf(l -> "TRANSFERENCIA".equalsIgnoreCase(l.getTipo()));
         lancamentos2.removeIf(l -> "TRANSFERENCIA".equalsIgnoreCase(l.getTipo()));

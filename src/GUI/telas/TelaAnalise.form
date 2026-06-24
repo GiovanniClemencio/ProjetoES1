@@ -184,6 +184,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Comparar Per&#xed;odos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="compararActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
