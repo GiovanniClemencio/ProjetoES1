@@ -113,7 +113,7 @@ public class TelaAnalise extends javax.swing.JFrame {
 
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitulo.setForeground(new java.awt.Color(242, 242, 242));
-        labelTitulo.setText("Analise");
+        labelTitulo.setText("Análise");
         labelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

@@ -16,11 +16,11 @@ import java.util.Date;
  *
  * @author Luan
  */
-public class ControladorProjecao {
+public class ControladorAnalise {
 
     protected final ControladorRelatorio ctrlRelatorio;
 
-    public ControladorProjecao(ControladorRelatorio controladorRelatorio) {
+    public ControladorAnalise(ControladorRelatorio controladorRelatorio) {
         this.ctrlRelatorio = controladorRelatorio;
     }
 
@@ -35,5 +35,30 @@ public class ControladorProjecao {
         lancamentos.removeIf(l -> "TRANSFERENCIA".equalsIgnoreCase(l.getTipo()));
 
         return Projecao.projetarValor(dataInicio, dataFim, diasFuturos, lancamentos);
+    }
+
+    public double compararPeriodos(Date dataInicio1, Date dataFim1, Date dataInicio2, Date dataFim2) {
+
+        ArrayList<Lancamento> lancamentos1 = this.ctrlRelatorio.gerarRelatorio(dataInicio1, dataFim1, null, null, null, null);
+        ArrayList<Lancamento> lancamentos2 = this.ctrlRelatorio.gerarRelatorio(dataInicio2, dataFim2, null, null, null, null);
+
+        lancamentos1.removeIf(l -> "TRANSFERENCIA".equalsIgnoreCase(l.getTipo()));
+        lancamentos2.removeIf(l -> "TRANSFERENCIA".equalsIgnoreCase(l.getTipo()));
+
+        double totalPeriodo1 = 0;
+
+        for (Lancamento l : lancamentos1) {
+            totalPeriodo1 += l.getValor();
+        }
+
+        double totalPeriodo2 = 0;
+
+        for (Lancamento l : lancamentos2) {
+            totalPeriodo2 += l.getValor();
+        }
+
+        double result = totalPeriodo2 - totalPeriodo1;
+
+        return result;
     }
 }

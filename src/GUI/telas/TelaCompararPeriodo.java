@@ -8,7 +8,7 @@ import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
-import Controller.ControladorProjecao;
+import Controller.ControladorAnalise;
 import Controller.ControladorRelatorio;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,18 +28,18 @@ import javax.swing.text.MaskFormatter;
  *
  * @author Luan
  */
-public class TelaProjecao extends javax.swing.JFrame {
+public class TelaCompararPeriodo extends javax.swing.JFrame {
 
     private final ControladorLancamento ctrlLancamento;
     private final ControladorCategoria ctrlCategoria;
     private final ControladorRelatorio ctrlRelatorio;
     private final ControladorConta ctrlConta;
     private final ControladorCartao ctrlCartao;
-    private final ControladorProjecao ctrlProjecao;
+    private final ControladorAnalise ctrlProjecao;
     private Runnable aoFechar;
     private final java.awt.Frame parent;
 
-    public TelaProjecao(java.awt.Frame parent, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, ControladorRelatorio ctrlRelatorio, Runnable aoFechar) {
+    public TelaCompararPeriodo(java.awt.Frame parent, ControladorLancamento ctrlLancamento, ControladorCategoria ctrlCategoria, ControladorRelatorio ctrlRelatorio, Runnable aoFechar) {
         this.ctrlRelatorio = ctrlRelatorio;
         this.ctrlLancamento = ctrlLancamento;
         this.ctrlCategoria = ctrlCategoria;
@@ -47,7 +47,7 @@ public class TelaProjecao extends javax.swing.JFrame {
         this.ctrlCartao = ctrlLancamento.getCtrlCartao();
         this.aoFechar = aoFechar;
         this.parent = parent;
-        this.ctrlProjecao = new ControladorProjecao(ctrlRelatorio);
+        this.ctrlProjecao = new ControladorAnalise(ctrlRelatorio);
         initComponents();
 
         carregarContasLista();
@@ -79,8 +79,8 @@ public class TelaProjecao extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
-                if (TelaProjecao.this.aoFechar != null) {
-                    TelaProjecao.this.aoFechar.run();
+                if (TelaCompararPeriodo.this.aoFechar != null) {
+                    TelaCompararPeriodo.this.aoFechar.run();
                 }
             }
         });

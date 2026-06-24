@@ -8,7 +8,7 @@ import Controller.ControladorCartao;
 import Controller.ControladorCategoria;
 import Controller.ControladorConta;
 import Controller.ControladorLancamento;
-import Controller.ControladorProjecao;
+import Controller.ControladorAnalise;
 import Controller.ControladorRelatorio;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +35,7 @@ public class TelaProjecao extends javax.swing.JFrame {
     private final ControladorRelatorio ctrlRelatorio;
     private final ControladorConta ctrlConta;
     private final ControladorCartao ctrlCartao;
-    private final ControladorProjecao ctrlProjecao;
+    private final ControladorAnalise ctrlProjecao;
     private Runnable aoFechar;
     private final java.awt.Frame parent;
 
@@ -47,7 +47,7 @@ public class TelaProjecao extends javax.swing.JFrame {
         this.ctrlCartao = ctrlLancamento.getCtrlCartao();
         this.aoFechar = aoFechar;
         this.parent = parent;
-        this.ctrlProjecao = new ControladorProjecao(ctrlRelatorio);
+        this.ctrlProjecao = new ControladorAnalise(ctrlRelatorio);
         initComponents();
 
         carregarContasLista();
