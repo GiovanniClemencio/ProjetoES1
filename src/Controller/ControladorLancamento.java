@@ -39,11 +39,11 @@ public class ControladorLancamento {
         }
     }
 
-    public boolean removerLancamento(String id) {
+    public boolean removerLancamento(String id, boolean cartao) {
         Lancamento lancamentoParaRemover = buscarLancamento(id);
         if (lancamentoParaRemover != null) {
 
-            lancamentoParaRemover.getContaOrigem().removerLancamento(lancamentoParaRemover);
+            lancamentoParaRemover.getContaOrigem().removerLancamento(lancamentoParaRemover, cartao);
             Fechar.salvarObjetos(ctrlCartao.ctrlConta.getContas(), ctrlCartao.ctrlConta.getCaminhosArquivo().getArquivoConta());
 
             return true; // Sucesso na remoção

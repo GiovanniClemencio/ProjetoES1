@@ -86,8 +86,15 @@ public class Conta implements Serializable {
         this.cartoes.remove(cartao);
     }
 
-    public void removerLancamento(Lancamento lancamento) {
+    public void removerLancamento(Lancamento lancamento, boolean cartao) {
+        double novoSaldo = this.saldo;
+
         this.lancamentos.remove(lancamento);
+
+        if(! cartao) novoSaldo = novoSaldo - lancamento.getValor();
+
+
+        this.saldo = novoSaldo;
     }
 
     public void editarConta(String nome, double saldo) {

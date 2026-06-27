@@ -505,12 +505,20 @@ public class editarLancamento extends javax.swing.JDialog {
         );
 
         if (resposta == JOptionPane.YES_OPTION) {
-            ctrlLancamento.removerLancamento(lancamento.getIdLancamento());
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Lançamento excluído com sucesso."
-            );
+            boolean excluiu;
+            if (lancamento.getIdCartao() == null || lancamento.getIdCartao().isEmpty() || lancamento.getIdCartao().equals("Vazia")) {
+                excluiu = ctrlLancamento.removerLancamento(lancamento.getIdLancamento(), false);
+            } else {
+                excluiu = ctrlLancamento.removerLancamento(lancamento.getIdLancamento(), true);
+            }
+
+            if (excluiu) {
+                JOptionPane.showMessageDialog(this, "Lançamento excluído com sucesso.");
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro: Lançamento não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
 
             dispose();
         }
